@@ -24,6 +24,7 @@ public class SimpleWidgetExample extends WeatherWidget {
         SimpleWidgetExample sw = new SimpleWidgetExample(conn);
         cw.add(sw);
 
+        System.out.println(sw.getCityName());
         System.out.println(sw.getCurrentCloudCoverage());
         System.out.println(sw.getCurrentTemperature());
         System.out.println(sw.getCurrentPressure());

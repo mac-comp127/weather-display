@@ -26,7 +26,7 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     protected void draw(){
-        //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecast().
+        //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecastArray().
 
         //TODO: Draw information about the forecast at the first array index.
         makeLabels();
@@ -34,7 +34,7 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void makeLabels(){
-        ForecastWrapper firstForecast = getForecast()[0];
+        ForecastWrapper firstForecast = getForecastArray()[0];
 
         Font timeFont = new Font("SanSerif", Font.BOLD, 40);
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
@@ -68,7 +68,7 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void drawForecastBoxes(){
-        ForecastWrapper[] forecast = getForecast();
+        ForecastWrapper[] forecast = getForecastArray();
 
         double y = icon.getHeight()+tempLabel.getHeight()+minMaxTempLabel.getHeight()+description.getHeight()+30;
         double x = 20;

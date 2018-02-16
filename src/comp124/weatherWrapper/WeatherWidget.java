@@ -38,6 +38,18 @@ public abstract class WeatherWidget extends GraphicsGroup {
      */
     protected abstract void draw();
 
+
+    /**
+     * Gets the city name corresponding to this weather location
+     * @return null if location is not a city
+     */
+    protected String getCityName(){
+        if (current != null && current.hasCityName()){
+            return current.getCityName();
+        }
+        return null;
+    }
+
     /**
      * Gets the current cloud coverage as a percent from 0 to 100%
      * @return (returns 0% in case of error)
@@ -191,7 +203,7 @@ public abstract class WeatherWidget extends GraphicsGroup {
      * Returns an array of forecastwrappers holding information about the future forecast
      * @return The array holds data for 5 days. Each ForecastWrapper represents a 3 hour time period.
      */
-    protected ForecastWrapper[] getForecast(){
+    protected ForecastWrapper[] getForecastArray(){
         return forecast;
     }
 
