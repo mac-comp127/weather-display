@@ -23,7 +23,7 @@ public class WeatherProgram extends CanvasWindow implements MouseListener, Mouse
     public WeatherProgram(){
         super("Weather Display", WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, -44.9, 93.0);// saint paul
+        OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, 44.9, -93.0);// saint paul
 
         //TODO: Initialize your WeatherWidget array and add widgets to it. Add the first widget to the canvas so that it appears
         widgets = new WeatherWidget[3];

@@ -17,7 +17,7 @@ public class SimpleWidgetExample extends WeatherWidget {
     }
 
     public static void main(String[] args) {
-        OpenWeatherConnection conn = new OpenWeatherConnection("d6a22c9835563a57b372e6515fd8ec2b", -44.9, 93.0);
+        OpenWeatherConnection conn = new OpenWeatherConnection("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0);
         // saint paul
 
         CanvasWindow cw = new CanvasWindow("weather", 800, 600);
