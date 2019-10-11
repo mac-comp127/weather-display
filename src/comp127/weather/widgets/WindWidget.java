@@ -1,6 +1,7 @@
 package comp127.weather.widgets;
 
 import comp127.weather.WeatherProgram;
+import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
@@ -65,13 +66,15 @@ public class WindWidget implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        windSpeedLabel.setText(oneDecimalPlace.format(data.getCurrentWindSpeed()));
-        windDescLabel.setText("Wind " + data.getCurrentWindDirection());
+        CurrentConditions currentConditions = data.getCurrentConditions();
+
+        windSpeedLabel.setText(oneDecimalPlace.format(currentConditions.getWindSpeed()));
+        windDescLabel.setText("Wind " + currentConditions.getWindDirectionAsString());
 
         Point center = ring.getCenter();
         Point direction = Point.atAngle(
             Math.toRadians(
-                data.getCurrentWindDegree()));
+                currentConditions.getWindDirectionInDegrees()));
         double innerRadius = ELLIPSE_WIDTH / 4.0;
         double outerRadius = 2.0 * ELLIPSE_WIDTH / 4.0;
         indicator.setStartPosition(center.add(direction.scale(innerRadius)));

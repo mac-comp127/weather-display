@@ -1,6 +1,5 @@
 package comp127.weather.widgets;
 
-import comp127.weather.api.OpenWeatherProvider;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
@@ -30,18 +29,18 @@ public class SimpleWidgetExample implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        weatherIcon.setImagePath(data.getWeatherIcon());
+        weatherIcon.setImagePath(data.getCurrentConditions().getWeatherIcon());
 
         // Examples of how to get other weather data:
         System.out.println(data.getCityName());
-        System.out.println(data.getCurrentCloudCoverage());
-        System.out.println(data.getCurrentTemperature());
-        System.out.println(data.getCurrentPressure());
-        System.out.println(data.getCurrentHumidity());
-        System.out.println(data.getCurrentWindSpeed());
-        System.out.println(data.getCurrentWindDirection());
-        System.out.println(data.getSunrise());
-        System.out.println(data.getSunset());
-        System.out.println(data.getCurrentWeather());
+        System.out.println(data.getCurrentConditions().getCloudCoverage());
+        System.out.println(data.getCurrentConditions().getTemperature());
+        System.out.println(data.getCurrentConditions().getPressure());
+        System.out.println(data.getCurrentConditions().getHumidity());
+        System.out.println(data.getCurrentConditions().getWindSpeed());
+        System.out.println(data.getCurrentConditions().getWindDirectionAsString());
+        System.out.println(data.getCurrentConditions().getSunrise());
+        System.out.println(data.getCurrentConditions().getSunset());
+        System.out.println(data.getCurrentConditions().getCurrentWeather());
     }
 }
