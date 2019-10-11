@@ -1,6 +1,6 @@
 package comp127.weather;
 
-import comp127.weather.api.OpenWeatherConnection;
+import comp127.weather.api.OpenWeatherProvider;
 import comp127.weather.api.WeatherData;
 import comp127.weather.widgets.ForecastWidget;
 import comp127.weather.widgets.TemperatureWidget;
@@ -36,11 +36,13 @@ public class WeatherProgram extends CanvasWindow {
 
         add(widgets.get(0).getGraphics());
 
-        OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, 44.9, -93.0);// saint paul
-        WeatherData data = new WeatherData(conn);
-        for (WeatherWidget widget : widgets) {
-            widget.update(data);
-        }
+        new OpenWeatherProvider(API_KEY, 44.936593, -93.168650)  // OLRI 256 (approximate)
+            .fetchWeather((weatherData) -> {
+                for (WeatherWidget widget : widgets) {
+                    widget.update(weatherData);
+                }
+                draw();
+            });
 
         //TODO: Implement MouseMotion Listeners. When the mouse is moved you should:
         // 1. Check if your ForecastWidget is currently displayed.

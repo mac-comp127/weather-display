@@ -3,6 +3,7 @@ package comp127.weather.api;
 import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.CurrentWeather;
+import net.aksingh.owmjapis.HourlyForecast;
 import net.aksingh.owmjapis.Tools;
 
 import java.net.URISyntaxException;
@@ -17,10 +18,10 @@ public class WeatherData {
     private final CurrentWeather currentConditions;
     private final List<ForecastConditions> hourlyForecasts;
 
-    public WeatherData(OpenWeatherConnection connection) {
-        currentConditions = connection.getRawCurrentWeather();
-        hourlyForecasts =
-            connection.getRawForecast()
+    public WeatherData(CurrentWeather currentConditions, HourlyForecast hourlyForecast) {
+        this.currentConditions = currentConditions;
+        this.hourlyForecasts =
+            hourlyForecast
                 .getForecasts().stream()
                 .map(ForecastConditions::new)
                 .collect(toList());
@@ -160,8 +161,7 @@ public class WeatherData {
     }
 
     /**
-     * Gets an image representing the current weather.
-     * @return
+     * Returns an image representing the current weather.
      */
     public Image getWeatherIcon() {
         String file = "";
@@ -193,5 +193,13 @@ public class WeatherData {
      */
     public List<ForecastConditions> getForecasts() {
         return Collections.unmodifiableList(hourlyForecasts);
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherData{" +
+            "currentConditions=" + currentConditions +
+            ", hourlyForecasts=" + hourlyForecasts +
+            '}';
     }
 }
