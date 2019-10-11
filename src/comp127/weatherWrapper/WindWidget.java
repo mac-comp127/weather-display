@@ -1,8 +1,8 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.Ellipse;
-import comp124graphics.GraphicsText;
-import comp124graphics.Line;
+import comp127graphics.Ellipse;
+import comp127graphics.GraphicsText;
+import comp127graphics.Line;
 
 import java.awt.*;
 import java.text.DecimalFormat;

@@ -1,7 +1,8 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.Rectangle;
-import java.awt.*;
+import comp127graphics.Rectangle;
+
+import java.awt.Color;
 
 
 /**

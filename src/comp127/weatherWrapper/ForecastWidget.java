@@ -1,10 +1,12 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.GraphicsObject;
-import comp124graphics.GraphicsText;
-import comp124graphics.Image;
+import comp127graphics.GraphicsObject;
+import comp127graphics.GraphicsText;
+import comp127graphics.Image;
+import comp127graphics.Point;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.text.DecimalFormat;
 
 public class ForecastWidget extends WeatherWidget {
@@ -54,7 +56,7 @@ public class ForecastWidget extends WeatherWidget {
         Font minMaxFont = new Font("SanSerif", Font.PLAIN, 40);
         minMaxTempLabel = new GraphicsText(df.format(firstForecast.getPredictedMinTemperature())+"\u2109 | "+df.format(firstForecast.getPredictedMaxTemperature())+"\u2109", 0, 0);
         minMaxTempLabel.setFont(minMaxFont);
-        minMaxTempLabel.setStrokeColor(Color.GRAY);
+        minMaxTempLabel.setFillColor(Color.GRAY);
         minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH/2 - minMaxTempLabel.getWidth()/2, icon.getHeight()+tempLabel.getHeight());
         add(minMaxTempLabel);
 
@@ -88,12 +90,11 @@ public class ForecastWidget extends WeatherWidget {
 
     /**
      * Given x,y coordinates, this returns the forecastbox at that position if it exists
-     * @param x pos to check
-     * @param y pos to check
+     * @param location pos to check
      * @return null if not over a forecast box
      */
-    private ForecastBox getBoxAt(int x, int y){
-        GraphicsObject obj = getElementAt(x, y);
+    private ForecastBox getBoxAt(Point location){
+        GraphicsObject obj = getElementAt(location);
         if (obj != null && obj instanceof ForecastBox){
             return (ForecastBox)obj;
         }
@@ -103,11 +104,9 @@ public class ForecastWidget extends WeatherWidget {
     /**
      * Updates the currently displayed forecast information depending on which ForecastBox is located at x,y.
      * If there is not a ForecastBox at that position the display does not change.
-     * @param x
-     * @param y
      */
-    public void updateSelection(int x, int y){
-        ForecastBox box = getBoxAt(x, y);
+    public void updateSelection(Point location){
+        ForecastBox box = getBoxAt(location);
         if (box != null) {
             //TODO: Update the current displayed information to match the selected forecast from the box.
             ForecastWrapper forecast = box.getForecast();

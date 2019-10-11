@@ -1,6 +1,6 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.Image;
+import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.HourlyForecast;
 import net.aksingh.owmjapis.Tools;

@@ -1,6 +1,6 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.CanvasWindow;
+import comp127graphics.CanvasWindow;
 
 /**
  * This example shows how to create a weather connection and initialize a weather widget.

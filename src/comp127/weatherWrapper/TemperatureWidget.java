@@ -1,7 +1,7 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.GraphicsText;
-import comp124graphics.Image;
+import comp127graphics.GraphicsText;
+import comp127graphics.Image;
 
 import java.awt.*;
 import java.text.DecimalFormat;

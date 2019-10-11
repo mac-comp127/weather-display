@@ -1,4 +1,4 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
 /**
  * A class to represent everything that could possibly go wrong while getting weather.

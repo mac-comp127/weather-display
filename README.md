@@ -2,7 +2,7 @@
 
 ### Overview
 
-For this assignment, you will be adding to a weather widget interface that we have provided, which will grab current forecast information from openweathermap.org.  We have created a wrapper class to handle accessing and parsing the data from the site, so that you only have to make use of the data.  You will be using arrays and mouse listeners as part of this assignment.  As always, make sure to follow good [Java style practices](https://docs.google.com/a/macalester.edu/document/d/1YpCzhKhYy5JUQ6oCGJZdf92a0jjpmjMxfKfhPkFl5As/edit?usp=sharing).
+For this assignment, you will be adding to a weather widget interface that we have provided, which will grab current forecast information from openweathermap.org.  We have created a wrapper class to handle accessing and parsing the data from the site, so that you only have to make use of the data.  You will be using arrays and mouse listeners as part of this assignment.  As always, make sure to follow the [Comp 127 Java Style Guide](https://docs.google.com/document/d/1KB3T5can3aC5qygtdjKTUzl0P3c8BlN1QaWy4rIc2F0/edit#heading=h.vf2mhsyaswwv).
 
 The following are three example widget displays that you might implement as part of this assignment.  The first one shows the direction and speed of the wind.  The second one shows the current temperature and weather state.  The third one contains the forecast in 3 hour increments, and displays the details for whichever box the mouse is hovering over.
 
@@ -29,7 +29,7 @@ Take a look at SimpleWidgetExample to see how to set up your own widget classes.
 The SimpleWidgetExample class also has an implemented draw() method.  You will need to include significantly more in your own widget draw() methods.  Do not implement a main() method in your own widget classes.  That will be handled in the WeatherProgram (it is contained within the SimpleWidgetExample so that the example can run by iteself).
 
 Helpful Notes:
-* To add text to your widgets, take a look at the GraphicsText javadoc, which is located in 124-shared, under the doc/comp124graphics directory.
+* To add text to your widgets, take a look at the GraphicsText javadoc, which is located in 127-shared, under the doc/comp127graphics directory.
 * You can change the font size by creating a new font, "Font f = new Font("SanSerif", Font.PLAIN, 20)" and then calling setFont on the corresponding Graphics Text object.  You can get more information through the [Font javadoc](https://docs.oracle.com/javase/8/docs/api/java/awt/Font.html).
 * "\u2109" will draw a degrees F symbol
 * You can use a decimal formatter to limit the number of decimal places drawn in your text.  You can find an example in the ForecastWidget class.

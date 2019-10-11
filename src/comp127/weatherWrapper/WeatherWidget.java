@@ -1,7 +1,7 @@
-package comp124.weatherWrapper;
+package comp127.weatherWrapper;
 
-import comp124graphics.GraphicsGroup;
-import comp124graphics.Image;
+import comp127graphics.GraphicsGroup;
+import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.HourlyForecast;

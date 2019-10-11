@@ -8,6 +8,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="124-shared" />
+    <orderEntry type="module" module-name="127-shared" />
   </component>
 </module>
