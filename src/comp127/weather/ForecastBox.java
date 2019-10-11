@@ -1,6 +1,6 @@
 package comp127.weather;
 
-import comp127.weather.api.Forecast;
+import comp127.weather.api.ForecastConditions;
 import comp127graphics.Rectangle;
 
 import java.awt.Color;
@@ -12,10 +12,10 @@ import java.awt.Color;
 public class ForecastBox extends Rectangle {
 
     // This holds the information about a specific forecast
-    private Forecast forecast;
+    private ForecastConditions forecast;
 
 
-    public ForecastBox(Forecast forecast, double x, double y, double width, double height) {
+    public ForecastBox(ForecastConditions forecast, double x, double y, double width, double height) {
         super(x, y, width, height);
         this.forecast = forecast;
 
@@ -27,7 +27,7 @@ public class ForecastBox extends Rectangle {
      * Getter for forcast object
      * @return
      */
-    public Forecast getForecast() {
+    public ForecastConditions getForecast() {
         return forecast;
     }
 }

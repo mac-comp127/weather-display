@@ -1,9 +1,9 @@
 package comp127.weather.widgets;
 
 import comp127.weather.ForecastBox;
-import comp127.weather.api.Forecast;
-import comp127.weather.api.OpenWeatherConnection;
 import comp127.weather.WeatherProgram;
+import comp127.weather.api.ForecastConditions;
+import comp127.weather.api.WeatherData;
 import comp127graphics.GraphicsObject;
 import comp127graphics.GraphicsText;
 import comp127graphics.Image;
@@ -26,22 +26,19 @@ public class ForecastWidget extends WeatherWidget {
     // e.g. System.out.println(df.format(4.555555)); will print 4.5;
     private final DecimalFormat df = new DecimalFormat("#0.0");
 
-    public ForecastWidget(OpenWeatherConnection connection) {
-        super(connection);
-
-        draw();
+    public ForecastWidget() {
     }
 
-    protected void draw() {
+    public void draw(WeatherData data) {
         //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecastArray().
 
         //TODO: Draw information about the forecast at the first array index.
-        makeLabels();
-        drawForecastBoxes();
+        makeLabels(data);
+        drawForecastBoxes(data);
     }
 
-    private void makeLabels() {
-        Forecast firstForecast = getForecasts().get(0);
+    private void makeLabels(WeatherData data) {
+        ForecastConditions firstForecast = data.getForecasts().get(0);
 
         Font timeFont = new Font("SanSerif", Font.BOLD, 40);
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
@@ -74,15 +71,15 @@ public class ForecastWidget extends WeatherWidget {
 
     }
 
-    private void drawForecastBoxes() {
-        List<Forecast> forecasts = getForecasts();
+    private void drawForecastBoxes(WeatherData data) {
+        List<ForecastConditions> forecasts = data.getForecasts();
 
         double y = icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight() + description.getHeight() + 30;
         double x = 20;
         final double BOX_SPACING = 15;
         final double BOX_WIDTH = 20;
         final double BOX_HEIGHT = 30;
-        for (Forecast forecast : forecasts) {
+        for (ForecastConditions forecast : forecasts) {
             x += BOX_WIDTH + BOX_SPACING;
             if (x + BOX_WIDTH + BOX_SPACING > WeatherProgram.WINDOW_WIDTH) {
                 x = 20;
@@ -115,7 +112,7 @@ public class ForecastWidget extends WeatherWidget {
         ForecastBox box = getBoxAt(location);
         if (box != null) {
             //TODO: Update the current displayed information to match the selected forecast from the box.
-            Forecast forecast = box.getForecast();
+            ForecastConditions forecast = box.getForecast();
             timeLabel.setText(forecast.getPredictionTime().toString());
             timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
             remove(icon);

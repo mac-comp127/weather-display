@@ -13,13 +13,13 @@ import java.util.Date;
  * A class to provide simple access to hourly forecasts.
  * The array of these objects should have 5 days worth of data with one object for every 3 hours.
  */
-public class Forecast {
+public class ForecastConditions {
 
     private static final Tools util = new Tools();
 
     private final HourlyForecast.Forecast rawForecast;
 
-    public Forecast(HourlyForecast.Forecast forecastInstance) {
+    public ForecastConditions(HourlyForecast.Forecast forecastInstance) {
         this.rawForecast = forecastInstance;
     }
 
