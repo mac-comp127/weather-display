@@ -6,7 +6,6 @@ import net.aksingh.owmjapis.OpenWeatherMap;
 
 import javax.swing.SwingUtilities;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -77,16 +76,47 @@ public class OpenWeatherProvider {
      */
     public void fetchWeather(Consumer<WeatherData> completionCallback) {
         requestQueue.submit(() -> {
-            WeatherData result = new WeatherData(
-                fetchCurrentForecast(),
-                fetchHourlyForecast());
+            try {
+                WeatherData result = new WeatherData(
+                    fetch("current conditions",
+                        openWeather::currentWeatherByCityName,
+                        openWeather::currentWeatherByCoordinates),
+                    fetch("hourly forecast",
+                        openWeather::hourlyForecastByCityName,
+                        openWeather::hourlyForecastByCoordinates));
 
-            System.out.println("Got weather data:");
-            System.out.println(result);
+                System.out.println("Got weather data: " + result);
 
-            SwingUtilities.invokeLater(() ->
-                completionCallback.accept(result));
+                SwingUtilities.invokeLater(() ->
+                    completionCallback.accept(result));
+            } catch (WeatherException e) {
+                System.out.println("Unable to fetch weather: " + e);
+            }
         });
+    }
+
+    private <T> T fetch(
+            String requestName,
+            APIRequest<String, String, T> cityRequest,
+            APIRequest<Float, Float, T> coordinateRequest)
+        throws WeatherException {
+
+        System.out.println("Updating " + requestName + " ...");
+        T result;
+        try {
+            if (usingCityName()) {
+                result = cityRequest.request(cityName, countryCode);
+            } else {
+                result = coordinateRequest.request((float) lat, (float) lng);
+            }
+        } catch (IOException ex) {
+            throw new WeatherException("Weather API request failed", ex);
+        }
+        if (result == null) {
+            throw new WeatherException("Could not parse weather API response");
+        }
+        System.out.println("Done.");
+        return result;
     }
 
     /**
@@ -96,45 +126,11 @@ public class OpenWeatherProvider {
         return cityName != null && countryCode != null;
     }
 
-    private CurrentWeather fetchCurrentForecast() {
-        System.out.print("Updating current weather ...");
-        CurrentWeather cw = null;
-        try {
-            if (usingCityName()) {
-                cw = openWeather.currentWeatherByCityName(cityName, countryCode);
-            } else {
-                cw = openWeather.currentWeatherByCoordinates((float) lat, (float) lng);
-            }
-        } catch (IOException ex) {
-            throw new WeatherException("cannot get weather data!", ex);
-        }
-        if (cw == null) {
-            throw new WeatherException("cannot get weather data, and I don't know why.");
-        }
-        System.out.println(" done.");
-        return cw;
+    private interface APIRequest<Arg0, Arg1, Data> {
+        Data request(Arg0 arg0, Arg1 arg1) throws IOException;
     }
 
-    private HourlyForecast fetchHourlyForecast() {
-        System.out.print("Updating forecast ...");
-        HourlyForecast hf = null;
-        try {
-            if (usingCityName()) {
-                hf = openWeather.hourlyForecastByCityName(cityName, countryCode);
-            } else {
-                hf = openWeather.hourlyForecastByCoordinates((float) lat, (float) lng);
-            }
-        } catch (IOException ex) {
-            throw new WeatherException("cannot get weather data!", ex);
-        }
-        if (hf == null) {
-            throw new WeatherException("cannot get weather data, and I don't know why.");
-        }
-        System.out.println(" done.");
-        return hf;
-    }
-
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
         new OpenWeatherProvider("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0)
             .fetchWeather(System.out::println);
     }
