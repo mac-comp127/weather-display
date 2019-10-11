@@ -1,7 +1,7 @@
 package comp127.weather.widgets;
 
 import comp127.weather.ForecastBox;
-import comp127.weather.api.ForecastWrapper;
+import comp127.weather.api.Forecast;
 import comp127.weather.api.OpenWeatherConnection;
 import comp127.weather.WeatherProgram;
 import comp127graphics.GraphicsObject;
@@ -41,7 +41,7 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void makeLabels() {
-        ForecastWrapper firstForecast = getForecasts().get(0);
+        Forecast firstForecast = getForecasts().get(0);
 
         Font timeFont = new Font("SanSerif", Font.BOLD, 40);
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
@@ -75,14 +75,14 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void drawForecastBoxes() {
-        List<ForecastWrapper> forecasts = getForecasts();
+        List<Forecast> forecasts = getForecasts();
 
         double y = icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight() + description.getHeight() + 30;
         double x = 20;
         final double BOX_SPACING = 15;
         final double BOX_WIDTH = 20;
         final double BOX_HEIGHT = 30;
-        for (ForecastWrapper forecast : forecasts) {
+        for (Forecast forecast : forecasts) {
             x += BOX_WIDTH + BOX_SPACING;
             if (x + BOX_WIDTH + BOX_SPACING > WeatherProgram.WINDOW_WIDTH) {
                 x = 20;
@@ -115,7 +115,7 @@ public class ForecastWidget extends WeatherWidget {
         ForecastBox box = getBoxAt(location);
         if (box != null) {
             //TODO: Update the current displayed information to match the selected forecast from the box.
-            ForecastWrapper forecast = box.getForecast();
+            Forecast forecast = box.getForecast();
             timeLabel.setText(forecast.getPredictionTime().toString());
             timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
             remove(icon);

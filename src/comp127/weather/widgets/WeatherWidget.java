@@ -1,6 +1,6 @@
 package comp127.weather.widgets;
 
-import comp127.weather.api.ForecastWrapper;
+import comp127.weather.api.Forecast;
 import comp127.weather.api.OpenWeatherConnection;
 import comp127graphics.GraphicsGroup;
 import comp127graphics.Image;
@@ -26,13 +26,13 @@ public abstract class WeatherWidget extends GraphicsGroup {
 
     private final CurrentWeather current;
     private final HourlyForecast rawForecast;
-    private final List<ForecastWrapper> hourlyForecasts;
+    private final List<Forecast> hourlyForecasts;
 
     public WeatherWidget(OpenWeatherConnection connection) {
         current = connection.getRawCurrentWeather();
         rawForecast = connection.getRawForecast();
         hourlyForecasts = rawForecast.getForecasts().stream()
-            .map(ForecastWrapper::new)
+            .map(Forecast::new)
             .collect(toList());
     }
 
@@ -204,7 +204,7 @@ public abstract class WeatherWidget extends GraphicsGroup {
      * Returns an array of forecastwrappers holding information about the future forecast
      * @return The array holds data for 5 days. Each ForecastWrapper represents a 3 hour time period.
      */
-    protected List<ForecastWrapper> getForecasts() {
+    protected List<Forecast> getForecasts() {
         return Collections.unmodifiableList(hourlyForecasts);
     }
 
