@@ -34,7 +34,7 @@ public class WeatherProgram extends CanvasWindow {
             new WindWidget()
         );
 
-        add(widgets.get(0));
+        add(widgets.get(0).getGraphics());
 
         OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, 44.9, -93.0);// saint paul
         WeatherData data = new WeatherData(conn);
@@ -60,7 +60,7 @@ public class WeatherProgram extends CanvasWindow {
         onClick(event -> {
             currentDisplayIndex = (currentDisplayIndex + 1) % widgets.size();
             removeAll();
-            add(widgets.get(currentDisplayIndex));
+            add(widgets.get(currentDisplayIndex).getGraphics());
         });
 
         setBackground(new Color(153, 204, 255));

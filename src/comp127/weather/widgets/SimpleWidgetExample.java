@@ -3,24 +3,34 @@ package comp127.weather.widgets;
 import comp127.weather.api.OpenWeatherConnection;
 import comp127.weather.api.WeatherData;
 import comp127graphics.CanvasWindow;
+import comp127graphics.GraphicsGroup;
+import comp127graphics.GraphicsObject;
 
 /**
  * This example shows how to create a weather connection and initialize a weather widget.
  * Created by dkluver on 10/6/17.
  */
-public class SimpleWidgetExample extends WeatherWidget {
+public class SimpleWidgetExample implements WeatherWidget {
+
+    private GraphicsGroup group;
 
     public SimpleWidgetExample() {
+        group = new GraphicsGroup();
+    }
+
+    @Override
+    public GraphicsObject getGraphics() {
+        return group;
     }
 
     public void draw(WeatherData data) {
-        add(data.getWeatherIcon());
+        group.add(data.getWeatherIcon());
     }
 
     public static void main(String[] args) {
         CanvasWindow canvas = new CanvasWindow("weather", 800, 600);
         SimpleWidgetExample widget = new SimpleWidgetExample();
-        canvas.add(widget);
+        canvas.add(widget.getGraphics());
 
         OpenWeatherConnection conn = new OpenWeatherConnection("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0);
         WeatherData data = new WeatherData(conn);

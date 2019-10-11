@@ -4,17 +4,16 @@ import comp127.weather.ForecastBox;
 import comp127.weather.WeatherProgram;
 import comp127.weather.api.ForecastConditions;
 import comp127.weather.api.WeatherData;
-import comp127graphics.GraphicsObject;
-import comp127graphics.GraphicsText;
-import comp127graphics.Image;
-import comp127graphics.Point;
+import comp127graphics.*;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class ForecastWidget extends WeatherWidget {
+public class ForecastWidget implements WeatherWidget {
+
+    private GraphicsGroup group;
 
     private GraphicsText timeLabel;
     private GraphicsText tempLabel;
@@ -27,6 +26,12 @@ public class ForecastWidget extends WeatherWidget {
     private final DecimalFormat df = new DecimalFormat("#0.0");
 
     public ForecastWidget() {
+        group = new GraphicsGroup();
+    }
+
+    @Override
+    public GraphicsObject getGraphics() {
+        return group;
     }
 
     public void draw(WeatherData data) {
@@ -44,31 +49,30 @@ public class ForecastWidget extends WeatherWidget {
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
         timeLabel.setFont(timeFont);
         timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
-        add(timeLabel);
+        group.add(timeLabel);
 
         icon = firstForecast.getWeatherIcon();
-        add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
+        group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
 
         Font tempFont = new Font("SanSerif", Font.BOLD, 40);
         tempLabel = new GraphicsText(df.format(firstForecast.getPredictedTemperature()) + "\u2109", 0, 0);
         tempLabel.setFont(tempFont);
         tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - tempLabel.getWidth() / 2, icon.getHeight());
-        add(tempLabel);
+        group.add(tempLabel);
 
         Font minMaxFont = new Font("SanSerif", Font.PLAIN, 40);
         minMaxTempLabel = new GraphicsText(df.format(firstForecast.getPredictedMinTemperature()) + "\u2109 | " + df.format(firstForecast.getPredictedMaxTemperature()) + "\u2109", 0, 0);
         minMaxTempLabel.setFont(minMaxFont);
         minMaxTempLabel.setFillColor(Color.GRAY);
         minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - minMaxTempLabel.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
-        add(minMaxTempLabel);
+        group.add(minMaxTempLabel);
 
         Font descFont = new Font("SanSerif", Font.PLAIN, 30);
         description = new GraphicsText(firstForecast.getPredictedWeather(), 400, 120);
         description.setFont(descFont);
         description.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight());
 
-        add(description);
-
+        group.add(description);
     }
 
     private void drawForecastBoxes(WeatherData data) {
@@ -87,7 +91,7 @@ public class ForecastWidget extends WeatherWidget {
             }
 
             ForecastBox box = new ForecastBox(forecast, x, y, BOX_WIDTH, BOX_HEIGHT);
-            add(box);
+            group.add(box);
         }
     }
 
@@ -97,7 +101,7 @@ public class ForecastWidget extends WeatherWidget {
      * @return null if not over a forecast box
      */
     private ForecastBox getBoxAt(Point location) {
-        GraphicsObject obj = getElementAt(location);
+        GraphicsObject obj = group.getElementAt(location);
         if (obj != null && obj instanceof ForecastBox) {
             return (ForecastBox) obj;
         }
@@ -115,9 +119,9 @@ public class ForecastWidget extends WeatherWidget {
             ForecastConditions forecast = box.getForecast();
             timeLabel.setText(forecast.getPredictionTime().toString());
             timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
-            remove(icon);
+            group.remove(icon);
             icon = forecast.getWeatherIcon();
-            add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
+            group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
             tempLabel.setText(df.format(forecast.getPredictedTemperature()) + "\u2109");
             tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - tempLabel.getWidth() / 2, icon.getHeight());
             minMaxTempLabel.setText(df.format(forecast.getPredictedMinTemperature()) + "\u2109 | " + df.format(forecast.getPredictedMaxTemperature()) + "\u2109");

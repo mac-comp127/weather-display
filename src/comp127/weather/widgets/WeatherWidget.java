@@ -1,15 +1,17 @@
 package comp127.weather.widgets;
 
 import comp127.weather.api.WeatherData;
-import comp127graphics.GraphicsGroup;
+import comp127graphics.GraphicsObject;
 
 /**
  * A parent class for widgets based on the open weather API.
  */
-public abstract class WeatherWidget extends GraphicsGroup {
+public interface WeatherWidget {
+
+    GraphicsObject getGraphics();
 
     /**
      * Draws the graphical representation of the widget
      */
-    public abstract void draw(WeatherData data);
+    void draw(WeatherData data);
 }
