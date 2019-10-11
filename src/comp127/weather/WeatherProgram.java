@@ -1,7 +1,6 @@
 package comp127.weather;
 
 import comp127.weather.api.OpenWeatherProvider;
-import comp127.weather.api.WeatherData;
 import comp127.weather.widgets.ForecastWidget;
 import comp127.weather.widgets.TemperatureWidget;
 import comp127.weather.widgets.WeatherWidget;
@@ -17,7 +16,7 @@ public class WeatherProgram extends CanvasWindow {
     public static final String API_KEY = "d6a22c9835563a57b372e6515fd8ec2b";
 
     public static final int WINDOW_WIDTH = 800;
-    public static final int WINDOW_HEIGHT = 800;
+    public static final int WINDOW_HEIGHT = 600;
 
     //TODO: Define an instance variable that is an array of WeatherWidgets. You will also need a variable to keep track
     // of which index in the array is the widget that is currently displayed.
@@ -49,9 +48,7 @@ public class WeatherProgram extends CanvasWindow {
         // 2. If so, you should update which forecast is displayed depending on which ForecastBox the mouse is currently hovering over.
 
         onMouseMove(event -> {
-            if (widgets.get(currentDisplayIndex) instanceof ForecastWidget) {
-                ((ForecastWidget) widgets.get(currentDisplayIndex)).updateSelection(event.getPosition());
-            }
+            widgets.get(currentDisplayIndex).onHover(event.getPosition());
         });
 
         //TODO: Implement Mouse Listeners. When the mouse is clicked you should:

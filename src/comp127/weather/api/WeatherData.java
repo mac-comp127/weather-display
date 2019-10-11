@@ -1,13 +1,10 @@
 package comp127.weather.api;
 
-import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.HourlyForecast;
 import net.aksingh.owmjapis.Tools;
 
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -163,28 +160,15 @@ public class WeatherData {
     /**
      * Returns an image representing the current weather.
      */
-    public Image getWeatherIcon() {
-        String file = "";
+    public String getWeatherIcon() {
+        String file = "unknown";
         if (currentConditions != null && currentConditions.hasWeatherInstance() && currentConditions.getWeatherCount() > 0 && currentConditions.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = currentConditions.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
                 file = weather.getWeatherIconName();
             }
         }
-        file = "/" + file + ".png";
-        try {
-            return new Image(0, 0, Paths.get(getClass().getResource(file).toURI()).toString());
-        } catch (Exception e) {
-            try {
-                // return the a default image
-                return new Image(0, 0, Paths.get(getClass().getResource("/01d.png").toURI()).toString());
-            } catch (URISyntaxException e1) {
-                // uhh... this shouldn't happen. For some reason we couldn't load the _default_ image.
-                // best guess somehow the res folder got unmarked as a resources folder, or the images got renamed.
-                e1.printStackTrace();
-                throw new RuntimeException(e1);
-            }
-        }
+        return "condition-icons/" + file + ".png";
     }
 
     /**

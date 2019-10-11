@@ -2,9 +2,7 @@ package comp127.weather.widgets;
 
 import comp127.weather.api.OpenWeatherProvider;
 import comp127.weather.api.WeatherData;
-import comp127graphics.CanvasWindow;
-import comp127graphics.GraphicsGroup;
-import comp127graphics.GraphicsObject;
+import comp127graphics.*;
 
 /**
  * This example shows how to create a weather connection and initialize a weather widget.
@@ -13,9 +11,13 @@ import comp127graphics.GraphicsObject;
 public class SimpleWidgetExample implements WeatherWidget {
 
     private GraphicsGroup group;
+    private Image weatherIcon;
 
     public SimpleWidgetExample() {
         group = new GraphicsGroup();
+
+        weatherIcon = new Image(50, 50);
+        group.add(weatherIcon);
     }
 
     @Override
@@ -23,8 +25,12 @@ public class SimpleWidgetExample implements WeatherWidget {
         return group;
     }
 
+    @Override
+    public void onHover(Point position) {
+    }
+
     public void update(WeatherData data) {
-        group.add(data.getWeatherIcon());
+        weatherIcon.setImagePath(data.getWeatherIcon());
 
         // Examples of how to get other weather data:
         System.out.println(data.getCityName());
@@ -37,14 +43,5 @@ public class SimpleWidgetExample implements WeatherWidget {
         System.out.println(data.getSunrise());
         System.out.println(data.getSunset());
         System.out.println(data.getCurrentWeather());
-    }
-
-    public static void main(String[] args) {
-        CanvasWindow canvas = new CanvasWindow("weather", 800, 600);
-        SimpleWidgetExample widget = new SimpleWidgetExample();
-        canvas.add(widget.getGraphics());
-
-        OpenWeatherProvider conn = new OpenWeatherProvider("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0);
-        conn.fetchWeather(widget::update);
     }
 }

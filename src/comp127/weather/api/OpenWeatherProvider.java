@@ -1,7 +1,5 @@
 package comp127.weather.api;
 
-import net.aksingh.owmjapis.CurrentWeather;
-import net.aksingh.owmjapis.HourlyForecast;
 import net.aksingh.owmjapis.OpenWeatherMap;
 
 import javax.swing.SwingUtilities;
