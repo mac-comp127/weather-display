@@ -163,10 +163,5 @@ public class OpenWeatherConnection {
     public static void main(String[] args) throws UnsupportedEncodingException {
         OpenWeatherConnection tmp = new OpenWeatherConnection("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0);
         System.out.println(tmp.getRawForecast().getRawResponse());
-
-
     }
-
-
-
 }

@@ -12,7 +12,7 @@ public class SimpleWidgetExample extends WeatherWidget {
         draw();
     }
 
-    protected void draw(){
+    protected void draw() {
         add(getWeatherIcon());
     }
 

@@ -2,10 +2,7 @@ package comp127.weatherWrapper;
 
 import comp127graphics.CanvasWindow;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.Color;
 
 public class WeatherProgram extends CanvasWindow {
 
@@ -20,7 +17,7 @@ public class WeatherProgram extends CanvasWindow {
     private WeatherWidget[] widgets;
     private int currentDisplayIndex = 0;
 
-    public WeatherProgram(){
+    public WeatherProgram() {
         super("Weather Display", WINDOW_WIDTH, WINDOW_HEIGHT);
 
         OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, 44.9, -93.0);// saint paul
@@ -38,7 +35,7 @@ public class WeatherProgram extends CanvasWindow {
         // 2. If so, you should update which forecast is displayed depending on which ForecastBox the mouse is currently hovering over.
 
         onMouseMove(event -> {
-            if (widgets[currentDisplayIndex] instanceof ForecastWidget){
+            if (widgets[currentDisplayIndex] instanceof ForecastWidget) {
                 ((ForecastWidget) widgets[currentDisplayIndex]).updateSelection(event.getPosition());
             }
         });
@@ -50,7 +47,7 @@ public class WeatherProgram extends CanvasWindow {
 
         onClick(event -> {
             currentDisplayIndex++;
-            if (currentDisplayIndex == widgets.length){
+            if (currentDisplayIndex == widgets.length) {
                 currentDisplayIndex = 0;
             }
             removeAll();
@@ -60,7 +57,7 @@ public class WeatherProgram extends CanvasWindow {
         setBackground(new Color(153, 204, 255));
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new WeatherProgram();
     }
 }

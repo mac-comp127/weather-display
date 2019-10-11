@@ -14,7 +14,7 @@ public class ForecastBox extends Rectangle {
     private ForecastWrapper forecast;
 
 
-    public ForecastBox(ForecastWrapper forecast, double x, double y, double width, double height){
+    public ForecastBox(ForecastWrapper forecast, double x, double y, double width, double height) {
         super(x, y, width, height);
         this.forecast = forecast;
 

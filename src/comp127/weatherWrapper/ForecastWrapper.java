@@ -29,7 +29,7 @@ public class ForecastWrapper {
      * @return (returns 0% in case of error)
      */
     public double getPredictedCloudCoverage() {
-        if(rawForecast != null && rawForecast.hasCloudsInstance() && rawForecast.getCloudsInstance().hasPercentageOfClouds()) {
+        if (rawForecast != null && rawForecast.hasCloudsInstance() && rawForecast.getCloudsInstance().hasPercentageOfClouds()) {
             return rawForecast.getCloudsInstance().getPercentageOfClouds();
         } else {
             return 0;
@@ -41,7 +41,7 @@ public class ForecastWrapper {
      * @return (returns -100 in case of error)
      */
     public double getPredictedTemperature() {
-        if(rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasTemperature()) {
+        if (rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasTemperature()) {
             return rawForecast.getMainInstance().getTemperature();
         } else {
             return -100;
@@ -53,7 +53,7 @@ public class ForecastWrapper {
      *  @return (returns -100 in case of error)
      */
     public double getPredictedMinTemperature() {
-        if(rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasMinTemperature()) {
+        if (rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasMinTemperature()) {
             return rawForecast.getMainInstance().getMinTemperature();
         } else {
             return -100;
@@ -65,7 +65,7 @@ public class ForecastWrapper {
      * @return (returns -100 in case of error)
      */
     public double getPredictedMaxTemperature() {
-        if(rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasMaxTemperature()) {
+        if (rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasMaxTemperature()) {
             return rawForecast.getMainInstance().getMaxTemperature();
         } else {
             return -100;
@@ -77,7 +77,7 @@ public class ForecastWrapper {
      * @return (returns 0 in case of error)
      */
     public double getPredictedPressure() {
-        if(rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasPressure()) {
+        if (rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasPressure()) {
             return rawForecast.getMainInstance().getPressure();
         } else {
             return 0;
@@ -89,7 +89,7 @@ public class ForecastWrapper {
      * @return (returns 0 in case of error)
      */
     public double getPredictedHumidity() {
-        if(rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasHumidity()) {
+        if (rawForecast != null && rawForecast.hasMainInstance() && rawForecast.getMainInstance().hasHumidity()) {
             return rawForecast.getMainInstance().getHumidity();
         } else {
             return 0;
@@ -101,7 +101,7 @@ public class ForecastWrapper {
      * @return (returns 0 in case of error)
      */
     public double getPredictedWindSpeed() {
-        if(rawForecast != null && rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindSpeed()) {
+        if (rawForecast != null && rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindSpeed()) {
             return rawForecast.getWindInstance().getWindSpeed();
         } else {
             return 0;
@@ -109,13 +109,12 @@ public class ForecastWrapper {
     }
 
 
-
     /**
      * Gets the predicted direction of the wind.
      * @return (returns "" in case of error)
      */
     public String getPredictedWindDirection() {
-        if(rawForecast != null && rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindDegree()) {
+        if (rawForecast != null && rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindDegree()) {
             return util.convertDegree2Direction(rawForecast.getWindInstance().getWindDegree());
         } else {
             return "";
@@ -146,10 +145,10 @@ public class ForecastWrapper {
         if (rawForecast != null && rawForecast.hasWeatherInstance() && rawForecast.getWeatherCount() > 0 && rawForecast.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawForecast.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
-                file =  weather.getWeatherIconName();
+                file = weather.getWeatherIconName();
             }
         }
-        file = "/"+file+".png";
+        file = "/" + file + ".png";
         try {
             return new Image(0, 0, Paths.get(getClass().getResource(file).toURI()).toString());
         } catch (Exception e) {
