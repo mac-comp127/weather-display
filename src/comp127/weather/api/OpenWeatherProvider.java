@@ -98,11 +98,6 @@ public class OpenWeatherProvider {
 
     private CurrentWeather fetchCurrentForecast() {
         System.out.print("Updating current weather ...");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         CurrentWeather cw = null;
         try {
             if (usingCityName()) {
@@ -122,11 +117,6 @@ public class OpenWeatherProvider {
 
     private HourlyForecast fetchHourlyForecast() {
         System.out.print("Updating forecast ...");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         HourlyForecast hf = null;
         try {
             if (usingCityName()) {
