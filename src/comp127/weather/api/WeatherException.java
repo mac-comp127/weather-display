@@ -1,9 +1,9 @@
-package comp127.weatherWrapper;
+package comp127.weather.api;
 
 /**
  * A class to represent everything that could possibly go wrong while getting weather.
  *
- * This is a runtime exception because we havn't really covered try/catch in class.
+ * This is a runtime exception because we haven't really covered try/catch in class.
  */
 public class WeatherException extends RuntimeException {
     public WeatherException() {

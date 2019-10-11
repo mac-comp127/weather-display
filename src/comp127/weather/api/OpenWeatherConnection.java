@@ -1,4 +1,4 @@
-package comp127.weatherWrapper;
+package comp127.weather.api;
 
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.HourlyForecast;

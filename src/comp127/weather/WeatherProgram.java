@@ -1,5 +1,10 @@
-package comp127.weatherWrapper;
+package comp127.weather;
 
+import comp127.weather.api.OpenWeatherConnection;
+import comp127.weather.widgets.ForecastWidget;
+import comp127.weather.widgets.TemperatureWidget;
+import comp127.weather.widgets.WeatherWidget;
+import comp127.weather.widgets.WindWidget;
 import comp127graphics.CanvasWindow;
 
 import java.awt.Color;

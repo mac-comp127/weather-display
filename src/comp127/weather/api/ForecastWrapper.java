@@ -1,4 +1,4 @@
-package comp127.weatherWrapper;
+package comp127.weather.api;
 
 import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;

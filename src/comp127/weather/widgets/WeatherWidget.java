@@ -1,5 +1,7 @@
-package comp127.weatherWrapper;
+package comp127.weather.widgets;
 
+import comp127.weather.api.ForecastWrapper;
+import comp127.weather.api.OpenWeatherConnection;
 import comp127graphics.GraphicsGroup;
 import comp127graphics.Image;
 import net.aksingh.owmjapis.AbstractWeather;

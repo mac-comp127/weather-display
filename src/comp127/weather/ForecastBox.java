@@ -1,5 +1,6 @@
-package comp127.weatherWrapper;
+package comp127.weather;
 
+import comp127.weather.api.ForecastWrapper;
 import comp127graphics.Rectangle;
 
 import java.awt.Color;
