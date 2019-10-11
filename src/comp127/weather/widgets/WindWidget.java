@@ -28,7 +28,7 @@ public class WindWidget implements WeatherWidget {
         return group;
     }
 
-    public void draw(WeatherData data) {
+    public void update(WeatherData data) {
         Ellipse circle = new Ellipse(WeatherProgram.WINDOW_WIDTH / 2 - ELLIPSE_WIDTH / 2, WeatherProgram.WINDOW_HEIGHT / 2 - ELLIPSE_HEIGHT / 2, ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
         circle.setStrokeWidth(3);
         group.add(circle);

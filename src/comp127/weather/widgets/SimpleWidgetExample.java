@@ -23,7 +23,7 @@ public class SimpleWidgetExample implements WeatherWidget {
         return group;
     }
 
-    public void draw(WeatherData data) {
+    public void update(WeatherData data) {
         group.add(data.getWeatherIcon());
     }
 
@@ -34,7 +34,7 @@ public class SimpleWidgetExample implements WeatherWidget {
 
         OpenWeatherConnection conn = new OpenWeatherConnection("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0);
         WeatherData data = new WeatherData(conn);
-        widget.draw(data);
+        widget.update(data);
 
         System.out.println(data.getCityName());
         System.out.println(data.getCurrentCloudCoverage());

@@ -13,5 +13,5 @@ public interface WeatherWidget {
     /**
      * Draws the graphical representation of the widget
      */
-    void draw(WeatherData data);
+    void update(WeatherData data);
 }

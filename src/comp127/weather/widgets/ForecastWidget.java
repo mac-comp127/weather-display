@@ -34,7 +34,7 @@ public class ForecastWidget implements WeatherWidget {
         return group;
     }
 
-    public void draw(WeatherData data) {
+    public void update(WeatherData data) {
         //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecastArray().
 
         //TODO: Draw information about the forecast at the first array index.

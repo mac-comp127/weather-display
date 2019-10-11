@@ -29,7 +29,7 @@ public class TemperatureWidget implements WeatherWidget {
         return group;
     }
 
-    public void draw(WeatherData data) {
+    public void update(WeatherData data) {
         icon = data.getWeatherIcon();
         group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, 0);
 

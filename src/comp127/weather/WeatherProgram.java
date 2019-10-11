@@ -39,7 +39,7 @@ public class WeatherProgram extends CanvasWindow {
         OpenWeatherConnection conn = new OpenWeatherConnection(API_KEY, 44.9, -93.0);// saint paul
         WeatherData data = new WeatherData(conn);
         for (WeatherWidget widget : widgets) {
-            widget.draw(data);
+            widget.update(data);
         }
 
         //TODO: Implement MouseMotion Listeners. When the mouse is moved you should:
