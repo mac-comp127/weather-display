@@ -12,16 +12,62 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class WeatherData {
-    private final CurrentWeather currentConditions;
+    private String cityName = "";
+    private double currentCloudCoverage = 0;
+    private double currentTemperature = -100;
+    private double currentPressure = 0;
+    private double currentHumidity = 0;
+    private double currentWindSpeed = 0;
+    private String currentWindDirection = "";
+    private double currentWindDegree = 0;
+    private Date sunrise = null;
+    private Date sunset = null;
+    private String currentWeather = "";
+    private String weatherIconFile = "unknown";
+
     private final List<ForecastConditions> hourlyForecasts;
 
     public WeatherData(CurrentWeather currentConditions, HourlyForecast hourlyForecast) {
-        this.currentConditions = currentConditions;
+        if (currentConditions != null) {
+            cityName = nullIfBlank(currentConditions.getCityName());
+            if (currentConditions.hasCloudsInstance()) {
+                currentCloudCoverage = currentConditions.getCloudsInstance().getPercentageOfClouds();
+            }
+            if (currentConditions.hasMainInstance()) {
+                currentTemperature = currentConditions.getMainInstance().getTemperature();
+                currentPressure = currentConditions.getMainInstance().getPressure();
+                currentHumidity = currentConditions.getMainInstance().getHumidity();
+            }
+            if (currentConditions.hasWindInstance()) {
+                currentWindSpeed = currentConditions.getWindInstance().getWindSpeed();
+                currentWindDegree = currentConditions.getWindInstance().getWindDegree();
+                if (currentWindDegree >= 0 && currentWindDegree <= 360) {
+                    currentWindDirection = util.convertDegree2Direction((float) currentWindDegree);
+                }
+            }
+            if (currentConditions.hasSysInstance()) {
+                sunrise = currentConditions.getSysInstance().getSunriseTime();
+                sunset = currentConditions.getSysInstance().getSunsetTime();
+            }
+            if (currentConditions.hasWeatherInstance()
+                    && currentConditions.getWeatherCount() > 0
+                    && currentConditions.getWeatherInstance(0) != null) {
+                AbstractWeather.Weather weather = currentConditions.getWeatherInstance(0);
+                if (weather.hasWeatherDescription()) {
+                    currentWeather = weather.getWeatherDescription();
+                    weatherIconFile = weather.getWeatherIconName();
+                }
+            }
+        }
         this.hourlyForecasts =
             hourlyForecast
                 .getForecasts().stream()
                 .map(ForecastConditions::new)
                 .collect(toList());
+    }
+
+    private String nullIfBlank(String str) {
+        return (str == null || str.isBlank()) ? null : str;
     }
 
     private static final Tools util = new Tools();
@@ -31,10 +77,7 @@ public class WeatherData {
      * @return null if location is not a city
      */
     public String getCityName() {
-        if (currentConditions != null && currentConditions.hasCityName()) {
-            return currentConditions.getCityName();
-        }
-        return null;
+        return cityName;
     }
 
     /**
@@ -42,11 +85,7 @@ public class WeatherData {
      * @return (returns 0 % in case of error)
      */
     public double getCurrentCloudCoverage() {
-        if (currentConditions != null && currentConditions.hasCloudsInstance() && currentConditions.getCloudsInstance().hasPercentageOfClouds()) {
-            return currentConditions.getCloudsInstance().getPercentageOfClouds();
-        } else {
-            return 0;
-        }
+        return currentCloudCoverage;
     }
 
     /**
@@ -54,11 +93,7 @@ public class WeatherData {
      * @return (returns - 100 in case of error)
      */
     public double getCurrentTemperature() {
-        if (currentConditions != null && currentConditions.hasMainInstance() && currentConditions.getMainInstance().hasTemperature()) {
-            return currentConditions.getMainInstance().getTemperature();
-        } else {
-            return -100;
-        }
+        return currentTemperature;
     }
 
     /**
@@ -66,11 +101,7 @@ public class WeatherData {
      * @return (returns 0 in case of error)
      */
     public double getCurrentPressure() {
-        if (currentConditions != null && currentConditions.hasMainInstance() && currentConditions.getMainInstance().hasPressure()) {
-            return currentConditions.getMainInstance().getPressure();
-        } else {
-            return 0;
-        }
+        return currentPressure;
     }
 
     /**
@@ -78,11 +109,7 @@ public class WeatherData {
      * @return (returns 0 in case of error)
      */
     public double getCurrentHumidity() {
-        if (currentConditions != null && currentConditions.hasMainInstance() && currentConditions.getMainInstance().hasHumidity()) {
-            return currentConditions.getMainInstance().getHumidity();
-        } else {
-            return 0;
-        }
+        return currentHumidity;
     }
 
     /**
@@ -90,11 +117,7 @@ public class WeatherData {
      * @return (returns 0 in case of error)
      */
     public double getCurrentWindSpeed() {
-        if (currentConditions != null && currentConditions.hasWindInstance() && currentConditions.getWindInstance().hasWindSpeed()) {
-            return currentConditions.getWindInstance().getWindSpeed();
-        } else {
-            return 0;
-        }
+        return currentWindSpeed;
     }
 
 
@@ -103,11 +126,7 @@ public class WeatherData {
      * @return (returns " " in case of error)
      */
     public String getCurrentWindDirection() {
-        if (currentConditions != null && currentConditions.hasWindInstance() && currentConditions.getWindInstance().hasWindDegree()) {
-            return util.convertDegree2Direction(currentConditions.getWindInstance().getWindDegree());
-        } else {
-            return "";
-        }
+        return currentWindDirection;
     }
 
     /**
@@ -115,31 +134,21 @@ public class WeatherData {
      * @return wind degrees or 0 in the case of error.
      */
     public double getCurrentWindDegree() {
-        if (currentConditions != null && currentConditions.hasWindInstance() && currentConditions.getWindInstance().hasWindDegree()) {
-            return currentConditions.getWindInstance().getWindDegree();
-        } else {
-            return 0.0;
-        }
+        return currentWindDegree;
     }
 
     /**
      * Gets the sunrise time (or null if unknown)
      */
     public Date getSunrise() {
-        if (currentConditions != null && currentConditions.hasSysInstance() && currentConditions.getSysInstance().hasSunriseTime()) {
-            return currentConditions.getSysInstance().getSunriseTime();
-        }
-        return null;
+        return sunrise;
     }
 
     /**
      * Gets the sunset time (or null if unknown)
      */
     public Date getSunset() {
-        if (currentConditions != null && currentConditions.hasSysInstance() && currentConditions.getSysInstance().hasSunsetTime()) {
-            return currentConditions.getSysInstance().getSunsetTime();
-        }
-        return null;
+        return sunset;
     }
 
     /**
@@ -148,27 +157,14 @@ public class WeatherData {
      * @return (returns an empty string if unknown or very little of interest is currently going on)
      */
     public String getCurrentWeather() {
-        if (currentConditions != null && currentConditions.hasWeatherInstance() && currentConditions.getWeatherCount() > 0 && currentConditions.getWeatherInstance(0) != null) {
-            AbstractWeather.Weather weather = currentConditions.getWeatherInstance(0);
-            if (weather.hasWeatherDescription()) {
-                return weather.getWeatherDescription();
-            }
-        }
-        return "";
+        return currentWeather;
     }
 
     /**
      * Returns an image representing the current weather.
      */
     public String getWeatherIcon() {
-        String file = "unknown";
-        if (currentConditions != null && currentConditions.hasWeatherInstance() && currentConditions.getWeatherCount() > 0 && currentConditions.getWeatherInstance(0) != null) {
-            AbstractWeather.Weather weather = currentConditions.getWeatherInstance(0);
-            if (weather.hasWeatherDescription()) {
-                file = weather.getWeatherIconName();
-            }
-        }
-        return "condition-icons/" + file + ".png";
+        return "condition-icons/" + weatherIconFile + ".png";
     }
 
     /**
@@ -177,13 +173,5 @@ public class WeatherData {
      */
     public List<ForecastConditions> getForecasts() {
         return Collections.unmodifiableList(hourlyForecasts);
-    }
-
-    @Override
-    public String toString() {
-        return "WeatherData{" +
-            "currentConditions=" + currentConditions +
-            ", hourlyForecasts=" + hourlyForecasts +
-            '}';
     }
 }
