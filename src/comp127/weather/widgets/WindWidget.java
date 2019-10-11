@@ -9,8 +9,8 @@ import java.text.DecimalFormat;
 
 public class WindWidget implements WeatherWidget {
 
-    public static final double ELLIPSE_WIDTH = 300;
-    public static final double ELLIPSE_HEIGHT = 300;
+    private static final double ELLIPSE_WIDTH = 300;
+    private static final double ELLIPSE_HEIGHT = 300;
 
     private GraphicsGroup group;
 
@@ -29,7 +29,7 @@ public class WindWidget implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        Ellipse circle = new Ellipse(WeatherProgram.WINDOW_WIDTH / 2 - ELLIPSE_WIDTH / 2, WeatherProgram.WINDOW_HEIGHT / 2 - ELLIPSE_HEIGHT / 2, ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
+        Ellipse circle = new Ellipse(WeatherProgram.WINDOW_WIDTH / 2.0 - ELLIPSE_WIDTH / 2, WeatherProgram.WINDOW_HEIGHT / 2.0 - ELLIPSE_HEIGHT / 2, ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
         circle.setStrokeWidth(3);
         group.add(circle);
 

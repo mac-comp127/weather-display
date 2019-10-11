@@ -14,7 +14,7 @@ public class TemperatureWidget implements WeatherWidget {
 
     private GraphicsGroup group;
 
-    private GraphicsText tempLabel;
+    private GraphicsText label;
     private GraphicsText description;
     private Image icon;
 
@@ -31,19 +31,19 @@ public class TemperatureWidget implements WeatherWidget {
 
     public void update(WeatherData data) {
         icon = data.getWeatherIcon();
-        group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, 0);
+        group.add(icon, WeatherProgram.WINDOW_WIDTH / 2.0 - icon.getWidth() / 2, 0);
 
         Font tempFont = new Font("SanSerif", Font.BOLD, 60);
-        tempLabel = new GraphicsText(df.format(data.getCurrentTemperature()) + "\u2109", 0, 0);
-        tempLabel.setFont(tempFont);
-        tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - tempLabel.getWidth() / 2, icon.getHeight() + 30);
+        label = new GraphicsText(df.format(data.getCurrentTemperature()) + "\u2109", 0, 0);
+        label.setFont(tempFont);
+        label.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - label.getWidth() / 2, icon.getHeight() + 30);
 
-        group.add(tempLabel);
+        group.add(label);
 
         Font descFont = new Font("SanSerif", Font.PLAIN, 30);
         description = new GraphicsText(data.getCurrentWeather(), 0, 0);
         description.setFont(descFont);
-        description.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
+        description.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - description.getWidth() / 2, icon.getHeight() + label.getHeight());
 
         group.add(description);
     }

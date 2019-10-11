@@ -48,29 +48,29 @@ public class ForecastWidget implements WeatherWidget {
         Font timeFont = new Font("SanSerif", Font.BOLD, 40);
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
         timeLabel.setFont(timeFont);
-        timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
+        timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - timeLabel.getWidth() / 2, 50);
         group.add(timeLabel);
 
         icon = firstForecast.getWeatherIcon();
-        group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
+        group.add(icon, WeatherProgram.WINDOW_WIDTH / 2.0 - icon.getWidth() / 2, timeLabel.getHeight());
 
         Font tempFont = new Font("SanSerif", Font.BOLD, 40);
         tempLabel = new GraphicsText(df.format(firstForecast.getPredictedTemperature()) + "\u2109", 0, 0);
         tempLabel.setFont(tempFont);
-        tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - tempLabel.getWidth() / 2, icon.getHeight());
+        tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - tempLabel.getWidth() / 2, icon.getHeight());
         group.add(tempLabel);
 
         Font minMaxFont = new Font("SanSerif", Font.PLAIN, 40);
         minMaxTempLabel = new GraphicsText(df.format(firstForecast.getPredictedMinTemperature()) + "\u2109 | " + df.format(firstForecast.getPredictedMaxTemperature()) + "\u2109", 0, 0);
         minMaxTempLabel.setFont(minMaxFont);
         minMaxTempLabel.setFillColor(Color.GRAY);
-        minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - minMaxTempLabel.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
+        minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - minMaxTempLabel.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
         group.add(minMaxTempLabel);
 
         Font descFont = new Font("SanSerif", Font.PLAIN, 30);
         description = new GraphicsText(firstForecast.getPredictedWeather(), 400, 120);
         description.setFont(descFont);
-        description.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight());
+        description.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight());
 
         group.add(description);
     }
@@ -102,7 +102,7 @@ public class ForecastWidget implements WeatherWidget {
      */
     private ForecastBox getBoxAt(Point location) {
         GraphicsObject obj = group.getElementAt(location);
-        if (obj != null && obj instanceof ForecastBox) {
+        if (obj instanceof ForecastBox) {
             return (ForecastBox) obj;
         }
         return null;
@@ -118,16 +118,16 @@ public class ForecastWidget implements WeatherWidget {
             //TODO: Update the current displayed information to match the selected forecast from the box.
             ForecastConditions forecast = box.getForecast();
             timeLabel.setText(forecast.getPredictionTime().toString());
-            timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - timeLabel.getWidth() / 2, 50);
+            timeLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - timeLabel.getWidth() / 2, 50);
             group.remove(icon);
             icon = forecast.getWeatherIcon();
-            group.add(icon, WeatherProgram.WINDOW_WIDTH / 2 - icon.getWidth() / 2, timeLabel.getHeight());
+            group.add(icon, WeatherProgram.WINDOW_WIDTH / 2.0 - icon.getWidth() / 2, timeLabel.getHeight());
             tempLabel.setText(df.format(forecast.getPredictedTemperature()) + "\u2109");
-            tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - tempLabel.getWidth() / 2, icon.getHeight());
+            tempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - tempLabel.getWidth() / 2, icon.getHeight());
             minMaxTempLabel.setText(df.format(forecast.getPredictedMinTemperature()) + "\u2109 | " + df.format(forecast.getPredictedMaxTemperature()) + "\u2109");
-            minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - minMaxTempLabel.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
+            minMaxTempLabel.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - minMaxTempLabel.getWidth() / 2, icon.getHeight() + tempLabel.getHeight());
             description.setText(forecast.getPredictedWeather());
-            description.setPosition(WeatherProgram.WINDOW_WIDTH / 2 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight());
+            description.setPosition(WeatherProgram.WINDOW_WIDTH / 2.0 - description.getWidth() / 2, icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight());
 
         }
     }
