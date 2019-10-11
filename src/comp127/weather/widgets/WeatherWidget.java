@@ -11,7 +11,11 @@ import net.aksingh.owmjapis.Tools;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * A parent class for widgets based on the open weather API.
@@ -22,24 +26,20 @@ public abstract class WeatherWidget extends GraphicsGroup {
 
     private final CurrentWeather current;
     private final HourlyForecast rawForecast;
-    private final ForecastWrapper[] forecast;
+    private final List<ForecastWrapper> hourlyForecasts;
 
     public WeatherWidget(OpenWeatherConnection connection) {
         current = connection.getRawCurrentWeather();
         rawForecast = connection.getRawForecast();
-
-        forecast = new ForecastWrapper[rawForecast.getForecastCount()];
-        for (int i = 0; i < rawForecast.getForecastCount(); i++) {
-            forecast[i] = new ForecastWrapper(rawForecast.getForecastInstance(i));
-        }
-
+        hourlyForecasts = rawForecast.getForecasts().stream()
+            .map(ForecastWrapper::new)
+            .collect(toList());
     }
 
     /**
      * Draws the graphical representation of the widget
      */
     protected abstract void draw();
-
 
     /**
      * Gets the city name corresponding to this weather location
@@ -204,8 +204,8 @@ public abstract class WeatherWidget extends GraphicsGroup {
      * Returns an array of forecastwrappers holding information about the future forecast
      * @return The array holds data for 5 days. Each ForecastWrapper represents a 3 hour time period.
      */
-    protected ForecastWrapper[] getForecastArray() {
-        return forecast;
+    protected List<ForecastWrapper> getForecasts() {
+        return Collections.unmodifiableList(hourlyForecasts);
     }
 
 }

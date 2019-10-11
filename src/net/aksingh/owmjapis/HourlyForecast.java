@@ -55,7 +55,7 @@ public class HourlyForecast extends AbstractForecast {
     /*
     Instance variables
      */
-    private final List<Forecast> forecastList;
+    private final List<Forecast> forecasts;
 
     /*
     Constructor
@@ -64,23 +64,22 @@ public class HourlyForecast extends AbstractForecast {
         super(jsonObj);
 
         JSONArray forecastArr = (jsonObj != null) ? jsonObj.optJSONArray(this.JSON_FORECAST_LIST) : new JSONArray();
-        this.forecastList = (forecastArr != null) ? new ArrayList<Forecast>(forecastArr.length()) : Collections.EMPTY_LIST;
-        if (forecastArr != null && this.forecastList != Collections.EMPTY_LIST) {
+        this.forecasts = (forecastArr != null) ? new ArrayList<Forecast>(forecastArr.length()) : Collections.EMPTY_LIST;
+        if (forecastArr != null && this.forecasts != Collections.EMPTY_LIST) {
             for (int i = 0; i < forecastArr.length(); i++) {
                 JSONObject forecastObj = forecastArr.optJSONObject(i);
                 if (forecastObj != null) {
-                    this.forecastList.add(new Forecast(forecastObj));
+                    this.forecasts.add(new Forecast(forecastObj));
                 }
             }
         }
     }
 
     /**
-     * @param index Index of Forecast instance in the list.
-     * @return Forecast instance if available, otherwise <code>null</code>.
+     * Returns all the forecasts, in chronological order.
      */
-    public Forecast getForecastInstance(int index) {
-        return this.forecastList.get(index);
+    public List<Forecast> getForecasts() {
+        return Collections.unmodifiableList(forecasts);
     }
 
     /**

@@ -12,6 +12,7 @@ import comp127graphics.Point;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class ForecastWidget extends WeatherWidget {
 
@@ -40,7 +41,7 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void makeLabels() {
-        ForecastWrapper firstForecast = getForecastArray()[0];
+        ForecastWrapper firstForecast = getForecasts().get(0);
 
         Font timeFont = new Font("SanSerif", Font.BOLD, 40);
         timeLabel = new GraphicsText(firstForecast.getPredictionTime().toString(), 0, 0);
@@ -74,20 +75,21 @@ public class ForecastWidget extends WeatherWidget {
     }
 
     private void drawForecastBoxes() {
-        ForecastWrapper[] forecast = getForecastArray();
+        List<ForecastWrapper> forecasts = getForecasts();
 
         double y = icon.getHeight() + tempLabel.getHeight() + minMaxTempLabel.getHeight() + description.getHeight() + 30;
         double x = 20;
         final double BOX_SPACING = 15;
         final double BOX_WIDTH = 20;
         final double BOX_HEIGHT = 30;
-        for (int i = 0; i < forecast.length; i++, x += BOX_WIDTH + BOX_SPACING) {
+        for (ForecastWrapper forecast : forecasts) {
+            x += BOX_WIDTH + BOX_SPACING;
             if (x + BOX_WIDTH + BOX_SPACING > WeatherProgram.WINDOW_WIDTH) {
                 x = 20;
                 y += BOX_HEIGHT + BOX_SPACING * 2;
             }
 
-            ForecastBox box = new ForecastBox(forecast[i], x, y, BOX_WIDTH, BOX_HEIGHT);
+            ForecastBox box = new ForecastBox(forecast, x, y, BOX_WIDTH, BOX_HEIGHT);
             add(box);
         }
     }

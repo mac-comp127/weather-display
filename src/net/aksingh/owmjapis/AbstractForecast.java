@@ -80,7 +80,7 @@ public abstract class AbstractForecast extends AbstractResponse {
      * @return <code>true</code> if message is available, otherwise <code>false</code>.
      */
     public boolean hasMessage() {
-        return (this.message != Double.NaN);
+        return (!Double.isNaN(this.message));
     }
 
     /**
@@ -102,13 +102,6 @@ public abstract class AbstractForecast extends AbstractResponse {
      */
     public double getMessage() {
         return this.message;
-    }
-
-    /**
-     * @return Count of forecasts if available, otherwise <code>0</code>.
-     */
-    public int getForecastCount() {
-        return this.forecastCount;
     }
 
     /**
