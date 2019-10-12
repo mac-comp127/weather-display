@@ -21,27 +21,43 @@ public class WeatherDataFixtures {
         return new WeatherData(
             generateCityName(seed),
             generateCurrentConditions(seed),
-            IntStream.range(seed, seed + Math.abs(seed - 1) * 17 % 40)
-                .mapToObj(WeatherDataFixtures::generateForecastConditions)
+            IntStream.range(0, Math.abs(seed + 38) * 17 % 40)
+                .mapToObj((offset) ->
+                    generateForecastConditions((offset + 1) * 3, seed + offset))
                 .collect(toList()));
     }
 
     private static CurrentConditions generateCurrentConditions(int seed) {
         return new CurrentConditions(
-            generateDouble(seed, "cloudCoverage", 0, 100),
             generateDouble(seed, "temperature", -60, 120),
-            generateDouble(seed, "pressure", 26, 36),
             generateDouble(seed, "humidity", 0, 100),
+            generateDouble(seed, "pressure", 26, 36),
+            generateDouble(seed, "cloudCoverage", 0, 100),
             generateDouble(seed, "windSpeed", 0, 150),
             generateDouble(seed, "windDirectionInDegrees", 0, 360),
-            generateTimeOfDay(seed, "sunrise", 4, 8),
-            generateTimeOfDay(seed, "sunset", 16, 20),
+            generateWeatherIcon(seed),
             generateCondition(seed),
-            generateWeatherIcon(seed));
+            generateTimeOfDay(seed, "sunrise", 4, 8),
+            generateTimeOfDay(seed, "sunset", 16, 20));
     }
 
-    private static ForecastConditions generateForecastConditions(int seed) {
-        return null;
+    private static ForecastConditions generateForecastConditions(int hoursFromNow, int seed) {
+        LocalDateTime randomTimeOfDay = LocalDateTime.now().plusHours(hoursFromNow);
+        Date predictionTime = toDate(randomTimeOfDay);
+
+        double temperature = generateDouble(seed, "temperature", -40, 100);
+        return new ForecastConditions(
+            predictionTime,
+            temperature,
+            temperature - generateDouble(seed, "minTemperature", 1, 20),
+            temperature + generateDouble(seed, "maxTemperature", 1, 20),
+            generateDouble(seed, "humidity", 0, 100),
+            generateDouble(seed, "pressure", 26, 36),
+            generateDouble(seed, "cloudCoverage", 0, 100),
+            generateDouble(seed, "windSpeed", 0, 150),
+            generateDouble(seed, "windDirectionInDegrees", 0, 360),
+            generateCondition(seed),
+            generateWeatherIcon(seed));
     }
 
     // Helpers to generate stable pseudorandom values so the same seed always generates the same
@@ -84,11 +100,16 @@ public class WeatherDataFixtures {
 
     private static Date generateTimeOfDay(int seed, String property, int minHour, int maxHour) {
         // Hat tip to https://stackoverflow.com/a/6850919/239816
-        LocalDate now = LocalDate.now(ZoneId.systemDefault());
+        LocalDate now = LocalDate.now();
         LocalDateTime todayMidnight = LocalDateTime.of(now, LocalTime.MIDNIGHT);
         LocalDateTime randomTimeOfDay = todayMidnight.plusMinutes(
             generateInt(seed, property, minHour * 60, maxHour * 60));
-        return Date.from(Instant.from(ZonedDateTime.of(randomTimeOfDay, ZoneId.systemDefault())));
+        return toDate(randomTimeOfDay);
+    }
+
+    // Surely there's a better way to do this? -PPC
+    private static Date toDate(LocalDateTime localDateTime) {
+        return Date.from(Instant.from(ZonedDateTime.of(localDateTime, ZoneId.systemDefault())));
     }
 
     private static String generateCondition(int seed) {
