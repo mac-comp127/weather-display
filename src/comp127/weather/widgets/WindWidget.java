@@ -10,8 +10,7 @@ import java.text.DecimalFormat;
 
 public class WindWidget implements WeatherWidget {
 
-    private static final double ELLIPSE_WIDTH = 300;
-    private static final double ELLIPSE_HEIGHT = 300;
+    private final double size, circleDiameter;
 
     private GraphicsGroup group;
 
@@ -22,13 +21,17 @@ public class WindWidget implements WeatherWidget {
 
     private final DecimalFormat oneDecimalPlace = new DecimalFormat("#0.0");
 
-    public WindWidget() {
+    public WindWidget(double size) {
+        this.size = size;
+
         group = new GraphicsGroup();
 
+        circleDiameter = size * 0.7;
+
         ring = new Ellipse(
-            WeatherProgram.WINDOW_WIDTH / 2.0 - ELLIPSE_WIDTH / 2,
-            WeatherProgram.WINDOW_HEIGHT / 2.0 - ELLIPSE_HEIGHT / 2,
-            ELLIPSE_WIDTH, ELLIPSE_HEIGHT);
+            size / 2.0 - circleDiameter / 2,
+            size / 2.0 - circleDiameter / 2,
+            circleDiameter, circleDiameter);
         ring.setStrokeWidth(3);
         group.add(ring);
 
@@ -36,15 +39,15 @@ public class WindWidget implements WeatherWidget {
         indicator.setStrokeWidth(3);
         group.add(indicator);
 
-        Font dirFont = new Font("SanSerif", Font.PLAIN, 20);
+        Font dirFont = new Font("sansserif", Font.PLAIN, (int) Math.round(size / 30));
         GraphicsText northLabel = new GraphicsText("N", 0, 0);
         northLabel.setFont(dirFont);
         northLabel.setPosition(
-            ring.getX() + ELLIPSE_WIDTH / 2 - northLabel.getWidth() / 2,
-            ring.getY() + ELLIPSE_HEIGHT / 6 - northLabel.getHeight() / 2);
+            ring.getX() + circleDiameter / 2 - northLabel.getWidth() / 2,
+            ring.getY() + circleDiameter / 6 - northLabel.getHeight() / 2);
         group.add(northLabel);
 
-        Font windFont = new Font("SanSerif", Font.BOLD, 40);
+        Font windFont = new Font("sansserif", Font.BOLD, (int) Math.round(size / 15));
         windSpeedLabel = new GraphicsText("–", 0, 0);
         windSpeedLabel.setFont(windFont);
         group.add(windSpeedLabel);
@@ -74,9 +77,9 @@ public class WindWidget implements WeatherWidget {
         Point center = ring.getCenter();
         Point direction = Point.atAngle(
             Math.toRadians(
-                currentConditions.getWindDirectionInDegrees()));
-        double innerRadius = ELLIPSE_WIDTH / 4.0;
-        double outerRadius = 2.0 * ELLIPSE_WIDTH / 4.0;
+                currentConditions.getWindDirectionInDegrees() - 90));
+        double innerRadius = circleDiameter / 4.0;
+        double outerRadius = 2.0 * circleDiameter / 4.0;
         indicator.setStartPosition(center.add(direction.scale(innerRadius)));
         indicator.setEndPosition(  center.add(direction.scale(outerRadius)));
 
@@ -84,11 +87,9 @@ public class WindWidget implements WeatherWidget {
     }
 
     private void updateLayout() {
-        windSpeedLabel.setPosition(
-            ring.getX() + ELLIPSE_WIDTH / 2 - windSpeedLabel.getWidth() / 2,
-            ring.getY() + ELLIPSE_HEIGHT / 2 + windSpeedLabel.getHeight() / 4);
+        windSpeedLabel.setCenter(ring.getCenter());
         windDescLabel.setPosition(
-            ring.getX() + ELLIPSE_WIDTH / 2 - windDescLabel.getWidth() / 2,
-            ring.getY() + ELLIPSE_HEIGHT + 60);
+            ring.getX() + circleDiameter / 2 - windDescLabel.getWidth() / 2,
+            ring.getY() + circleDiameter + size * 0.1);
     }
 }

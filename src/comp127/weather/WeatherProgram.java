@@ -33,7 +33,7 @@ public class WeatherProgram extends CanvasWindow {
         widgets = List.of(
             new TemperatureWidget(getWidth()),
             new ForecastWidget(),
-            new WindWidget()
+            new WindWidget(getWidth())
         );
 
         add(widgets.get(0).getGraphics());
