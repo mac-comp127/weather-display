@@ -2,24 +2,14 @@ package comp127.weather.api;
 
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.CurrentWeather;
-import net.aksingh.owmjapis.Tools;
 
 import java.util.Date;
 
-public class CurrentConditions {
+public class CurrentConditions extends Conditions {
     public static final CurrentConditions BLANK = new CurrentConditions();
-    private static final Tools weatherUtils = new Tools();
 
-    private double cloudCoverage = 0;
-    private double temperature = -100;
-    private double pressure = 0;
-    private double humidity = 0;
-    private double windSpeed = 0;
-    private double windDirectionInDegrees = 0;
-    private Date sunriseTime = null;
-    private Date sunsetTime = null;
-    private String weatherDescription = "";
-    private String weatherIconFile = "unknown";
+    private Date sunriseTime;
+    private Date sunsetTime;
 
     private CurrentConditions() {
     }
@@ -58,10 +48,9 @@ public class CurrentConditions {
     /**
      * For generating test data
      */
-    CurrentConditions(double cloudCoverage, double temperature, double pressure, double humidity,
+    CurrentConditions(double temperature, double humidity, double pressure, double cloudCoverage,
                       double windSpeed, double windDirectionInDegrees,
-                      Date sunriseTime, Date sunsetTime,
-                      String weatherDescription, String weatherIconFile) {
+                      String weatherIconFile, String weatherDescription, Date sunriseTime, Date sunsetTime) {
         this.cloudCoverage = cloudCoverage;
         this.temperature = temperature;
         this.pressure = pressure;
@@ -72,66 +61,6 @@ public class CurrentConditions {
         this.sunsetTime = sunsetTime;
         this.weatherDescription = weatherDescription;
         this.weatherIconFile = weatherIconFile;
-    }
-
-    /**
-     * Gets the current cloud coverage as a percent from 0 to 100%
-     * @return (returns 0 % in case of error)
-     */
-    public double getCloudCoverage() {
-        return cloudCoverage;
-    }
-
-    /**
-     * Gets the current temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
-     * @return (returns - 100 in case of error)
-     */
-    public double getTemperature() {
-        return temperature;
-    }
-
-    /**
-     * Gets the current atmospheric pressure
-     * @return (returns 0 in case of error)
-     */
-    public double getPressure() {
-        return pressure;
-    }
-
-    /**
-     * Gets the current humidity
-     * @return (returns 0 in case of error)
-     */
-    public double getHumidity() {
-        return humidity;
-    }
-
-    /**
-     * Gets the current windSpeed (in miles/second or meters/second depending on your choice of units.
-     * @return (returns 0 in case of error)
-     */
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    /**
-     * Gets a description of the direction of the wind, such as "S" or "NNW".
-     * @return "" in case of error
-     */
-    public String getWindDirectionAsString() {
-        if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
-            return weatherUtils.convertDegree2Direction((float) getWindDirectionInDegrees());
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * Gets the wind direction reported as degrees off of north.
-     * @return wind degrees or 0 in the case of error.
-     */
-    public double getWindDirectionInDegrees() {
-        return windDirectionInDegrees;
     }
 
     /**
@@ -146,22 +75,6 @@ public class CurrentConditions {
      */
     public Date getSunsetTime() {
         return sunsetTime;
-    }
-
-    /**
-     * Gets a short description of the current weather.
-     * Note, if multiple weather conditions are going on at once this only returns the primary weather condition.
-     * @return (returns an empty string if unknown or very little of interest is currently going on)
-     */
-    public String getWeatherDescription() {
-        return weatherDescription;
-    }
-
-    /**
-     * Returns an image representing the current weather.
-     */
-    public String getWeatherIcon() {
-        return "condition-icons/" + weatherIconFile + ".png";
     }
 
     @Override

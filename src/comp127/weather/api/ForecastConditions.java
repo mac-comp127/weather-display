@@ -2,7 +2,6 @@ package comp127.weather.api;
 
 import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.HourlyForecast;
-import net.aksingh.owmjapis.Tools;
 
 import java.util.Date;
 
@@ -10,21 +9,12 @@ import java.util.Date;
  * A class to provide simple access to hourly forecasts.
  * The array of these objects should have 5 days worth of data with one object for every 3 hours.
  */
-public class ForecastConditions {
+public class ForecastConditions extends Conditions {
     public static final ForecastConditions BLANK = new ForecastConditions();
-    private static final Tools weatherUtils = new Tools();
 
     private Date predictionTime;
-    private double cloudCoverage;
-    private double temperature;
     private double minTemperature;
     private double maxTemperature;
-    private double pressure;
-    private double humidity;
-    private double windSpeed;
-    private double windDirectionInDegrees;
-    private String weatherDescription;
-    private String weatherIconFile;
 
     private ForecastConditions() {
     }
@@ -58,19 +48,30 @@ public class ForecastConditions {
     }
 
     /**
-     * Gets the predicted cloud coverage as a percent from 0 to 100%
-     * @return (returns 0% in case of error)
+     * For generating test data
      */
-    public double getCloudCoverage() {
-        return cloudCoverage;
+    ForecastConditions(Date predictionTime, double temperature, double minTemperature, double maxTemperature,
+                       double humidity, double pressure, double cloudCoverage,
+                       double windSpeed, double windDirectionInDegrees,
+                       String weatherDescription, String weatherIconFile) {
+        this.predictionTime = predictionTime;
+        this.minTemperature = minTemperature;
+        this.maxTemperature = maxTemperature;
+        this.cloudCoverage = cloudCoverage;
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.windDirectionInDegrees = windDirectionInDegrees;
+        this.weatherDescription = weatherDescription;
+        this.weatherIconFile = weatherIconFile;
     }
 
     /**
-     * Gets the predicted temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
-     * @return (returns -100 in case of error)
+     * Returns the moment in time that this prediction is for.
      */
-    public double getTemperature() {
-        return temperature;
+    public Date getPredictionTime() {
+        return predictionTime;
     }
 
     /**
@@ -90,70 +91,10 @@ public class ForecastConditions {
     }
 
     /**
-     * Gets the predicted atmospheric pressure
-     * @return (returns 0 in case of error)
-     */
-    public double getPressure() {
-        return pressure;
-    }
-
-    /**
-     * Gets the predicted humidity
-     * @return (returns 0 in case of error)
-     */
-    public double getHumidity() {
-        return humidity;
-    }
-
-    /**
-     * Gets the predicted windSpeed (in miles/second or meters/second depending on your choice of units.
-     * @return (returns 0 in case of error)
-     */
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    /**
-     * Gets the wind direction reported as degrees off of north.
-     * @return wind degrees or 0 in the case of error.
-     */
-    public double getWindDirectionInDegrees() {
-        return windDirectionInDegrees;
-    }
-
-    /**
-     * Gets a description of the direction of the wind, such as "S" or "NNW".
-     * @return "" in case of error
-     */
-    public String getPredictedWindDirectionAsString() {
-        if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
-            return weatherUtils.convertDegree2Direction((float) getWindDirectionInDegrees());
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * Gets a short description of the predicted weather.
-     * Note, if multiple weather conditions are going on at once this only returns the primary weather condition.
-     * @return (returns an empty string if unknown or very little of interest is currently going on)
-     */
-    public String getWeatherDescription() {
-        return weatherDescription;
-    }
-
-    /**
      * Gets an image representing the current weather
      */
     public String getWeatherIcon() {
         return "condition-icons/" + weatherIconFile + ".png";
-    }
-
-    /**
-     * Returns the moment in time that this prediction is for.
-     */
-    public Date getPredictionTime() {
-        return predictionTime;
     }
 
     @Override
