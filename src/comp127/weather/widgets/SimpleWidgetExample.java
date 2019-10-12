@@ -47,6 +47,6 @@ public class SimpleWidgetExample implements WeatherWidget {
         System.out.println(data.getCurrentConditions().getWindDirectionAsString());
         System.out.println(data.getCurrentConditions().getSunriseTime());
         System.out.println(data.getCurrentConditions().getSunsetTime());
-        System.out.println(data.getCurrentConditions().getCurrentWeather());
+        System.out.println(data.getCurrentConditions().getWeatherDescription());
     }
 }

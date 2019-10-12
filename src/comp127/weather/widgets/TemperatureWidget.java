@@ -1,6 +1,5 @@
 package comp127.weather.widgets;
 
-import comp127.weather.WeatherProgram;
 import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
@@ -55,7 +54,7 @@ public class TemperatureWidget implements WeatherWidget {
 
         icon.setImagePath(currentConditions.getWeatherIcon());
         label.setText(oneDecimalPlace.format(currentConditions.getTemperature()) + "\u2109");
-        description.setText(currentConditions.getCurrentWeather());
+        description.setText(currentConditions.getWeatherDescription());
 
         updateLayout();
     }

@@ -18,7 +18,7 @@ public class CurrentConditions {
     private double windDirectionInDegrees = 0;
     private Date sunriseTime = null;
     private Date sunsetTime = null;
-    private String currentWeather = "";
+    private String weatherDescription = "";
     private String weatherIconFile = "unknown";
 
     private CurrentConditions() {
@@ -49,7 +49,7 @@ public class CurrentConditions {
                 && rawCurrentConditions.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawCurrentConditions.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
-                currentWeather = weather.getWeatherDescription();
+                weatherDescription = weather.getWeatherDescription();
                 weatherIconFile = weather.getWeatherIconName();
             }
         }
@@ -61,7 +61,7 @@ public class CurrentConditions {
     CurrentConditions(double cloudCoverage, double temperature, double pressure, double humidity,
                       double windSpeed, double windDirectionInDegrees,
                       Date sunriseTime, Date sunsetTime,
-                      String currentWeather, String weatherIconFile) {
+                      String weatherDescription, String weatherIconFile) {
         this.cloudCoverage = cloudCoverage;
         this.temperature = temperature;
         this.pressure = pressure;
@@ -70,7 +70,7 @@ public class CurrentConditions {
         this.windDirectionInDegrees = windDirectionInDegrees;
         this.sunriseTime = sunriseTime;
         this.sunsetTime = sunsetTime;
-        this.currentWeather = currentWeather;
+        this.weatherDescription = weatherDescription;
         this.weatherIconFile = weatherIconFile;
     }
 
@@ -153,8 +153,8 @@ public class CurrentConditions {
      * Note, if multiple weather conditions are going on at once this only returns the primary weather condition.
      * @return (returns an empty string if unknown or very little of interest is currently going on)
      */
-    public String getCurrentWeather() {
-        return currentWeather;
+    public String getWeatherDescription() {
+        return weatherDescription;
     }
 
     /**
@@ -175,7 +175,7 @@ public class CurrentConditions {
             + ", windDirectionInDegrees=" + windDirectionInDegrees
             + ", sunriseTime=" + sunriseTime
             + ", sunsetTime=" + sunsetTime
-            + ", currentWeather='" + currentWeather + '\''
+            + ", currentWeather='" + weatherDescription + '\''
             + ", weatherIconFile='" + weatherIconFile + '\''
             + '}';
     }
