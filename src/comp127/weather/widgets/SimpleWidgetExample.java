@@ -1,6 +1,5 @@
 package comp127.weather.widgets;
 
-import comp127.weather.WeatherProgram;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
@@ -46,8 +45,8 @@ public class SimpleWidgetExample implements WeatherWidget {
         System.out.println(data.getCurrentConditions().getHumidity());
         System.out.println(data.getCurrentConditions().getWindSpeed());
         System.out.println(data.getCurrentConditions().getWindDirectionAsString());
-        System.out.println(data.getCurrentConditions().getSunrise());
-        System.out.println(data.getCurrentConditions().getSunset());
+        System.out.println(data.getCurrentConditions().getSunriseTime());
+        System.out.println(data.getCurrentConditions().getSunsetTime());
         System.out.println(data.getCurrentConditions().getCurrentWeather());
     }
 }

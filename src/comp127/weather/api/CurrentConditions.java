@@ -16,8 +16,8 @@ public class CurrentConditions {
     private double humidity = 0;
     private double windSpeed = 0;
     private double windDirectionInDegrees = 0;
-    private Date sunrise = null;
-    private Date sunset = null;
+    private Date sunriseTime = null;
+    private Date sunsetTime = null;
     private String currentWeather = "";
     private String weatherIconFile = "unknown";
 
@@ -41,8 +41,8 @@ public class CurrentConditions {
             windDirectionInDegrees = rawCurrentConditions.getWindInstance().getWindDegree();
         }
         if (rawCurrentConditions.hasSysInstance()) {
-            sunrise = rawCurrentConditions.getSysInstance().getSunriseTime();
-            sunset = rawCurrentConditions.getSysInstance().getSunsetTime();
+            sunriseTime = rawCurrentConditions.getSysInstance().getSunriseTime();
+            sunsetTime = rawCurrentConditions.getSysInstance().getSunsetTime();
         }
         if (rawCurrentConditions.hasWeatherInstance()
                 && rawCurrentConditions.getWeatherCount() > 0
@@ -58,16 +58,18 @@ public class CurrentConditions {
     /**
      * For generating test data
      */
-    CurrentConditions(double cloudCoverage, double temperature, double pressure, double humidity, double windSpeed,
-            double windDirectionInDegrees, Date sunrise, Date sunset, String currentWeather, String weatherIconFile) {
+    CurrentConditions(double cloudCoverage, double temperature, double pressure, double humidity,
+                      double windSpeed, double windDirectionInDegrees,
+                      Date sunriseTime, Date sunsetTime,
+                      String currentWeather, String weatherIconFile) {
         this.cloudCoverage = cloudCoverage;
         this.temperature = temperature;
         this.pressure = pressure;
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.windDirectionInDegrees = windDirectionInDegrees;
-        this.sunrise = sunrise;
-        this.sunset = sunset;
+        this.sunriseTime = sunriseTime;
+        this.sunsetTime = sunsetTime;
         this.currentWeather = currentWeather;
         this.weatherIconFile = weatherIconFile;
     }
@@ -135,15 +137,15 @@ public class CurrentConditions {
     /**
      * Gets the sunrise time (or null if unknown)
      */
-    public Date getSunrise() {
-        return sunrise;
+    public Date getSunriseTime() {
+        return sunriseTime;
     }
 
     /**
      * Gets the sunset time (or null if unknown)
      */
-    public Date getSunset() {
-        return sunset;
+    public Date getSunsetTime() {
+        return sunsetTime;
     }
 
     /**
@@ -171,8 +173,8 @@ public class CurrentConditions {
             + ", humidity=" + humidity
             + ", windSpeed=" + windSpeed
             + ", windDirectionInDegrees=" + windDirectionInDegrees
-            + ", sunrise=" + sunrise
-            + ", sunset=" + sunset
+            + ", sunriseTime=" + sunriseTime
+            + ", sunsetTime=" + sunsetTime
             + ", currentWeather='" + currentWeather + '\''
             + ", weatherIconFile='" + weatherIconFile + '\''
             + '}';

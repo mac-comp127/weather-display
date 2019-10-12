@@ -15,15 +15,15 @@ public class ForecastConditions {
     private static final Tools weatherUtils = new Tools();
 
     private Date predictionTime;
-    private double predictedCloudCoverage;
-    private double predictedTemperature;
-    private double predictedMinTemperature;
-    private double predictedMaxTemperature;
-    private double predictedPressure;
-    private double predictedHumidity;
-    private double predictedWindSpeed;
-    private double predictedWindDirectionInDegrees;
-    private String predictedWeather;
+    private double cloudCoverage;
+    private double temperature;
+    private double minTemperature;
+    private double maxTemperature;
+    private double pressure;
+    private double humidity;
+    private double windSpeed;
+    private double windDirectionInDegrees;
+    private String weatherDescription;
     private String weatherIconFile;
 
     private ForecastConditions() {
@@ -35,91 +35,90 @@ public class ForecastConditions {
     ForecastConditions(HourlyForecast.Forecast rawForecast) {
         predictionTime = rawForecast.getDateTime();
         if (rawForecast.hasCloudsInstance()) {
-            predictedCloudCoverage = rawForecast.getCloudsInstance().getPercentageOfClouds();
+            cloudCoverage = rawForecast.getCloudsInstance().getPercentageOfClouds();
         }
         if (rawForecast.hasMainInstance()) {
-            predictedTemperature = rawForecast.getMainInstance().getTemperature();
-            predictedMinTemperature = rawForecast.getMainInstance().getMinTemperature();
-            predictedMaxTemperature = rawForecast.getMainInstance().getMaxTemperature();
-            predictedPressure = rawForecast.getMainInstance().getPressure();
-            predictedHumidity = rawForecast.getMainInstance().getHumidity();
+            temperature = rawForecast.getMainInstance().getTemperature();
+            minTemperature = rawForecast.getMainInstance().getMinTemperature();
+            maxTemperature = rawForecast.getMainInstance().getMaxTemperature();
+            pressure = rawForecast.getMainInstance().getPressure();
+            humidity = rawForecast.getMainInstance().getHumidity();
         }
         if (rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindSpeed()) {
-            predictedWindSpeed = rawForecast.getWindInstance().getWindSpeed();
-            predictedWindDirectionInDegrees = rawForecast.getWindInstance().getWindDegree();
+            windSpeed = rawForecast.getWindInstance().getWindSpeed();
+            windDirectionInDegrees = rawForecast.getWindInstance().getWindDegree();
         }
         if (rawForecast.hasWeatherInstance() && rawForecast.getWeatherCount() > 0 && rawForecast.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawForecast.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
-                predictedWeather = weather.getWeatherDescription();
+                weatherDescription = weather.getWeatherDescription();
                 weatherIconFile = weather.getWeatherIconName();
             }
         }
     }
 
-
     /**
      * Gets the predicted cloud coverage as a percent from 0 to 100%
      * @return (returns 0% in case of error)
      */
-    public double getPredictedCloudCoverage() {
-        return predictedCloudCoverage;
+    public double getCloudCoverage() {
+        return cloudCoverage;
     }
 
     /**
      * Gets the predicted temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
      * @return (returns -100 in case of error)
      */
-    public double getPredictedTemperature() {
-        return predictedTemperature;
+    public double getTemperature() {
+        return temperature;
     }
 
     /**
      * Gets the predicted minimum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
      *  @return (returns -100 in case of error)
      */
-    public double getPredictedMinTemperature() {
-        return predictedMinTemperature;
+    public double getMinTemperature() {
+        return minTemperature;
     }
 
     /**
      * Gets the predicted maximum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
      * @return (returns -100 in case of error)
      */
-    public double getPredictedMaxTemperature() {
-        return predictedMaxTemperature;
+    public double getMaxTemperature() {
+        return maxTemperature;
     }
 
     /**
      * Gets the predicted atmospheric pressure
      * @return (returns 0 in case of error)
      */
-    public double getPredictedPressure() {
-        return predictedPressure;
+    public double getPressure() {
+        return pressure;
     }
 
     /**
      * Gets the predicted humidity
      * @return (returns 0 in case of error)
      */
-    public double getPredictedHumidity() {
-        return predictedHumidity;
+    public double getHumidity() {
+        return humidity;
     }
 
     /**
      * Gets the predicted windSpeed (in miles/second or meters/second depending on your choice of units.
      * @return (returns 0 in case of error)
      */
-    public double getPredictedWindSpeed() {
-        return predictedWindSpeed;
+    public double getWindSpeed() {
+        return windSpeed;
     }
 
     /**
      * Gets the wind direction reported as degrees off of north.
      * @return wind degrees or 0 in the case of error.
      */
-    public double getPredictedWindDirectionInDegrees() {
-        return predictedWindDirectionInDegrees;
+    public double getWindDirectionInDegrees() {
+        return windDirectionInDegrees;
     }
 
     /**
@@ -127,8 +126,8 @@ public class ForecastConditions {
      * @return "" in case of error
      */
     public String getPredictedWindDirectionAsString() {
-        if (getPredictedWindDirectionInDegrees() >= 0 && getPredictedWindDirectionInDegrees() <= 360) {
-            return weatherUtils.convertDegree2Direction((float) getPredictedWindDirectionInDegrees());
+        if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
+            return weatherUtils.convertDegree2Direction((float) getWindDirectionInDegrees());
         } else {
             return "";
         }
@@ -139,8 +138,8 @@ public class ForecastConditions {
      * Note, if multiple weather conditions are going on at once this only returns the primary weather condition.
      * @return (returns an empty string if unknown or very little of interest is currently going on)
      */
-    public String getPredictedWeather() {
-        return predictedWeather;
+    public String getWeatherDescription() {
+        return weatherDescription;
     }
 
     /**
@@ -161,15 +160,15 @@ public class ForecastConditions {
     public String toString() {
         return "ForecastConditions{"
             + "predictionTime=" + predictionTime
-            + ", predictedCloudCoverage=" + predictedCloudCoverage
-            + ", predictedTemperature=" + predictedTemperature
-            + ", predictedMinTemperature=" + predictedMinTemperature
-            + ", predictedMaxTemperature=" + predictedMaxTemperature
-            + ", predictedPressure=" + predictedPressure
-            + ", predictedHumidity=" + predictedHumidity
-            + ", predictedWindSpeed=" + predictedWindSpeed
-            + ", predictedWindDirectionInDegrees=" + predictedWindDirectionInDegrees
-            + ", predictedWeather='" + predictedWeather + '\''
+            + ", cloudCoverage=" + cloudCoverage
+            + ", temperature=" + temperature
+            + ", minTemperature=" + minTemperature
+            + ", maxTemperature=" + maxTemperature
+            + ", pressure=" + pressure
+            + ", humidity=" + humidity
+            + ", windSpeed=" + windSpeed
+            + ", windDirectionInDegrees=" + windDirectionInDegrees
+            + ", weatherDescription='" + weatherDescription + '\''
             + ", weatherIconFile='" + weatherIconFile + '\''
             + '}';
     }

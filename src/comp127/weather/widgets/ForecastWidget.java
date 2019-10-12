@@ -99,13 +99,13 @@ public class ForecastWidget implements WeatherWidget {
     private void showConditions(ForecastConditions forecast) {
         timeLabel.setText(dateFormat.format(forecast.getPredictionTime()));
         icon.setImagePath(forecast.getWeatherIcon());
-        tempLabel.setText(oneDecimalPlace.format(forecast.getPredictedTemperature()) + "\u2109");
+        tempLabel.setText(oneDecimalPlace.format(forecast.getTemperature()) + "\u2109");
         minMaxTempLabel.setText(
-            oneDecimalPlace.format(forecast.getPredictedMinTemperature())
+            oneDecimalPlace.format(forecast.getMinTemperature())
                 + "\u2109 | "
-                + oneDecimalPlace.format(forecast.getPredictedMaxTemperature())
+                + oneDecimalPlace.format(forecast.getMaxTemperature())
                 + "\u2109");
-        description.setText(forecast.getPredictedWeather());
+        description.setText(forecast.getWeatherDescription());
         updateLayout();
     }
 
