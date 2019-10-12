@@ -1,9 +1,7 @@
-package comp127.weather;
+package comp127.weather.widgets;
 
 import comp127.weather.api.WeatherData;
 import comp127.weather.api.WeatherDataFixtures;
-import comp127.weather.widgets.SimpleWidgetExample;
-import comp127.weather.widgets.WeatherWidget;
 import comp127graphics.CanvasWindow;
 import comp127graphics.GraphicsGroup;
 import comp127graphics.GraphicsText;
