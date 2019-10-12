@@ -15,7 +15,6 @@ public class CurrentConditions {
     private double pressure = 0;
     private double humidity = 0;
     private double windSpeed = 0;
-    private String windDirectionAsString = "";
     private double windDirectionInDegrees = 0;
     private Date sunrise = null;
     private Date sunset = null;
@@ -25,6 +24,9 @@ public class CurrentConditions {
     private CurrentConditions() {
     }
 
+    /**
+     * For fetching from API
+     */
     CurrentConditions(CurrentWeather rawCurrentConditions) {
         if (rawCurrentConditions.hasCloudsInstance()) {
             cloudCoverage = rawCurrentConditions.getCloudsInstance().getPercentageOfClouds();
@@ -37,9 +39,6 @@ public class CurrentConditions {
         if (rawCurrentConditions.hasWindInstance()) {
             windSpeed = rawCurrentConditions.getWindInstance().getWindSpeed();
             windDirectionInDegrees = rawCurrentConditions.getWindInstance().getWindDegree();
-            if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
-                windDirectionAsString = weatherUtils.convertDegree2Direction((float) getWindDirectionInDegrees());
-            }
         }
         if (rawCurrentConditions.hasSysInstance()) {
             sunrise = rawCurrentConditions.getSysInstance().getSunriseTime();
@@ -54,6 +53,23 @@ public class CurrentConditions {
                 weatherIconFile = weather.getWeatherIconName();
             }
         }
+    }
+
+    /**
+     * For generating test data
+     */
+    CurrentConditions(double cloudCoverage, double temperature, double pressure, double humidity, double windSpeed,
+            double windDirectionInDegrees, Date sunrise, Date sunset, String currentWeather, String weatherIconFile) {
+        this.cloudCoverage = cloudCoverage;
+        this.temperature = temperature;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.windDirectionInDegrees = windDirectionInDegrees;
+        this.sunrise = sunrise;
+        this.sunset = sunset;
+        this.currentWeather = currentWeather;
+        this.weatherIconFile = weatherIconFile;
     }
 
     /**
@@ -98,10 +114,14 @@ public class CurrentConditions {
 
     /**
      * Gets the current direction of the wind.
-     * @return (returns " " in case of error)
+     * @return (returns "" in case of error)
      */
     public String getWindDirectionAsString() {
-        return windDirectionAsString;
+        if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
+            return weatherUtils.convertDegree2Direction((float) getWindDirectionInDegrees());
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -140,5 +160,21 @@ public class CurrentConditions {
      */
     public String getWeatherIcon() {
         return "condition-icons/" + weatherIconFile + ".png";
+    }
+
+    @Override
+    public String toString() {
+        return "CurrentConditions{" +
+            "cloudCoverage=" + cloudCoverage +
+            ", temperature=" + temperature +
+            ", pressure=" + pressure +
+            ", humidity=" + humidity +
+            ", windSpeed=" + windSpeed +
+            ", windDirectionInDegrees=" + windDirectionInDegrees +
+            ", sunrise=" + sunrise +
+            ", sunset=" + sunset +
+            ", currentWeather='" + currentWeather + '\'' +
+            ", weatherIconFile='" + weatherIconFile + '\'' +
+            '}';
     }
 }

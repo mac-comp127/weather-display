@@ -17,7 +17,10 @@ public class WeatherData {
 
     private final List<ForecastConditions> hourlyForecasts;
 
-    public WeatherData(CurrentWeather rawCurrentConditions, HourlyForecast hourlyForecast) {
+    /**
+     * For getting API results
+     */
+    WeatherData(CurrentWeather rawCurrentConditions, HourlyForecast hourlyForecast) {
         if (rawCurrentConditions != null) {
             cityName = nullIfBlank(rawCurrentConditions.getCityName());
             currentConditions = new CurrentConditions(rawCurrentConditions);
@@ -29,6 +32,15 @@ public class WeatherData {
                 .getForecasts().stream()
                 .map(ForecastConditions::new)
                 .collect(toList());
+    }
+
+    /**
+     * For testing
+     */
+    WeatherData(String cityName, CurrentConditions currentConditions, List<ForecastConditions> hourlyForecasts) {
+        this.cityName = cityName;
+        this.currentConditions = currentConditions;
+        this.hourlyForecasts = hourlyForecasts;
     }
 
     private String nullIfBlank(String str) {
@@ -58,5 +70,14 @@ public class WeatherData {
      */
     public List<ForecastConditions> getForecasts() {
         return Collections.unmodifiableList(hourlyForecasts);
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherData{" +
+            "currentConditions=" + currentConditions +
+            ", cityName='" + cityName + '\'' +
+            ", hourlyForecasts=" + hourlyForecasts +
+            '}';
     }
 }
