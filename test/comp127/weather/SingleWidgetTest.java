@@ -4,9 +4,13 @@ import comp127.weather.api.WeatherData;
 import comp127.weather.api.WeatherDataFixtures;
 import comp127.weather.widgets.SimpleWidgetExample;
 import comp127.weather.widgets.WeatherWidget;
-import comp127graphics.*;
+import comp127graphics.CanvasWindow;
+import comp127graphics.GraphicsGroup;
+import comp127graphics.GraphicsText;
+import comp127graphics.Rectangle;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +30,19 @@ public class SingleWidgetTest {
 
     private static final List<WeatherData> testData = List.of();
 
-    private final GraphicsGroup widgetGroup = new GraphicsGroup();
-    private final GraphicsGroup borderGroup = new GraphicsGroup();
+    private final GraphicsGroup
+        widgetLayer = new GraphicsGroup(),
+        borderLayer = new GraphicsGroup(),
+        dimensionLabelLayer = new GraphicsGroup();
     private final List<WeatherWidget> widgets = new ArrayList<>();
     private final GraphicsText seedLabel;
     private int testDataSeed = 0;
 
     private SingleWidgetTest() {
-        canvas.add(borderGroup);
-        canvas.add(widgetGroup);
+        CanvasWindow canvas = new CanvasWindow("Weather widget test", 800, 600);
+        canvas.add(borderLayer);
+        canvas.add(widgetLayer);
+        canvas.add(dimensionLabelLayer);
 
         addTestWidget(0, 0, 500);
         addTestWidget(500, 0, 300);
@@ -61,16 +69,20 @@ public class SingleWidgetTest {
         });
     }
 
-    private void addTestWidget(double x, double y, double w, double h) {
-        WeatherWidget widget = makeWidget(new Point(w, h));
-        widgetGroup.add(widget.getGraphics(), x, y);
+    private void addTestWidget(double x, double y, double size) {
+        WeatherWidget widget = makeWidget(size);
+        widgetLayer.add(widget.getGraphics(), x, y);
         widgets.add(widget);
 
-        Rectangle border = new Rectangle(x, y, w, h);
+        Rectangle border = new Rectangle(x, y, size, size);
         border.setStrokeColor(new Color(0x40000000, true));
         border.setStrokeWidth(4);
-        borderGroup.add(border);
-        borderGroup.add(border);
+        borderLayer.add(border);
+
+        GraphicsText dimensionsLabel = new GraphicsText(Math.round(size) + "×" + Math.round(size), x + 4, y + size - 5);
+        dimensionsLabel.setFont(new Font("sansserif", Font.PLAIN, 7));
+        dimensionsLabel.setFillColor(new Color(0x8EC1FF));
+        dimensionLabelLayer.add(dimensionsLabel);
     }
 
     public static void main(String[] args) {
