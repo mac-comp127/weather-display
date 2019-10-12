@@ -1,5 +1,6 @@
 package comp127.weather.widgets;
 
+import comp127.weather.WeatherProgram;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
@@ -9,13 +10,18 @@ import comp127graphics.*;
  */
 public class SimpleWidgetExample implements WeatherWidget {
 
-    private GraphicsGroup group;
-    private Image weatherIcon;
+    private final Point size;
+    private final GraphicsGroup group;
+    private final Image weatherIcon;
 
-    public SimpleWidgetExample() {
+    public SimpleWidgetExample(Point size) {
+        this.size = size;
+
         group = new GraphicsGroup();
 
-        weatherIcon = new Image(50, 50);
+        weatherIcon = new Image(10, 10);
+        weatherIcon.setMaxWidth(size.getX() - 20);
+        weatherIcon.setMaxHeight(size.getY() - 20);
         group.add(weatherIcon);
     }
 
@@ -30,6 +36,7 @@ public class SimpleWidgetExample implements WeatherWidget {
 
     public void update(WeatherData data) {
         weatherIcon.setImagePath(data.getCurrentConditions().getWeatherIcon());
+        weatherIcon.setCenter(size.scale(0.5));  // size.scale(0.5) is the center of the rect between (0,0) and size
 
         // Examples of how to get other weather data:
         System.out.println(data.getCityName());
