@@ -6,6 +6,7 @@ import comp127.weather.widgets.TemperatureWidget;
 import comp127.weather.widgets.WeatherWidget;
 import comp127.weather.widgets.WindWidget;
 import comp127graphics.CanvasWindow;
+import comp127graphics.Point;
 
 import java.awt.Color;
 import java.util.List;
@@ -26,9 +27,11 @@ public class WeatherProgram extends CanvasWindow {
     public WeatherProgram() {
         super("Weather Display", WINDOW_WIDTH, WINDOW_HEIGHT);
 
+        Point widgetSize = new Point(getWidth(), getHeight());
+
         //TODO: Initialize your WeatherWidget array and add widgets to it. Add the first widget to the canvas so that it appears
         widgets = List.of(
-            new TemperatureWidget(),
+            new TemperatureWidget(widgetSize),
             new ForecastWidget(),
             new WindWidget()
         );
