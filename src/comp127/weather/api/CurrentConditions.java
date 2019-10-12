@@ -113,8 +113,8 @@ public class CurrentConditions {
     }
 
     /**
-     * Gets the current direction of the wind.
-     * @return (returns "" in case of error)
+     * Gets a description of the direction of the wind, such as "S" or "NNW".
+     * @return "" in case of error
      */
     public String getWindDirectionAsString() {
         if (getWindDirectionInDegrees() >= 0 && getWindDirectionInDegrees() <= 360) {
@@ -164,17 +164,17 @@ public class CurrentConditions {
 
     @Override
     public String toString() {
-        return "CurrentConditions{" +
-            "cloudCoverage=" + cloudCoverage +
-            ", temperature=" + temperature +
-            ", pressure=" + pressure +
-            ", humidity=" + humidity +
-            ", windSpeed=" + windSpeed +
-            ", windDirectionInDegrees=" + windDirectionInDegrees +
-            ", sunrise=" + sunrise +
-            ", sunset=" + sunset +
-            ", currentWeather='" + currentWeather + '\'' +
-            ", weatherIconFile='" + weatherIconFile + '\'' +
-            '}';
+        return "CurrentConditions{"
+            + "cloudCoverage=" + cloudCoverage
+            + ", temperature=" + temperature
+            + ", pressure=" + pressure
+            + ", humidity=" + humidity
+            + ", windSpeed=" + windSpeed
+            + ", windDirectionInDegrees=" + windDirectionInDegrees
+            + ", sunrise=" + sunrise
+            + ", sunset=" + sunset
+            + ", currentWeather='" + currentWeather + '\''
+            + ", weatherIconFile='" + weatherIconFile + '\''
+            + '}';
     }
 }
