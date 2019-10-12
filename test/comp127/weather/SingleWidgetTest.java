@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class SingleWidgetTest {
 
-    private static WeatherWidget makeWidget(Point size) {
+    private static WeatherWidget makeWidget(double size) {
         // Replace SimpleWidgetExample with your own widget to test
         //         ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
         return new SimpleWidgetExample(size);
@@ -33,16 +33,13 @@ public class SingleWidgetTest {
     private int testDataSeed = 0;
 
     private SingleWidgetTest() {
-        CanvasWindow canvas = new CanvasWindow("Weather widget test", 825, 600);
         canvas.add(borderGroup);
         canvas.add(widgetGroup);
 
-        addTestWidget(0, 0, 400, 400);
-        addTestWidget(400, 0, 300, 300);
-        addTestWidget(400, 300, 100, 100);
-        addTestWidget(500, 300, 200, 250);
-        addTestWidget(700, 0, 125, 550);
-        addTestWidget(0, 400, 500, 150);
+        addTestWidget(0, 0, 500);
+        addTestWidget(500, 0, 300);
+        addTestWidget(500, 300, 200);
+        addTestWidget(700, 300, 100);
 
         seedLabel = new GraphicsText("Showing state before update() is called", 10, 580);
         canvas.add(seedLabel);

@@ -31,7 +31,7 @@ public class WeatherProgram extends CanvasWindow {
 
         //TODO: Initialize your WeatherWidget array and add widgets to it. Add the first widget to the canvas so that it appears
         widgets = List.of(
-            new TemperatureWidget(widgetSize),
+            new TemperatureWidget(getWidth()),
             new ForecastWidget(),
             new WindWidget()
         );
