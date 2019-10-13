@@ -11,12 +11,15 @@ import java.util.stream.Stream;
 
 public class ForecastGraphWidget implements WeatherWidget {
     private final double size;
-    private GraphicsGroup group;
+    private GraphicsGroup group, iconGroup;
     private Polygon temperatureLine, temperatureRange;
 
     public ForecastGraphWidget(double size) {
         this.size = size;
         group = new GraphicsGroup();
+
+        iconGroup = new GraphicsGroup();
+        group.add(iconGroup);
 
         temperatureRange = new Polygon(new Point(0, 0));
         temperatureRange.setFillColor(new Color(0x9BCAFFF8, true));
@@ -62,6 +65,7 @@ public class ForecastGraphWidget implements WeatherWidget {
                 ForecastConditions::getMaxTemperature,
                 scale, offset));
 
+        iconGroup.removeAll();
         if (!data.getForecasts().isEmpty()) {
             Date startTime = data.getForecasts().get(0).getPredictionTime();
             double nextFreeX = Double.NEGATIVE_INFINITY;
@@ -76,7 +80,7 @@ public class ForecastGraphWidget implements WeatherWidget {
                 Image icon = new Image(x, size * 0.3, forecast.getWeatherIcon());
                 icon.setMaxWidth(Math.min(size / 3, Math.max(20, size / 15)));
                 nextFreeX = icon.getX() + icon.getWidth() * 1.2;
-                group.add(icon);
+                iconGroup.add(icon);
             }
         }
     }
