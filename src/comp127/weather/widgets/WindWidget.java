@@ -26,11 +26,11 @@ public class WindWidget implements WeatherWidget {
             size / 2.0 - circleDiameter / 2,
             size / 2.0 - circleDiameter / 2,
             circleDiameter, circleDiameter);
-        ring.setStrokeWidth(3);
+        ring.setStrokeWidth(size / 200);
         group.add(ring);
 
         indicator = new Line(0, 0, 0, 0);
-        indicator.setStrokeWidth(3);
+        indicator.setStrokeWidth(size / 200);
         group.add(indicator);
 
         GraphicsText northLabel = new GraphicsText("N", 0, 0);
