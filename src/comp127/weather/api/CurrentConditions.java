@@ -5,6 +5,9 @@ import net.aksingh.owmjapis.CurrentWeather;
 
 import java.util.Date;
 
+/**
+ * Information about current weather conditions.
+ */
 public class CurrentConditions extends Conditions {
     public static final CurrentConditions BLANK = new CurrentConditions();
 

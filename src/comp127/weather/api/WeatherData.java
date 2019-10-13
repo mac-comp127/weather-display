@@ -5,9 +5,8 @@ import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.HourlyForecast;
 import net.aksingh.owmjapis.Tools;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,6 +31,7 @@ public class WeatherData {
                 .getForecasts().stream()
                 .map(ForecastConditions::new)
                 .collect(toList());
+        addUncertainty(hourlyForecasts);
     }
 
     /**
@@ -45,6 +45,45 @@ public class WeatherData {
 
     private String nullIfBlank(String str) {
         return (str == null || str.isBlank()) ? null : str;
+    }
+
+
+    /**
+     * Increases the temperature range in the hourly forecast to reflect forecast uncertainty,
+     * based on (1) range of nearby temperatures and (2) time in the future.
+     */
+    private void addUncertainty(List<ForecastConditions> forecasts) {
+        if (forecasts.isEmpty()) {
+            return;
+        }
+        if (forecasts.stream()
+            .anyMatch((f) ->
+                f.getPredictionTime() == null
+                || f.getTemperature() == null)) {
+            return;
+        }
+
+        // Uncertainty based on time
+        for (ForecastConditions forecast : forecasts) {
+            forecast.addUncertainty(
+                Math.sqrt(hoursDifference(forecast, forecasts.get(0))) / 3);
+        }
+
+        // Uncertainty based on nearby variation
+        for (ForecastConditions forecast : forecasts) {
+            long forecastTime = forecast.getPredictionTime().getTime();
+            DoubleSummaryStatistics stats = forecasts.stream()
+                .filter(otherForecast -> hoursDifference(forecast, otherForecast) < 6)
+                .mapToDouble(Conditions::getTemperature)
+                .summaryStatistics();
+            forecast.addUncertainty(
+                Math.pow(stats.getMax() - stats.getMin(), 0.8));
+        }
+    }
+
+    private double hoursDifference(ForecastConditions f0, ForecastConditions f1) {
+        return Math.abs(f0.getPredictionTime().getTime() - f1.getPredictionTime().getTime())
+             / (3_600_000.0);
     }
 
     /**

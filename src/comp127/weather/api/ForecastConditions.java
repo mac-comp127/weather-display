@@ -6,8 +6,9 @@ import net.aksingh.owmjapis.HourlyForecast;
 import java.util.Date;
 
 /**
- * A class to provide simple access to hourly forecasts.
- * The array of these objects should have 5 days worth of data with one object for every 3 hours.
+ * A prediction about weather conditions at some point in time (presumably in the future).
+ *
+ * The list of these objects may have up to 5 days worth of data with one object for every 3 hours.
  */
 public class ForecastConditions extends Conditions {
     public static final ForecastConditions BLANK = new ForecastConditions();
@@ -75,8 +76,8 @@ public class ForecastConditions extends Conditions {
     }
 
     /**
-     * Gets the predicted minimum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
-     *  @return (returns -100 in case of error)
+     * Gets the predicted minimum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit).
+     * The min/max range around getTemperature() reflects uncertainty in the forecast.
      */
     public Double getMinTemperature() {
         return minTemperature;
@@ -84,12 +85,22 @@ public class ForecastConditions extends Conditions {
 
     /**
      * Gets the predicted maximum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
-     * @return (returns -100 in case of error)
+     * The min/max range around getTemperature() reflects uncertainty in the forecast.
      */
     public Double getMaxTemperature() {
         return maxTemperature;
     }
 
+    void addUncertainty(double delta) {
+        if (minTemperature == null) {
+            minTemperature = temperature;
+        }
+        if (maxTemperature == null) {
+            maxTemperature = temperature;
+        }
+        minTemperature -= delta;
+        maxTemperature += delta;
+    }
     /**
      * Gets an image representing the current weather
      */

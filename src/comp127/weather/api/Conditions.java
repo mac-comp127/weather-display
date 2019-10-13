@@ -2,6 +2,9 @@ package comp127.weather.api;
 
 import net.aksingh.owmjapis.Tools;
 
+/**
+ * Weather information shared by both current conditions and future forecasts.
+ */
 public abstract class Conditions {
     private static final Tools weatherUtils = new Tools();
 
