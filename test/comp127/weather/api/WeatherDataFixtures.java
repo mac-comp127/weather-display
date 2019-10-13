@@ -21,7 +21,7 @@ public class WeatherDataFixtures {
         return new WeatherData(
             generateCityName(seed),
             generateCurrentConditions(seed),
-            IntStream.range(0, Math.abs(seed + 38) * 17 % 40)
+            IntStream.range(1, Math.abs(seed) * 17 % 39)
                 .mapToObj((offset) ->
                     generateForecastConditions((offset + 1) * 3, seed + offset))
                 .collect(toList()));
