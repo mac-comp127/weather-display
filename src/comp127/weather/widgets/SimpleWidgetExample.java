@@ -28,7 +28,7 @@ public class SimpleWidgetExample implements WeatherWidget {
         group.add(weatherIcon);
 
         conditions = new GraphicsText("", 0, 0);
-        conditions.setFont(new Font("SansSerif", Font.PLAIN, (int) Math.round(size / 20)));
+        conditions.setFont(FontStyle.PLAIN, size / 20);
         group.add(conditions);
 
         updateLayout();
@@ -66,6 +66,6 @@ public class SimpleWidgetExample implements WeatherWidget {
 
     private void updateLayout() {
         weatherIcon.setCenter(size * 0.5, size * 0.5);
-        conditions.setCenter(size * 0.5, size * 0.8);
+        conditions.setCenter(size * 0.5, size * 0.9);
     }
 }

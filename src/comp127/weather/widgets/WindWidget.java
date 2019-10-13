@@ -37,21 +37,19 @@ public class WindWidget implements WeatherWidget {
         indicator.setStrokeWidth(3);
         group.add(indicator);
 
-        Font dirFont = new Font("sansserif", Font.PLAIN, (int) Math.round(size / 30));
         GraphicsText northLabel = new GraphicsText("N", 0, 0);
-        northLabel.setFont(dirFont);
+        northLabel.setFont(FontStyle.PLAIN, size / 30);
         northLabel.setPosition(
             ring.getX() + circleDiameter / 2 - northLabel.getWidth() / 2,
             ring.getY() + circleDiameter / 6 - northLabel.getHeight() / 2);
         group.add(northLabel);
 
-        Font windFont = new Font("sansserif", Font.BOLD, (int) Math.round(size / 15));
         windSpeedLabel = new GraphicsText("", 0, 0);
-        windSpeedLabel.setFont(windFont);
+        windSpeedLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(windSpeedLabel);
 
         windDescLabel = new GraphicsText("", 0, 0);
-        windDescLabel.setFont(windFont);
+        windDescLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(windDescLabel);
 
         updateLayout();

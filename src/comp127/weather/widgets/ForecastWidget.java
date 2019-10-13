@@ -27,11 +27,11 @@ public class ForecastWidget implements WeatherWidget {
         group = new GraphicsGroup();
 
         dateLabel = new GraphicsText("", 0, 0);
-        dateLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
+        dateLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(dateLabel);
 
         timeLabel = new GraphicsText("", 0, 0);
-        timeLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
+        timeLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(timeLabel);
 
         icon = new Image(0, 0);
@@ -40,16 +40,16 @@ public class ForecastWidget implements WeatherWidget {
         group.add(icon);
 
         tempLabel = new GraphicsText("" + "\u2109", 0, 0);
-        tempLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
+        tempLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(tempLabel);
 
         minMaxTempLabel = new GraphicsText("", 0, 0);
-        minMaxTempLabel.setFont(new Font("SanSerif", Font.PLAIN, (int) Math.round(size / 15)));
+        minMaxTempLabel.setFont(FontStyle.PLAIN, size / 15);
         minMaxTempLabel.setFillColor(Color.GRAY);
         group.add(minMaxTempLabel);
 
         description = new GraphicsText("", 400, 120);
-        description.setFont(new Font("SanSerif", Font.PLAIN, (int) Math.round(size / 20)));
+        description.setFont(FontStyle.PLAIN, size / 20);
         group.add(description);
 
         boxGroup = new GraphicsGroup();

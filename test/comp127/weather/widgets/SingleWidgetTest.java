@@ -2,10 +2,7 @@ package comp127.weather.widgets;
 
 import comp127.weather.api.WeatherData;
 import comp127.weather.api.WeatherDataFixtures;
-import comp127graphics.CanvasWindow;
-import comp127graphics.GraphicsGroup;
-import comp127graphics.GraphicsText;
-import comp127graphics.Rectangle;
+import comp127graphics.*;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -48,7 +45,7 @@ public class SingleWidgetTest {
         addTestWidget(700, 300, 100);
 
         errorLabel = new GraphicsText("", 10, 540);
-        errorLabel.setFont(errorLabel.getFont().deriveFont(Font.BOLD));
+        errorLabel.setFontStyle(FontStyle.BOLD);
         errorLabel.setFillColor(new Color(0xA80700));
         canvas.add(errorLabel);
 

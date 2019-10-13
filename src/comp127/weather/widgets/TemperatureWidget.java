@@ -27,12 +27,11 @@ public class TemperatureWidget implements WeatherWidget {
         group.add(icon);
 
         label = new GraphicsText("–", 0, 0);
-        label.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size * 0.1)));
+        label.setFont(FontStyle.BOLD, size * 0.1);
         group.add(label);
 
-        Font descFont = new Font("SanSerif", Font.PLAIN, (int) Math.round(size * 0.05));
         description = new GraphicsText("–", 0, 0);
-        description.setFont(descFont);
+        description.setFont(FontStyle.PLAIN, size * 0.05);
         group.add(description);
 
         updateLayout();
