@@ -5,16 +5,25 @@ import comp127graphics.GraphicsObject;
 import comp127graphics.Point;
 
 /**
- * A parent class for widgets based on the open weather API.
+ * A square widget that graphically presents weather conditions.
  */
 public interface WeatherWidget {
 
+    /**
+     * This widget’s visual interface, which you can add to a CanvasWindow or GraphicsGroup.
+     */
     GraphicsObject getGraphics();
 
     /**
-     * Draws the graphical representation of the widget
+     * Displays the given weather data in the widget, writing over any information the widget was
+     * previously displaying.
      */
     void update(WeatherData data);
 
+    /**
+     * Called when the mouse moves over the widget.
+     *
+     * @param position A location in the widget’s local coordinates.
+     */
     void onHover(Point position);
 }

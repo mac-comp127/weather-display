@@ -4,6 +4,9 @@ import net.aksingh.owmjapis.Tools;
 
 /**
  * Weather information shared by both current conditions and future forecasts.
+ *
+ * Note that almost all fields may be null. In particular, note that the numerical values use Double
+ * (a nullable object type), and not double (the non-nullable primitive type).
  */
 public abstract class Conditions {
     private static final Tools weatherUtils = new Tools();
@@ -26,7 +29,7 @@ public abstract class Conditions {
     }
 
     /**
-     * Gets the current cloud coverage as a percent from 0 to 100%
+     * The current cloud coverage as a percent from 0 to 100%.
      * @return (returns 0 % in case of error)
      */
     public Double getCloudCoverage() {
@@ -34,40 +37,37 @@ public abstract class Conditions {
     }
 
     /**
-     * Gets the current temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
-     * @return (returns - 100 in case of error)
+     * The temperature, in whatever units the OpenWeatherProvider was set to when you requested the
+     * data (defaults to Fahrenheit).
      */
     public Double getTemperature() {
         return temperature;
     }
 
     /**
-     * Gets the current atmospheric pressure
-     * @return (returns 0 in case of error)
+     * The atmospheric pressure.
      */
     public Double getPressure() {
         return pressure;
     }
 
     /**
-     * Gets the current humidity
-     * @return (returns 0 in case of error)
+     * The relative humidity, as a percent.
      */
     public Double getHumidity() {
         return humidity;
     }
 
     /**
-     * Gets the current windSpeed (in miles/second or meters/second depending on your choice of units.
-     * @return (returns 0 in case of error)
+     * The speed of the wind. Units are miles/second or meters/second, depending on your choice of
+     * units in OpenWeatherProvider.
      */
     public Double getWindSpeed() {
         return windSpeed;
     }
 
     /**
-     * Gets a description of the direction of the wind, such as "S" or "NNW".
-     * @return "" in case of error
+     * A textual description of the compass direction of the wind, such as "S" or "NNW".
      */
     public String getWindDirectionAsString() {
         if (windDirectionInDegrees != null && windDirectionInDegrees >= 0 && windDirectionInDegrees <= 360) {
@@ -78,25 +78,23 @@ public abstract class Conditions {
     }
 
     /**
-     * Gets the wind direction reported as degrees off of north.
-     * @return wind degrees or 0 in the case of error.
+     * The wind direction, in degrees clockwise from north.
      */
     public Double getWindDirectionInDegrees() {
         return windDirectionInDegrees;
     }
 
     /**
-     * Gets a short description of the current weather.
-     * Note, if multiple weather conditions are going on at once this only returns the primary weather condition.
-     * @return (returns an empty string if unknown or very little of interest is currently going on)
+     * A short description of the weather. If there are multiple weather conditions at once, this
+     * only returns the primary weather condition.
      */
     public String getWeatherDescription() {
         return weatherDescription;
     }
 
     /**
-     * Returns an image representing the current weather. Never returns null; if the weather
-     * conditions are missing or unknown, returns an "unknown" icon.
+     * Returns the resource path for an image representing the current weather. Never returns null;
+     * if the weather conditions are missing or unknown, returns an "unknown" icon.
      */
     public String getWeatherIcon() {
         return "condition-icons/" + (weatherIconFile != null ? weatherIconFile : "unknown") + ".png";

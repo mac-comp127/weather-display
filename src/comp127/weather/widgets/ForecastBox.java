@@ -7,14 +7,18 @@ import java.awt.Color;
 
 
 /**
- * A ForecastBox is a rectangle that represents a specific forecast.
+ * A rectangle that represents a specific forecast. Useful for making an interface that allows the
+ * user to select one of many future forecasts.
  */
 public class ForecastBox extends Rectangle {
 
     // This holds the information about a specific forecast
     private ForecastConditions forecast;
 
-
+    /**
+     * Creates a box that references the given forecast, and appears on the screen at the given
+     * coordinates.
+     */
     public ForecastBox(ForecastConditions forecast, double x, double y, double width, double height) {
         super(x, y, width, height);
         this.forecast = forecast;
@@ -23,6 +27,10 @@ public class ForecastBox extends Rectangle {
         setActive(false);
     }
 
+    /**
+     * Changes the color of the box to indicate whether it is active. The meaning of “active” is up
+     * to each widget that uses this class.
+     */
     public void setActive(boolean active) {
         setFillColor(active
             ? new Color(0x3ba634)
@@ -30,8 +38,7 @@ public class ForecastBox extends Rectangle {
     }
 
     /**
-     * Getter for forcast object
-     * @return
+     * The forecast data this box represents.
      */
     public ForecastConditions getForecast() {
         return forecast;

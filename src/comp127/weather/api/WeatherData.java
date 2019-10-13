@@ -9,9 +9,12 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Current and future weather information for a location.
+ */
 public class WeatherData {
-    private final CurrentConditions currentConditions;
     private String cityName;
+    private final CurrentConditions currentConditions;
 
     private final List<ForecastConditions> hourlyForecasts;
 
@@ -43,18 +46,41 @@ public class WeatherData {
     }
 
     /**
+     * The name of the location where these weather conditions are from.
+     */
+    public String getCityName() {
+        return cityName;
+    }
+
+    /**
+     * Information about the weather conditions right now.
+     */
+    public CurrentConditions getCurrentConditions() {
+        return currentConditions;
+    }
+
+    /**
+     * Forecasts of conditions at various times in the future, in chronological order. OpenWeather
+     * returns data for up to 5 days at 3-hour time intervals.
+     */
+    public List<ForecastConditions> getForecasts() {
+        return Collections.unmodifiableList(hourlyForecasts);
+    }
+
+    /**
      * Increases the temperature range in the hourly forecast to reflect forecast uncertainty,
-     * based on (1) range of nearby temperatures and (2) time in the future.
+     * based on (1) range of nearby temperatures and (2) time in the future. OpenWeather mostly
+     * returns the same value for the min and max for forecast temperates. This gives us something
+     * more interesting to display in a widget.
      */
     private void addUncertainty(List<ForecastConditions> forecasts) {
         if (forecasts.isEmpty()) {
             return;
         }
-        if (forecasts.stream()
-            .anyMatch((f) ->
-                f.getPredictionTime() == null
-                || f.getTemperature() == null)) {
-            return;
+        for (ForecastConditions f : forecasts) {
+            if(f.getPredictionTime() == null || f.getTemperature() == null) {
+                return;
+            }
         }
 
         // Uncertainty based on time
@@ -80,37 +106,12 @@ public class WeatherData {
              / (3_600_000.0);
     }
 
-    /**
-     * Gets the name of the location where these weather conditions are from.
-     *
-     * @return null if location is not a city
-     */
-    public String getCityName() {
-        return cityName;
-    }
-
-    /**
-     * Returns information about the weather conditions right now.
-     */
-    public CurrentConditions getCurrentConditions() {
-        return currentConditions;
-    }
-
-    /**
-     * Returns forecasts of conditions at various times in the future.
-     *
-     * @return Data for up to 5 days at 3-hour time intervals, in chronological order
-     */
-    public List<ForecastConditions> getForecasts() {
-        return Collections.unmodifiableList(hourlyForecasts);
-    }
-
     @Override
     public String toString() {
-        return "WeatherData{" +
-            "currentConditions=" + currentConditions +
-            ", cityName='" + cityName + '\'' +
-            ", hourlyForecasts=" + hourlyForecasts +
-            '}';
+        return "WeatherData{"
+            + "cityName='" + cityName + '\''
+            + ", currentConditions=" + currentConditions
+            + ", hourlyForecasts=" + hourlyForecasts
+            + '}';
     }
 }

@@ -8,24 +8,29 @@ import comp127graphics.Rectangle;
 import java.awt.Color;
 import java.util.List;
 
+/**
+ * A weather UI that shows a collection of small widgets down one edge, and allows the user to
+ * select a widget to enlarge.
+ */
 public class WeatherProgram {
 
-    //TODO: Replace the value of this string with your own API key.
-    private static final String API_KEY = "d6a22c9835563a57b372e6515fd8ec2b";
-
-    private static final double     // Location for which we're fetching weather
+    private static final double    // Location for which we're fetching weather
         FORECAST_LAT = 44.936593,  // OLRI 256 (approximate)
         FORECAST_LON = -93.168650;
 
-    //TODO: Define an instance variable that is an array of WeatherWidgets. You will also need a variable to keep track
-    // of which index in the array is the widget that is currently displayed.
     private CanvasWindow canvas;
-    double miniWidgetSize, largeWidgetSize;
+
+    private double miniWidgetSize, largeWidgetSize;
     private List<WeatherWidget> miniWidgets, largeWidgets;
     private WeatherWidget displayedLargeWidget;
     private Rectangle selectionHighlight;
-    private int currentDisplayIndex = 0;
 
+    /**
+     * Opens a window, displays the weather UI, and fetches weather conditions.
+     *
+     * @param largeWidgetSize The height and width of the large widget. The window size is derived
+     *      from this value combined with the number of widget choices.
+     */
     public WeatherProgram(double largeWidgetSize) {
         this.largeWidgetSize = largeWidgetSize;
         largeWidgets = createWidgets(largeWidgetSize);
@@ -51,17 +56,6 @@ public class WeatherProgram {
         }
         selectWidgetAtIndex(0);
 
-        new OpenWeatherProvider(API_KEY, FORECAST_LAT, FORECAST_LON)
-            .fetchWeather((weatherData) -> {
-                for (WeatherWidget widget : miniWidgets) {
-                    widget.update(weatherData);
-                }
-                for (WeatherWidget widget : largeWidgets) {
-                    widget.update(weatherData);
-                }
-                canvas.draw();
-            });
-
         canvas.onMouseMove(event -> {
             if (displayedLargeWidget != null && event.getPosition().getX() < largeWidgetSize) {
                 displayedLargeWidget.onHover(event.getPosition());
@@ -74,6 +68,21 @@ public class WeatherProgram {
                     (int) (event.getPosition().getY() / largeWidgetSize * miniWidgets.size()));
             }
         });
+
+        updateWeather();
+    }
+
+    private void updateWeather() {
+        new OpenWeatherProvider(FORECAST_LAT, FORECAST_LON)
+            .fetchWeather((weatherData) -> {
+                for (WeatherWidget widget : miniWidgets) {
+                    widget.update(weatherData);
+                }
+                for (WeatherWidget widget : largeWidgets) {
+                    widget.update(weatherData);
+                }
+                canvas.draw();
+            });
     }
 
     private List<WeatherWidget> createWidgets(double size) {

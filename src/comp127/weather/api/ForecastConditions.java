@@ -6,9 +6,8 @@ import net.aksingh.owmjapis.HourlyForecast;
 import java.util.Date;
 
 /**
- * A prediction about weather conditions at some point in time (presumably in the future).
- *
- * The list of these objects may have up to 5 days worth of data with one object for every 3 hours.
+ * A prediction about weather conditions at some point in time. (That point in time is presumably in
+ * the future — though as Neils Bohr remarked, prediction is hard, especially of the future.)
  */
 public class ForecastConditions extends Conditions {
     public static final ForecastConditions BLANK = new ForecastConditions();

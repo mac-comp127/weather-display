@@ -12,13 +12,18 @@ import java.util.function.Consumer;
  * Fetches weather data from the OpenWeather API.
  *
  * To create one of these objects you need to have an OpenWeather API key. Instructions for how to
- * get one of these is provided in the instructions for this assignment. You also need to specify a
- * location You can either do that through latitude and longitude OR city name and country code.
+ * get one of these are in the instructions for this assignment. You also need to specify a location.
+ * You can either do that through latitude and longitude OR city name and country code. The starter
+ * code specifies Macalester as the location, but you can change that.
  *
  * This class is a custom wrapper over aksingh’s OpenWeatherMap class, providing a simpler and
  * tidier API for the weather widgets homework.
  */
 public class OpenWeatherProvider {
+
+    // TODO: Replace the value of this string with your own API key.
+    private static final String API_KEY = "d6a22c9835563a57b372e6515fd8ec2b";
+
     // There are two (well 4, but I'm not implementing all that) ways to specify where where you want
     // weather for. if cityName & stateName are non-null we will use those for every api call, otherwise we
     // will use lat/long.
@@ -30,48 +35,47 @@ public class OpenWeatherProvider {
     private static final ExecutorService requestQueue = Executors.newSingleThreadExecutor();
 
     /**
-     * @param apiKey your openWeather api library
-     * @param cityName the name of the city you want to
-     * @param countryCode the country code for the country you want to get weather from
+     * Creates a provider that will return weather for a given city.
+     *
+     * @param cityName The name of the city, including the state/province.
+     * @param countryCode The two-letter country code for the country you want to get weather from
      */
-    public OpenWeatherProvider(String apiKey, String cityName, String countryCode) {
-        openWeather = new OpenWeatherMap(apiKey);
+    public OpenWeatherProvider(String cityName, String countryCode) {
+        openWeather = new OpenWeatherMap(API_KEY);
         this.cityName = cityName;
         this.countryCode = countryCode;
         this.lat = this.lng = null;
-        setUnitsFahrenheit();
+        setUnitsImperial();
     }
 
     /**
-     *
-     * @param apiKey
-     * @param latitude
-     * @param longitude
+     * Creates a provider that will return weather for an arbitrary location.
      */
-    public OpenWeatherProvider(String apiKey, double latitude, double longitude) {
-        openWeather = new OpenWeatherMap(apiKey);
+    public OpenWeatherProvider(double latitude, double longitude) {
+        openWeather = new OpenWeatherMap(API_KEY);
         this.lat = latitude;
         this.lng = longitude;
         this.cityName = this.countryCode = null;
-        setUnitsFahrenheit();
+        setUnitsImperial();
     }
 
     /**
-     * Set the interface to use fahrenheit units
+     * Set the interface to use fahrenheit and miles
      */
-    public void setUnitsFahrenheit() {
+    public void setUnitsImperial() {
         openWeather.setUnits(OpenWeatherMap.Units.IMPERIAL);
     }
 
     /**
-     * Set the interface to use celsius units
+     * Set the interface to use celsius and meters
      */
-    public void setUnitsCelcius() {
+    public void setUnitsMetric() {
         openWeather.setUnits(OpenWeatherMap.Units.METRIC);
     }
 
     /**
-     * Request the object to fetch up to date weather from the servers.
+     * Fetches up-to-date weather data from the server. Runs completionCallback if the
+     * request succeeds.
      */
     public void fetchWeather(Consumer<WeatherData> completionCallback) {
         requestQueue.submit(() -> {
@@ -136,7 +140,12 @@ public class OpenWeatherProvider {
     }
 
     public static void main(String[] args) {
-        new OpenWeatherProvider("d6a22c9835563a57b372e6515fd8ec2b", 44.9, -93.0)
+        new OpenWeatherProvider(44.9, -93.0)
+            .fetchWeather(System.out::println);
+
+        System.out.println();
+
+        new OpenWeatherProvider("Fort Collins, CO", "US")
             .fetchWeather(System.out::println);
     }
 }

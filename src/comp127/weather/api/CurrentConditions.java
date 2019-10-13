@@ -7,6 +7,8 @@ import java.util.Date;
 
 /**
  * Information about current weather conditions.
+ *
+ * @see Conditions
  */
 public class CurrentConditions extends Conditions {
     public static final CurrentConditions BLANK = new CurrentConditions();
@@ -67,14 +69,14 @@ public class CurrentConditions extends Conditions {
     }
 
     /**
-     * Gets the sunrise time (or null if unknown)
+     * The instant in time when sunrise will occur today.
      */
     public Date getSunriseTime() {
         return sunriseTime;
     }
 
     /**
-     * Gets the sunset time (or null if unknown)
+     * The instant in time when sunset will occur today.
      */
     public Date getSunsetTime() {
         return sunsetTime;
