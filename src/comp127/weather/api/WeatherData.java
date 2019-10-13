@@ -20,7 +20,7 @@ public class WeatherData {
      */
     WeatherData(CurrentWeather rawCurrentConditions, HourlyForecast hourlyForecast) {
         if (rawCurrentConditions != null) {
-            cityName = nullIfBlank(rawCurrentConditions.getCityName());
+            cityName = Conditions.nullIfBlank(rawCurrentConditions.getCityName());
             currentConditions = new CurrentConditions(rawCurrentConditions);
         } else {
             currentConditions = CurrentConditions.BLANK;
@@ -41,11 +41,6 @@ public class WeatherData {
         this.currentConditions = currentConditions;
         this.hourlyForecasts = hourlyForecasts;
     }
-
-    private String nullIfBlank(String str) {
-        return (str == null || str.isBlank()) ? null : str;
-    }
-
 
     /**
      * Increases the temperature range in the hourly forecast to reflect forecast uncertainty,

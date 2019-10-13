@@ -42,8 +42,8 @@ public class CurrentConditions extends Conditions {
                 && rawCurrentConditions.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawCurrentConditions.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
-                weatherDescription = weather.getWeatherDescription();
-                weatherIconFile = weather.getWeatherIconName();
+                weatherDescription = nullIfBlank(weather.getWeatherDescription());
+                weatherIconFile = nullIfBlank(weather.getWeatherIconName());
             }
         }
     }

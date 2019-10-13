@@ -15,10 +15,14 @@ public abstract class Conditions {
     protected Double windSpeed;
     protected Double windDirectionInDegrees;
     protected String weatherDescription;
-    protected String weatherIconFile = "unknown";
+    protected String weatherIconFile;
 
     protected static Double nullIfNaN(double value) {
         return Double.isNaN(value) ? null : value;
+    }
+
+    protected static String nullIfBlank(String str) {
+        return (str == null || str.isBlank()) ? null : str;
     }
 
     /**
@@ -95,6 +99,6 @@ public abstract class Conditions {
      * conditions are missing or unknown, returns an "unknown" icon.
      */
     public String getWeatherIcon() {
-        return "condition-icons/" + weatherIconFile + ".png";
+        return "condition-icons/" + (weatherIconFile != null ? weatherIconFile : "unknown") + ".png";
     }
 }

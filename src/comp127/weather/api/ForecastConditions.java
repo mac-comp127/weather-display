@@ -42,8 +42,8 @@ public class ForecastConditions extends Conditions {
         if (rawForecast.hasWeatherInstance() && rawForecast.getWeatherCount() > 0 && rawForecast.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawForecast.getWeatherInstance(0);
             if (weather.hasWeatherDescription()) {
-                weatherDescription = weather.getWeatherDescription();
-                weatherIconFile = weather.getWeatherIconName();
+                weatherDescription = nullIfBlank(weather.getWeatherDescription());
+                weatherIconFile = nullIfBlank(weather.getWeatherIconName());
             }
         }
     }
@@ -100,12 +100,6 @@ public class ForecastConditions extends Conditions {
         }
         minTemperature -= delta;
         maxTemperature += delta;
-    }
-    /**
-     * Gets an image representing the current weather
-     */
-    public String getWeatherIcon() {
-        return "condition-icons/" + weatherIconFile + ".png";
     }
 
     @Override
