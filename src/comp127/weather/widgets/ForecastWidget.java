@@ -1,16 +1,12 @@
 package comp127.weather.widgets;
 
 import comp127.weather.ForecastBox;
-import comp127.weather.WeatherProgram;
 import comp127.weather.api.ForecastConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +15,10 @@ public class ForecastWidget implements WeatherWidget {
     private final double size;
     private GraphicsGroup group;
 
-    private GraphicsText timeLabel;
-    private GraphicsText tempLabel;
-    private GraphicsText minMaxTempLabel;
-    private GraphicsText description;
+    private GraphicsText dateLabel, timeLabel, tempLabel, minMaxTempLabel, description;
     private Image icon;
     private GraphicsGroup boxGroup;
 
-    // This is used to format decimal numbers based on the number of digits you want to display
-    // e.g. System.out.println(df.format(4.555555)); will print 4.5;
-    private final DecimalFormat oneDecimalPlace = new DecimalFormat("#0.0");
-    private final DateFormat dateFormat = new SimpleDateFormat("E, MMM d – h:mm a");
     private List<ForecastBox> boxes = new ArrayList<>();
 
     public ForecastWidget(double size) {
@@ -37,25 +26,29 @@ public class ForecastWidget implements WeatherWidget {
 
         group = new GraphicsGroup();
 
-        timeLabel = new GraphicsText("–", 0, 0);
+        dateLabel = new GraphicsText("", 0, 0);
+        dateLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
+        group.add(dateLabel);
+
+        timeLabel = new GraphicsText("", 0, 0);
         timeLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
         group.add(timeLabel);
 
         icon = new Image(0, 0);
-        icon.setMaxWidth(size / 3);
-        icon.setMaxHeight(size / 3);
+        icon.setMaxWidth(size / 4);
+        icon.setMaxHeight(size / 4);
         group.add(icon);
 
-        tempLabel = new GraphicsText("–" + "\u2109", 0, 0);
+        tempLabel = new GraphicsText("" + "\u2109", 0, 0);
         tempLabel.setFont(new Font("SanSerif", Font.BOLD, (int) Math.round(size / 15)));
         group.add(tempLabel);
 
-        minMaxTempLabel = new GraphicsText("–", 0, 0);
+        minMaxTempLabel = new GraphicsText("", 0, 0);
         minMaxTempLabel.setFont(new Font("SanSerif", Font.PLAIN, (int) Math.round(size / 15)));
         minMaxTempLabel.setFillColor(Color.GRAY);
         group.add(minMaxTempLabel);
 
-        description = new GraphicsText("–", 400, 120);
+        description = new GraphicsText("", 400, 120);
         description.setFont(new Font("SanSerif", Font.PLAIN, (int) Math.round(size / 20)));
         group.add(description);
 
@@ -72,8 +65,6 @@ public class ForecastWidget implements WeatherWidget {
 
     public void update(WeatherData data) {
         //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecastArray().
-
-        //TODO: Draw information about the forecast at the first array index.
 
         double margin = size / 30;
         double x = 0;  // position within parent comes from group
@@ -105,30 +96,24 @@ public class ForecastWidget implements WeatherWidget {
             otherBox.setActive(otherBox == box);
         }
         ForecastConditions forecast = box.getForecast();
-        timeLabel.setText(dateFormat.format(forecast.getPredictionTime()));
+        dateLabel.setText(FormattingHelpers.formatDate(forecast.getPredictionTime()));
+        timeLabel.setText(FormattingHelpers.formatTimeOfDay(forecast.getPredictionTime()));
         icon.setImagePath(forecast.getWeatherIcon());
-        tempLabel.setText(oneDecimalPlace.format(forecast.getTemperature()) + "\u2109");
+        tempLabel.setText(FormattingHelpers.formatDecimal(forecast.getTemperature()) + "\u2109");
         minMaxTempLabel.setText(
-            oneDecimalPlace.format(forecast.getMinTemperature())
+            FormattingHelpers.formatDecimal(forecast.getMinTemperature())
                 + "\u2109 | "
-                + oneDecimalPlace.format(forecast.getMaxTemperature())
+                + FormattingHelpers.formatDecimal(forecast.getMaxTemperature())
                 + "\u2109");
         description.setText(forecast.getWeatherDescription());
         updateLayout();
     }
 
     private void updateLayout() {
-        timeLabel.setPosition(
-            size / 2.0 - timeLabel.getWidth() / 2,
-            size / 12);
-
-        icon.setPosition(
-            size / 2.0 - icon.getWidth() / 2,
-            timeLabel.getHeight());
-
-        tempLabel.setPosition(
-            size / 2.0 - tempLabel.getWidth() / 2,
-            icon.getBounds().getMaxY());
+        dateLabel.setPosition(size / 24, size / 12);
+        timeLabel.setPosition(size * 23 / 24 - timeLabel.getWidth(), size / 12);
+        icon.setCenter(size / 2, size * 3.5 / 12);
+        tempLabel.setCenter(size / 2, size * 6 / 12);
 
         minMaxTempLabel.setPosition(
             size / 2.0 - minMaxTempLabel.getWidth() / 2,
@@ -140,7 +125,7 @@ public class ForecastWidget implements WeatherWidget {
 
         boxGroup.setPosition(
             size / 2.0 - boxGroup.getWidth() / 2,
-            size * 0.9 - boxGroup.getHeight());
+            size * 11 / 12 - boxGroup.getHeight());
     }
 
     /**

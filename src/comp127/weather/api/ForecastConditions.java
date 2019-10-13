@@ -13,8 +13,8 @@ public class ForecastConditions extends Conditions {
     public static final ForecastConditions BLANK = new ForecastConditions();
 
     private Date predictionTime;
-    private double minTemperature;
-    private double maxTemperature;
+    private Double minTemperature;
+    private Double maxTemperature;
 
     private ForecastConditions() {
     }
@@ -25,18 +25,18 @@ public class ForecastConditions extends Conditions {
     ForecastConditions(HourlyForecast.Forecast rawForecast) {
         predictionTime = rawForecast.getDateTime();
         if (rawForecast.hasCloudsInstance()) {
-            cloudCoverage = rawForecast.getCloudsInstance().getPercentageOfClouds();
+            cloudCoverage = nullIfNaN(rawForecast.getCloudsInstance().getPercentageOfClouds());
         }
         if (rawForecast.hasMainInstance()) {
-            temperature = rawForecast.getMainInstance().getTemperature();
-            minTemperature = rawForecast.getMainInstance().getMinTemperature();
-            maxTemperature = rawForecast.getMainInstance().getMaxTemperature();
-            pressure = rawForecast.getMainInstance().getPressure();
-            humidity = rawForecast.getMainInstance().getHumidity();
+            temperature = nullIfNaN(rawForecast.getMainInstance().getTemperature());
+            minTemperature = nullIfNaN(rawForecast.getMainInstance().getMinTemperature());
+            maxTemperature = nullIfNaN(rawForecast.getMainInstance().getMaxTemperature());
+            pressure = nullIfNaN(rawForecast.getMainInstance().getPressure());
+            humidity = nullIfNaN(rawForecast.getMainInstance().getHumidity());
         }
         if (rawForecast.hasWindInstance() && rawForecast.getWindInstance().hasWindSpeed()) {
-            windSpeed = rawForecast.getWindInstance().getWindSpeed();
-            windDirectionInDegrees = rawForecast.getWindInstance().getWindDegree();
+            windSpeed = nullIfNaN(rawForecast.getWindInstance().getWindSpeed());
+            windDirectionInDegrees = nullIfNaN(rawForecast.getWindInstance().getWindDegree());
         }
         if (rawForecast.hasWeatherInstance() && rawForecast.getWeatherCount() > 0 && rawForecast.getWeatherInstance(0) != null) {
             AbstractWeather.Weather weather = rawForecast.getWeatherInstance(0);
@@ -78,7 +78,7 @@ public class ForecastConditions extends Conditions {
      * Gets the predicted minimum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
      *  @return (returns -100 in case of error)
      */
-    public double getMinTemperature() {
+    public Double getMinTemperature() {
         return minTemperature;
     }
 
@@ -86,7 +86,7 @@ public class ForecastConditions extends Conditions {
      * Gets the predicted maximum temperature in whatever unit the openWeatherConnection is set to (Default fahrenheit)
      * @return (returns -100 in case of error)
      */
-    public double getMaxTemperature() {
+    public Double getMaxTemperature() {
         return maxTemperature;
     }
 

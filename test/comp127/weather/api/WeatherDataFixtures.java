@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class WeatherDataFixtures {
     public static WeatherData generateWeatherData(int seed) {
         if(seed == 0) {
-            return new WeatherData(null, CurrentConditions.BLANK, List.of());
+            return new WeatherData(null, CurrentConditions.BLANK, List.of(ForecastConditions.BLANK));
         }
         return new WeatherData(
             generateCityName(seed),

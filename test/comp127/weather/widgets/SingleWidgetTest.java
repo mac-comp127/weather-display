@@ -33,7 +33,7 @@ public class SingleWidgetTest {
         borderLayer = new GraphicsGroup(),
         dimensionLabelLayer = new GraphicsGroup();
     private final List<WeatherWidget> widgets = new ArrayList<>();
-    private final GraphicsText seedLabel;
+    private final GraphicsText seedLabel, errorLabel;
     private int testDataSeed = 0;
 
     private SingleWidgetTest() {
@@ -46,6 +46,11 @@ public class SingleWidgetTest {
         addTestWidget(500, 0, 300);
         addTestWidget(500, 300, 200);
         addTestWidget(700, 300, 100);
+
+        errorLabel = new GraphicsText("", 10, 540);
+        errorLabel.setFont(errorLabel.getFont().deriveFont(Font.BOLD));
+        errorLabel.setFillColor(new Color(0xA80700));
+        canvas.add(errorLabel);
 
         seedLabel = new GraphicsText("Showing state before update() is called", 10, 580);
         canvas.add(seedLabel);
@@ -60,8 +65,18 @@ public class SingleWidgetTest {
                 + (testDataSeed == 0 ? " (state when data is missing from API)" : ""));
             WeatherData data = WeatherDataFixtures.generateWeatherData(testDataSeed);
             System.out.println(data);
+
             for (WeatherWidget widget : widgets) {
-                widget.update(data);
+                try {
+                    widget.update(data);
+                } catch(Exception e) {
+                    System.out.println();
+                    e.printStackTrace();
+                    errorLabel.setText(
+                        e.getClass().getSimpleName()
+                        + " while updating widget. See console for details."
+                        + " (with testDataSeed = " + testDataSeed + ")");
+                }
             }
             testDataSeed++;
         });

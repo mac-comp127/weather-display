@@ -16,8 +16,6 @@ public class TemperatureWidget implements WeatherWidget {
     private GraphicsText description;
     private Image icon;
 
-    private final DecimalFormat oneDecimalPlace = new DecimalFormat("#0.0");
-
     public TemperatureWidget(double size) {
         this.size = size;
 
@@ -25,7 +23,7 @@ public class TemperatureWidget implements WeatherWidget {
 
         icon = new Image(0, 0);  // we'll position it when we have an icon
         icon.setMaxWidth(size);
-        icon.setMaxHeight(size * 0.7);
+        icon.setMaxHeight(size * 0.5);
         group.add(icon);
 
         label = new GraphicsText("–", 0, 0);
@@ -53,25 +51,19 @@ public class TemperatureWidget implements WeatherWidget {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         icon.setImagePath(currentConditions.getWeatherIcon());
-        label.setText(oneDecimalPlace.format(currentConditions.getTemperature()) + "\u2109");
+        label.setText(FormattingHelpers.formatDecimal(currentConditions.getTemperature()) + "\u2109");
         description.setText(currentConditions.getWeatherDescription());
 
         updateLayout();
     }
 
     private void updateLayout() {
-        double topMargin = size * 0.05;
+        icon.setCenter(size * 0.5, size * 0.4);
 
-        icon.setPosition(
-            size / 2.0 - icon.getWidth() / 2,
-            topMargin);
-
-        label.setPosition(
-            size / 2.0 - label.getWidth() / 2,
-            icon.getBounds().getMaxY() + topMargin);
+        label.setCenter(size * 0.5, size * 0.8);
 
         description.setPosition(
-            size / 2.0 - description.getWidth() / 2,
+            size * 0.5 - description.getWidth() / 2,
             label.getY() + description.getHeight());
     }
 }

@@ -19,16 +19,16 @@ public class CurrentConditions extends Conditions {
      */
     CurrentConditions(CurrentWeather rawCurrentConditions) {
         if (rawCurrentConditions.hasCloudsInstance()) {
-            cloudCoverage = rawCurrentConditions.getCloudsInstance().getPercentageOfClouds();
+            cloudCoverage = nullIfNaN(rawCurrentConditions.getCloudsInstance().getPercentageOfClouds());
         }
         if (rawCurrentConditions.hasMainInstance()) {
-            temperature = rawCurrentConditions.getMainInstance().getTemperature();
-            pressure = rawCurrentConditions.getMainInstance().getPressure();
-            humidity = rawCurrentConditions.getMainInstance().getHumidity();
+            temperature = nullIfNaN(rawCurrentConditions.getMainInstance().getTemperature());
+            pressure = nullIfNaN(rawCurrentConditions.getMainInstance().getPressure());
+            humidity = nullIfNaN(rawCurrentConditions.getMainInstance().getHumidity());
         }
         if (rawCurrentConditions.hasWindInstance()) {
-            windSpeed = rawCurrentConditions.getWindInstance().getWindSpeed();
-            windDirectionInDegrees = rawCurrentConditions.getWindInstance().getWindDegree();
+            windSpeed = nullIfNaN(rawCurrentConditions.getWindInstance().getWindSpeed());
+            windDirectionInDegrees = nullIfNaN(rawCurrentConditions.getWindInstance().getWindDegree());
         }
         if (rawCurrentConditions.hasSysInstance()) {
             sunriseTime = rawCurrentConditions.getSysInstance().getSunriseTime();

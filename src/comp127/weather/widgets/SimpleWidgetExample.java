@@ -3,6 +3,8 @@ package comp127.weather.widgets;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
+import java.awt.Font;
+
 /**
  * This example shows how to create a weather connection and initialize a weather widget.
  * Created by dkluver on 10/6/17.
@@ -11,7 +13,9 @@ public class SimpleWidgetExample implements WeatherWidget {
 
     private final double size;
     private final GraphicsGroup group;
+
     private final Image weatherIcon;
+    private final GraphicsText conditions;
 
     public SimpleWidgetExample(double size) {
         this.size = size;
@@ -19,9 +23,15 @@ public class SimpleWidgetExample implements WeatherWidget {
         group = new GraphicsGroup();
 
         weatherIcon = new Image(10, 10);
-        weatherIcon.setMaxWidth(size - 20);
-        weatherIcon.setMaxHeight(size - 20);
+        weatherIcon.setMaxWidth(size * 0.6);
+        weatherIcon.setMaxHeight(size * 0.6);
         group.add(weatherIcon);
+
+        conditions = new GraphicsText("", 0, 0);
+        conditions.setFont(new Font("SansSerif", Font.PLAIN, (int) Math.round(size / 20)));
+        group.add(conditions);
+
+        updateLayout();
     }
 
     @Override
@@ -35,7 +45,8 @@ public class SimpleWidgetExample implements WeatherWidget {
 
     public void update(WeatherData data) {
         weatherIcon.setImagePath(data.getCurrentConditions().getWeatherIcon());
-        weatherIcon.setCenter(size * 0.5, size * 0.5);
+
+        conditions.setText(data.getCurrentConditions().getWeatherDescription());
 
         // Examples of how to get other weather data:
         System.out.println(data.getCityName());
@@ -48,5 +59,13 @@ public class SimpleWidgetExample implements WeatherWidget {
         System.out.println(data.getCurrentConditions().getSunriseTime());
         System.out.println(data.getCurrentConditions().getSunsetTime());
         System.out.println(data.getCurrentConditions().getWeatherDescription());
+
+        // Once we’ve updated the visuals, we may need to recenter or respace things:
+        updateLayout();
+    }
+
+    private void updateLayout() {
+        weatherIcon.setCenter(size * 0.5, size * 0.5);
+        conditions.setCenter(size * 0.5, size * 0.8);
     }
 }

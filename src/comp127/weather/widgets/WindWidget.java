@@ -19,8 +19,6 @@ public class WindWidget implements WeatherWidget {
     private Ellipse ring;
     private Line indicator;
 
-    private final DecimalFormat oneDecimalPlace = new DecimalFormat("#0.0");
-
     public WindWidget(double size) {
         this.size = size;
 
@@ -48,11 +46,11 @@ public class WindWidget implements WeatherWidget {
         group.add(northLabel);
 
         Font windFont = new Font("sansserif", Font.BOLD, (int) Math.round(size / 15));
-        windSpeedLabel = new GraphicsText("–", 0, 0);
+        windSpeedLabel = new GraphicsText("", 0, 0);
         windSpeedLabel.setFont(windFont);
         group.add(windSpeedLabel);
 
-        windDescLabel = new GraphicsText("–", 0, 0);
+        windDescLabel = new GraphicsText("", 0, 0);
         windDescLabel.setFont(windFont);
         group.add(windDescLabel);
 
@@ -71,17 +69,26 @@ public class WindWidget implements WeatherWidget {
     public void update(WeatherData data) {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
-        windSpeedLabel.setText(oneDecimalPlace.format(currentConditions.getWindSpeed()));
-        windDescLabel.setText("Wind " + currentConditions.getWindDirectionAsString());
+        windSpeedLabel.setText(FormattingHelpers.formatDecimal(currentConditions.getWindSpeed()));
+        if (currentConditions.getWindDirectionAsString() == null) {
+            windDescLabel.setText("–");
+        } else {
+            windDescLabel.setText("Wind " + currentConditions.getWindDirectionAsString());
+        }
 
-        Point center = ring.getCenter();
-        Point direction = Point.atAngle(
-            Math.toRadians(
-                currentConditions.getWindDirectionInDegrees() - 90));
-        double innerRadius = circleDiameter / 4.0;
-        double outerRadius = 2.0 * circleDiameter / 4.0;
-        indicator.setStartPosition(center.add(direction.scale(innerRadius)));
-        indicator.setEndPosition(  center.add(direction.scale(outerRadius)));
+        if(currentConditions.getWindDirectionInDegrees() == null) {
+            indicator.setStartPosition(ring.getCenter());
+            indicator.setEndPosition(ring.getCenter());
+        } else {
+            Point center = ring.getCenter();
+            Point direction = Point.atAngle(
+                Math.toRadians(
+                    currentConditions.getWindDirectionInDegrees() - 90));
+            double innerRadius = circleDiameter / 4.0;
+            double outerRadius = 2.0 * circleDiameter / 4.0;
+            indicator.setStartPosition(center.add(direction.scale(innerRadius)));
+            indicator.setEndPosition(  center.add(direction.scale(outerRadius)));
+        }
 
         updateLayout();
     }
