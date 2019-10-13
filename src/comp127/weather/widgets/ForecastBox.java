@@ -1,4 +1,4 @@
-package comp127.weather;
+package comp127.weather.widgets;
 
 import comp127.weather.api.ForecastConditions;
 import comp127graphics.Rectangle;

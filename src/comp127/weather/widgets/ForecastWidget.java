@@ -1,6 +1,5 @@
 package comp127.weather.widgets;
 
-import comp127.weather.ForecastBox;
 import comp127.weather.api.ForecastConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
