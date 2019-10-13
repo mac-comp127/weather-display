@@ -6,9 +6,10 @@ import comp127graphics.*;
 
 /**
  * A widget that displays the current temperature, and the current conditions as an icon and a string.
+ *
+ * @author Original version created by by Daniel Kluver on 10/6/17.
  */
 public class TemperatureWidget implements WeatherWidget {
-
     private final double size;
     private GraphicsGroup group;
 
@@ -16,21 +17,24 @@ public class TemperatureWidget implements WeatherWidget {
     private GraphicsText description;
     private Image icon;
 
+    /**
+     * Creates a temperature widget of dimensions size x size.
+     */
     public TemperatureWidget(double size) {
         this.size = size;
 
         group = new GraphicsGroup();
 
-        icon = new Image(0, 0);  // we'll position it when we have an icon
+        icon = new Image(0, 0);
         icon.setMaxWidth(size);
         icon.setMaxHeight(size * 0.5);
         group.add(icon);
 
-        label = new GraphicsText("–", 0, 0);
+        label = new GraphicsText();
         label.setFont(FontStyle.BOLD, size * 0.1);
         group.add(label);
 
-        description = new GraphicsText("–", 0, 0);
+        description = new GraphicsText();
         description.setFont(FontStyle.PLAIN, size * 0.05);
         group.add(description);
 

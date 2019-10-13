@@ -16,9 +16,9 @@ import java.util.List;
 public class SingleWidgetTest {
 
     private static WeatherWidget makeWidget(double size) {
-        // Replace SimpleWidgetExample with your own widget to test
-        //         ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
-        return new SimpleWidgetExample(size);
+        // Replace TemperatureWidget with your own widget to test
+        //         ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
+        return new TemperatureWidget(size);
     }
 
     // –––––– Test code ––––––
@@ -98,7 +98,7 @@ public class SingleWidgetTest {
         borderLayer.add(border);
 
         GraphicsText dimensionsLabel = new GraphicsText(Math.round(size) + "×" + Math.round(size), x + 4, y + size - 5);
-        dimensionsLabel.setFont(new Font("sansserif", Font.PLAIN, 7));
+        dimensionsLabel.setFontSize(7);
         dimensionsLabel.setFillColor(new Color(0x8EC1FF));
         dimensionLabelLayer.add(dimensionsLabel);
     }
