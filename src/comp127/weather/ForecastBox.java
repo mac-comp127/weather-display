@@ -19,7 +19,7 @@ public class ForecastBox extends Rectangle {
         super(x, y, width, height);
         this.forecast = forecast;
 
-        setStrokeWidth(Math.rint((width + height) / 20 + 1) * 0.5);
+        setStrokeWidth(Math.rint((width + height) / 40 + 1) * 0.5);
         setActive(false);
     }
 

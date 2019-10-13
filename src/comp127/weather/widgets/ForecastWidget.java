@@ -68,7 +68,7 @@ public class ForecastWidget implements WeatherWidget {
         double margin = size / 30;
         double x = 0;  // position within parent comes from group
         double y = 0;
-        double boxSpacing = size / 60;
+        double boxSpacing = size / 120;
         double boxWidth = size / 30;
         double boxHeight = size / 20;
 
@@ -124,7 +124,7 @@ public class ForecastWidget implements WeatherWidget {
 
         boxGroup.setPosition(
             size / 2.0 - boxGroup.getWidth() / 2,
-            size * 11 / 12 - boxGroup.getHeight());
+            size - boxGroup.getHeight() - size / 30);
     }
 
     /**
