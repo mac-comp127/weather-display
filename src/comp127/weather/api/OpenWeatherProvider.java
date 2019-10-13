@@ -23,14 +23,13 @@ public class OpenWeatherProvider {
     // weather for. if cityName & stateName are non-null we will use those for every api call, otherwise we
     // will use lat/long.
     private final String cityName, countryCode;
-    private final double lat, lng;
+    private final Double lat, lng;
 
     private final OpenWeatherMap openWeather;
 
     private static final ExecutorService requestQueue = Executors.newSingleThreadExecutor();
 
     /**
-     * Create a new OpenWeatherConnection object that uses cityname and country code to locate which weather we want.
      * @param apiKey your openWeather api library
      * @param cityName the name of the city you want to
      * @param countryCode the country code for the country you want to get weather from
@@ -39,13 +38,15 @@ public class OpenWeatherProvider {
         openWeather = new OpenWeatherMap(apiKey);
         this.cityName = cityName;
         this.countryCode = countryCode;
-        this.lat = this.lng = Double.NaN;
+        this.lat = this.lng = null;
         setUnitsFahrenheit();
     }
 
     /**
-     * Create a new OpenWeatherConnection object that uses cityname and country code to locate which weather we want.
-     * @param apiKey your openWeather api library
+     *
+     * @param apiKey
+     * @param latitude
+     * @param longitude
      */
     public OpenWeatherProvider(String apiKey, double latitude, double longitude) {
         openWeather = new OpenWeatherMap(apiKey);
@@ -105,7 +106,7 @@ public class OpenWeatherProvider {
             if (usingCityName()) {
                 result = cityRequest.request(cityName, countryCode);
             } else {
-                result = coordinateRequest.request((float) lat, (float) lng);
+                result = coordinateRequest.request(lat.floatValue(), lng.floatValue());
             }
         } catch (IOException ex) {
             throw new WeatherException("Weather API request failed", ex);
@@ -121,7 +122,13 @@ public class OpenWeatherProvider {
      * Returns true if we should use the city name to fetch weather info.
      */
     private boolean usingCityName() {
-        return cityName != null && countryCode != null;
+        if (cityName != null && countryCode != null) {
+            return true;
+        }
+        if (lat != null && lng != null) {
+            return false;
+        }
+        throw new IllegalStateException("Insufficient location information");
     }
 
     private interface APIRequest<Arg0, Arg1, Data> {
