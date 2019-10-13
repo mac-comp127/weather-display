@@ -1,10 +1,7 @@
 package comp127.weather;
 
 import comp127.weather.api.OpenWeatherProvider;
-import comp127.weather.widgets.ForecastWidget;
-import comp127.weather.widgets.TemperatureWidget;
-import comp127.weather.widgets.WeatherWidget;
-import comp127.weather.widgets.WindWidget;
+import comp127.weather.widgets.*;
 import comp127graphics.CanvasWindow;
 import comp127graphics.Point;
 
@@ -15,6 +12,10 @@ public class WeatherProgram extends CanvasWindow {
 
     //TODO: Replace the value of this string with your own API key.
     public static final String API_KEY = "d6a22c9835563a57b372e6515fd8ec2b";
+
+    public static final double     // Location for which we're fetching weather
+        FORECAST_LAT = 44.936593,  // OLRI 256 (approximate)
+        FORECAST_LON = -93.168650;
 
     //TODO: Define an instance variable that is an array of WeatherWidgets. You will also need a variable to keep track
     // of which index in the array is the widget that is currently displayed.
@@ -28,6 +29,7 @@ public class WeatherProgram extends CanvasWindow {
 
         //TODO: Initialize your WeatherWidget array and add widgets to it. Add the first widget to the canvas so that it appears
         widgets = List.of(
+            new ForecastGraphWidget(getWidth()),
             new TemperatureWidget(getWidth()),
             new ForecastWidget(getWidth()),
             new WindWidget(getWidth())
@@ -35,7 +37,7 @@ public class WeatherProgram extends CanvasWindow {
 
         add(widgets.get(0).getGraphics());
 
-        new OpenWeatherProvider(API_KEY, 44.936593, -93.168650)  // OLRI 256 (approximate)
+        new OpenWeatherProvider(API_KEY, FORECAST_LAT, FORECAST_LON)
             .fetchWeather((weatherData) -> {
                 for (WeatherWidget widget : widgets) {
                     widget.update(weatherData);

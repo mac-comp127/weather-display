@@ -6,7 +6,6 @@ import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 

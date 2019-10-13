@@ -4,9 +4,6 @@ import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
-import java.awt.Font;
-import java.text.DecimalFormat;
-
 public class TemperatureWidget implements WeatherWidget {
 
     private final double size;

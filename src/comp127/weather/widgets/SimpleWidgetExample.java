@@ -3,8 +3,6 @@ package comp127.weather.widgets;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
 
-import java.awt.Font;
-
 /**
  * This example shows how to create a weather connection and initialize a weather widget.
  * Created by dkluver on 10/6/17.

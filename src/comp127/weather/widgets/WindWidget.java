@@ -1,12 +1,8 @@
 package comp127.weather.widgets;
 
-import comp127.weather.WeatherProgram;
 import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
 import comp127graphics.*;
-
-import java.awt.Font;
-import java.text.DecimalFormat;
 
 public class WindWidget implements WeatherWidget {
 

@@ -1,12 +1,11 @@
 package comp127.weather.api;
 
-import net.aksingh.owmjapis.AbstractWeather;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.HourlyForecast;
-import net.aksingh.owmjapis.Tools;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
