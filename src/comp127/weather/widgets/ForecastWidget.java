@@ -62,8 +62,6 @@ public class ForecastWidget implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        //TODO: Draw a ForecastBox for each forecastwrapper in the array returned from getForecastArray().
-
         double margin = size / 30;
         double x = 0;  // position within parent comes from group
         double y = 0;
@@ -147,7 +145,6 @@ public class ForecastWidget implements WeatherWidget {
     public void onHover(Point position) {
         ForecastBox box = getBoxAt(position);
         if (box != null) {
-            //TODO: Update the current displayed information to match the selected forecast from the box.
             selectForecast(box);
         }
     }
