@@ -65,6 +65,14 @@ public class SingleWidgetTest {
             }
             testDataSeed++;
         });
+
+        canvas.onMouseMove((event) -> {
+            for (WeatherWidget widget : widgets) {
+                if (widget.getGraphics().isInBounds(event.getPosition())) {
+                    widget.onHover(event.getPosition());
+                }
+            }
+        });
     }
 
     private void addTestWidget(double x, double y, double size) {
