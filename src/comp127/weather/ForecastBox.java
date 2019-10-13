@@ -20,7 +20,13 @@ public class ForecastBox extends Rectangle {
         this.forecast = forecast;
 
         setFilled(true);
-        setFillColor(new Color(59, 166, 52));
+        setActive(false);
+    }
+
+    public void setActive(boolean active) {
+        setFillColor(active
+            ? new Color(0x3ba634)
+            : new Color(0xD9D9D9));
     }
 
     /**

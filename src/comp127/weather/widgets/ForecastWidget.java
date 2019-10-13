@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForecastWidget implements WeatherWidget {
@@ -29,6 +30,7 @@ public class ForecastWidget implements WeatherWidget {
     // e.g. System.out.println(df.format(4.555555)); will print 4.5;
     private final DecimalFormat oneDecimalPlace = new DecimalFormat("#0.0");
     private final DateFormat dateFormat = new SimpleDateFormat("E, MMM d – h:mm a");
+    private List<ForecastBox> boxes = new ArrayList<>();
 
     public ForecastWidget(double size) {
         this.size = size;
@@ -73,8 +75,6 @@ public class ForecastWidget implements WeatherWidget {
 
         //TODO: Draw information about the forecast at the first array index.
 
-        List<ForecastConditions> forecasts = data.getForecasts();
-
         double margin = size / 30;
         double x = 0;  // position within parent comes from group
         double y = 0;
@@ -83,9 +83,11 @@ public class ForecastWidget implements WeatherWidget {
         double boxHeight = size / 20;
 
         boxGroup.removeAll();
-        for (ForecastConditions forecast : forecasts) {
+        boxes.clear();
+        for (ForecastConditions forecast : data.getForecasts()) {
             ForecastBox box = new ForecastBox(forecast, x, y, boxWidth, boxHeight);
             boxGroup.add(box);
+            boxes.add(box);
 
             x += boxWidth + boxSpacing;
             if (x + boxWidth > size - margin * 2) {
@@ -93,12 +95,16 @@ public class ForecastWidget implements WeatherWidget {
                 y += boxHeight + boxSpacing * 2;
             }
         }
-        if (!forecasts.isEmpty()) {
-            showConditions(forecasts.get(0));
+        if (!boxes.isEmpty()) {
+            selectForecast(boxes.get(0));
         }
     }
 
-    private void showConditions(ForecastConditions forecast) {
+    private void selectForecast(ForecastBox box) {
+        for (ForecastBox otherBox : boxes) {
+            otherBox.setActive(otherBox == box);
+        }
+        ForecastConditions forecast = box.getForecast();
         timeLabel.setText(dateFormat.format(forecast.getPredictionTime()));
         icon.setImagePath(forecast.getWeatherIcon());
         tempLabel.setText(oneDecimalPlace.format(forecast.getTemperature()) + "\u2109");
@@ -159,7 +165,7 @@ public class ForecastWidget implements WeatherWidget {
         ForecastBox box = getBoxAt(position);
         if (box != null) {
             //TODO: Update the current displayed information to match the selected forecast from the box.
-            showConditions(box.getForecast());
+            selectForecast(box);
         }
     }
 }
