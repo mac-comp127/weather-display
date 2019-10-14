@@ -26,35 +26,5 @@ public class FormattingHelpers {
      */
     public static final DateFormat TIME_OF_DAY = new SimpleDateFormat("h:mm a");
 
-    /**
-     * Converts the given number to a string with one digit past the decimal point, or returns "–"
-     * if given null.
-     */
-    public static String formatDecimal(Double x) {
-        if (x == null) {
-            return "–";
-        }
-        return ONE_DECIMAL_PLACE.format(x);
-    }
-
-    /**
-     * Converts the given number to a string showing the date and day of week, or returns "–" if
-     * given null.
-     */
-    public static String formatDate(Date date) {
-        if (date == null) {
-            return "–";
-        }
-        return WEEKDAY_AND_NAME.format(date);
-    }
-
-    /**
-     * Converts the given number to a string showing the time of day, or returns "–" if given null.
-     */
-    public static String formatTimeOfDay(Date date) {
-        if (date == null) {
-            return "–";
-        }
-        return TIME_OF_DAY.format(date);
-    }
+    // TODO: Add any other static helper methods your widgets might want to share
 }

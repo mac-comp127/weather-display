@@ -13,9 +13,10 @@ public class ForecastWidget implements WeatherWidget {
     private final double size;
     private GraphicsGroup group;
 
-    private GraphicsText dateLabel, timeLabel, tempLabel, minMaxTempLabel, description;
-    private Image icon;
-    private GraphicsGroup boxGroup;
+    // TODO: Add instance variables for any UI elements that you create in the constructor but
+    //       will need to update later with new data
+
+    private GraphicsGroup boxGroup;  // Holds all the ForecastBox objects
 
     private List<ForecastBox> boxes = new ArrayList<>();
 
@@ -24,31 +25,8 @@ public class ForecastWidget implements WeatherWidget {
 
         group = new GraphicsGroup();
 
-        dateLabel = new GraphicsText("", 0, 0);
-        dateLabel.setFont(FontStyle.BOLD, size / 15);
-        group.add(dateLabel);
-
-        timeLabel = new GraphicsText();
-        timeLabel.setFont(FontStyle.BOLD, size / 15);
-        group.add(timeLabel);
-
-        icon = new Image(0, 0);
-        icon.setMaxWidth(size / 4);
-        icon.setMaxHeight(size / 4);
-        group.add(icon);
-
-        tempLabel = new GraphicsText();
-        tempLabel.setFont(FontStyle.BOLD, size / 15);
-        group.add(tempLabel);
-
-        minMaxTempLabel = new GraphicsText();
-        minMaxTempLabel.setFont(FontStyle.PLAIN, size / 15);
-        minMaxTempLabel.setFillColor(Color.GRAY);
-        group.add(minMaxTempLabel);
-
-        description = new GraphicsText("", 400, 120);
-        description.setFont(FontStyle.PLAIN, size / 20);
-        group.add(description);
+        // TODO: Create the various text and image elements you will need (but not the row of boxes
+        //       at the bottom; those you will create in update())
 
         boxGroup = new GraphicsGroup();
         group.add(boxGroup);
@@ -62,70 +40,42 @@ public class ForecastWidget implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        double margin = size / 30;
-        double x = 0;  // position within parent comes from group
-        double y = 0;
-        double boxSpacing = size / 120;
-        double boxWidth = size / 30;
-        double boxHeight = size / 20;
+        // TODO: Remove all the existing elements from boxGroup.
+        //       HINT: check the javadoc for GraphicsGroup to keep this simple!
 
-        boxGroup.removeAll();
-        boxes.clear();
-        for (ForecastConditions forecast : data.getForecasts()) {
-            ForecastBox box = new ForecastBox(forecast, x, y, boxWidth, boxHeight);
-            boxGroup.add(box);
-            boxes.add(box);
+        boxes.clear();  // Remove all the old ForecastBoxes from our list
 
-            x += boxWidth + boxSpacing;
-            if (x + boxWidth > size - margin * 2) {
-                x = 0;
-                y += boxHeight + boxSpacing * 2;
-            }
-        }
-        if (!boxes.isEmpty()) {
-            selectForecast(boxes.get(0));
-        }
+        // TODO: Loop through all the ForecastConditions objects from data, and for each one:
+        //       - Wrap it in a new ForecastBox
+        //       - Position it to the right of the previous box, wrapping to a new line if you are
+        //         past the end of the current one.
+        //       - Add the new box to the graphics group
+        //       - Add the new box to the `boxes` list
+
+        // TODO: Call selectForecast() with the first ForecastBox, which will update the various
+        //       text and icon elements.
     }
 
     private void selectForecast(ForecastBox box) {
-        for (ForecastBox otherBox : boxes) {
-            otherBox.setActive(otherBox == box);
-        }
-        ForecastConditions forecast = box.getForecast();
-        dateLabel.setText(FormattingHelpers.formatDate(forecast.getPredictionTime()));
-        timeLabel.setText(FormattingHelpers.formatTimeOfDay(forecast.getPredictionTime()));
-        icon.setImagePath(forecast.getWeatherIcon());
-        tempLabel.setText(FormattingHelpers.formatDecimal(forecast.getTemperature()) + "\u2109");
-        minMaxTempLabel.setText(
-            FormattingHelpers.formatDecimal(forecast.getMinTemperature())
-                + "\u2109 | "
-                + FormattingHelpers.formatDecimal(forecast.getMaxTemperature())
-                + "\u2109");
-        description.setText(forecast.getWeatherDescription());
+        // TODO: Call setActive() for all the forecast boxes, with true for the selected box and
+        //       false for all the others (so that the previously active one becomes inactive).
+
+        // TODO: Get the forecast data from the box, and use it to update the text and icon.
+
         updateLayout();
     }
 
     private void updateLayout() {
-        dateLabel.setPosition(size / 24, size / 12);
-        timeLabel.setPosition(size * 23 / 24 - timeLabel.getWidth(), size / 12);
-        icon.setCenter(size / 2, size * 3.5 / 12);
-        tempLabel.setCenter(size / 2, size * 6 / 12);
-
-        minMaxTempLabel.setPosition(
-            size / 2.0 - minMaxTempLabel.getWidth() / 2,
-            tempLabel.getY() + minMaxTempLabel.getHeight() + 5);
-
-        description.setPosition(
-            size / 2.0 - description.getWidth() / 2,
-            minMaxTempLabel.getY() + description.getHeight() + 5);
-
-        boxGroup.setPosition(
-            size / 2.0 - boxGroup.getWidth() / 2,
-            size - boxGroup.getHeight() - size / 30);
+        // TODO: Place all the elements on the canvas in the correct position
+        //       HINT: Use multiples of size instead of absolute pixel measurements to adjust to
+        //             different widget sizes.
+        //       HINT: Study the methods of GraphicsObject to find different ways of positioning and
+        //             measuring graphics objects.
     }
 
     /**
-     * Given x,y coordinates, this returns the forecastbox at that position if it exists
+     * Given a position in the widget, this returns the ForecastBox at that position if one exists
+     *
      * @param location pos to check
      * @return null if not over a forecast box
      */
@@ -138,14 +88,15 @@ public class ForecastWidget implements WeatherWidget {
     }
 
     /**
-     * Updates the currently displayed forecast information depending on which ForecastBox is located at x,y.
-     * If there is not a ForecastBox at that position the display does not change.
+     * Updates the currently displayed forecast information as the mouse moves over the widget.
+     * If there is not a ForecastBox at that position, the display does not change.
      */
     @Override
     public void onHover(Point position) {
-        ForecastBox box = getBoxAt(position);
-        if (box != null) {
-            selectForecast(box);
-        }
+        // TODO: Check if there is a box at the current mouse position.
+        //       If there is, make it the selected forecast.
+        //       HINT: Study the methods above! They will help you immensely.
+        //       HINT: This should be a small method. If it gets complicated,
+        //             you‘ve gone off the rails.
     }
 }

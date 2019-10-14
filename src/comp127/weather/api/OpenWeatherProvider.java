@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class OpenWeatherProvider {
 
     // TODO: Replace the value of this string with your own API key.
-    private static final String API_KEY = "d6a22c9835563a57b372e6515fd8ec2b";
+    private static final String API_KEY = "??????????";
 
     // There are two (well 4, but I'm not implementing all that) ways to specify where where you want
     // weather for. if cityName & stateName are non-null we will use those for every api call, otherwise we

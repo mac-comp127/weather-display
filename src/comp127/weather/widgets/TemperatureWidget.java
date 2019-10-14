@@ -50,7 +50,11 @@ public class TemperatureWidget implements WeatherWidget {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         icon.setImagePath(currentConditions.getWeatherIcon());
-        label.setText(FormattingHelpers.formatDecimal(currentConditions.getTemperature()) + "\u2109");
+
+        label.setText(
+            currentConditions.getTemperature()
+             + "\u2109");  // degree symbol
+
         description.setText(currentConditions.getWeatherDescription());
 
         // Examples of how to get other weather data (remove this from your finished code):
@@ -74,9 +78,8 @@ public class TemperatureWidget implements WeatherWidget {
 
         label.setCenter(size * 0.5, size * 0.8);
 
-        description.setPosition(
-            size * 0.5 - description.getWidth() / 2,
-            label.getY() + description.getHeight());
+        // TODO: Place the description directly underneath the label by adding the height of
+        //       description (plus maybe a little padding) to the position of label
     }
 
     @Override
