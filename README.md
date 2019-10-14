@@ -1,67 +1,178 @@
 # Homework 3: Weather Display
 
-### Overview
+## Overview
 
-For this assignment, you will be adding to a weather widget interface that we have provided, which will grab current forecast information from openweathermap.org.  We have created a wrapper class to handle accessing and parsing the data from the site, so that you only have to make use of the data.  You will be using arrays and mouse listeners as part of this assignment.  As always, make sure to follow the [Comp 127 Java Style Guide](https://docs.google.com/document/d/1KB3T5can3aC5qygtdjKTUzl0P3c8BlN1QaWy4rIc2F0/edit#heading=h.vf2mhsyaswwv).
+In this assignment, you will create an app that shows weather information. The program will use real weather data from [OpenWeather](https://openweathermap.org). We have created code to handle getting the data from OpenWeather, and have given you a start on the UI. You will complete the UI.
 
-The following are three example widget displays that you might implement as part of this assignment.  The first one shows the direction and speed of the wind.  The second one shows the current temperature and weather state.  The third one contains the forecast in 3 hour increments, and displays the details for whichever box the mouse is hovering over.
+When you are done, your results might look something like this:
 
-![alt tag](./wind_widget.png)
+![Completed user interface with 4 widgets](doc/images/completed-ui.png)
 
-![alt tag](./temperature_widget.png)
+…but what you create will be different, because you will invent two of your own weather widgets!
 
-![alt tag](./forecast_widget.png)
+As always, make sure to follow the [Comp 127 Java Style Guide](https://docs.google.com/document/d/1KB3T5can3aC5qygtdjKTUzl0P3c8BlN1QaWy4rIc2F0/edit?usp=sharing).
 
-### Getting an API Key
+### Attributions
 
-You will first need to get your own API key, by signing up for a free account on http://openweathermap.org/appid.  OpenWeatherMap provides this API so that people have access to weather data for apps and widgets, such as the ones you'll be making.Once you've completed the sign up page, it will take you to your account setup page.  Select the next tab over from "Setup", which is the "API keys" tab (location boxed in orange).  You have a default API key already, so copy that (location boxed in blue, do not use the one in the image).
+We have used the owmjapis and org.json packages (both of which are open source) to create our wrapper class and make the data accessible to you. You do not need to know how these packages work, but if you would like more information about them, you can check out the following links:
+- [owmjapis](https://bitbucket.org/akapribot/owm-japis)
+- [json](https://github.com/stleary/JSON-java)
 
-![alt tag](./api_key.png)
+The original version of this activity was by Bret Jackson, with heavy contributions from Daniel Kluver.
 
-Now open the WeatherProgram file in IntelliJ.  At the top, you will see a TODO asking you to fill in your API key.  Remove the placeholder String ("123"), and replace it with your own API key (as a String).  Rembember to remove the TODO when you've completed the task.
 
-### Task 1: Current Weather Display Widgets
+## Getting an API Key
 
-For this part of the assignment, you need to make **two** different basic weather display classes, each of which is a subclass of the abstract WeatherWidget class.Each class should show information about the current conditions (and only the current conditions), such as the wind and temperature images shown above.  You do not need to implement wind and temperature specifically, feel free to be creative in choosing what you want to display about the current weather conditions.  However, your two displays must show different information about the current conditions.
+You will first need to get your own OpenWeather API key, by signing up for a free account at [https://openweathermap.org/appid](https://openweathermap.org/appid).
 
-Take a look at SimpleWidgetExample to see how to set up your own widget classes.  In particular, the example shows you how to create a weather connection (through a OpenWeatherConnection object) in the constructor, and how to initialize the widget.  Make sure that you are passing an OpenWeatherConnection object to your widget and then passing that object on to the superclass, not making a new one.  You should only make one OpenWeatherConnection object for the entire program, and that is already done for you in the WeatherProgram constructor.  That object is then passed to each of the widgets in use.  This reduces the number of connections you have open, and reduces the number of requests you send (which is regulated for your API key).
- 
-The SimpleWidgetExample class also has an implemented draw() method.  You will need to include significantly more in your own widget draw() methods.  Do not implement a main() method in your own widget classes.  That will be handled in the WeatherProgram (it is contained within the SimpleWidgetExample so that the example can run by iteself).
+> **What is a web API?** In general, an “application programming interface,” or “API” for short, is a way for code to talk to other code. You are already used to using _library APIs_ such as `List`. These APIs let code communicate with other code on the same computer. But code can also provide data to other code across the Internet. We call that a “remote API,” or if it specifically uses web technology such as HTTP, a “web API.”
+
+> **What is an API key?** OpenWeather provides this API for free, so that people can build apps and do research. The API key lets them know who is requesting data, so that if a particular account is abusing the system (e.g. by making too many requests), they can shut it down.
+
+Once you've completed the sign up page, it will take you to your account welcome page. Select the next tab over from "Setup", which is the “API keys” tab (see picture below, location boxed in orange).
+
+![The OpenWeather admin interface](doc/images/api-key.png)
+
+(Note: as of this writing, there is a bug in the OpenWeather site which causes the tabs not to be visible for certain browser window widths. If you can’t see the tabs, make your browser window wider.)
+
+You have a default API key already, so copy that (location boxed in blue).
+
+Now open the `OpenWeatherProvider` class in IntelliJ (in the `comp127.weather.api` package). At the top, you will see a TODO asking you to fill in your API key. Remove the contents of the placeholder String (a bunch of question marks), and replace them with your own API key. Rembember to remove the TODO when you've completed the task!
+
+
+## Part 0: Understanding the existing code
+
+### Data model
+
+In the `comp127.weather.api` package, look at these classes:
+
+- `WeatherData`
+- `Conditions`
+- `CurrentConditions`
+- `ForecastConditions`
+
+Study the relationships between these classes. (How are they connected? What are the has-a and is-a relationships between them? What is the role of each class? It might be wise to diagram this.)
+
+These classes have some tricky code in them, including some that uses Java features we have not studied in class. But don’t worry! You only need to **use these classes, not modify them** or understand how they work. That means that you can just pay attention to the **public method signatures** and their accompanying Javadoc. For example, in `WeatherData`, the signature of the first public member is:
+
+```java
+public String getCityName()
+```
+
+These public methods are what you will use to get data for your weather UI. Note that these classes provide _just the data_; none of them say anything about _how the data will be displayed_. This kind of “no view, just data” classes are called a **data model**. You will need to be familiar with the data model to build your UI.
+
+### User interface
+
+Look inside the `comp127.weather.widgets` package. There is an interface called `WeatherWidget`, plus a start on two specific widgets that implement it. You will complete those two widgets, and add two of your own. Study `WeatherWidget` and understand the methods that each widget must implement.
+
+There are also a few classes that will help you implement widgets. Take a look at them, and understand what they offer you.
+
+In the `comp127.weather` package, run `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It currently just shows the same widget four times, and does not yet show an enlarged version of the selected widget. However, it will fetch real weather data for St. Paul.
+
+If you see nothing but question marks, that means either you have not put your API key in the correct place, or your key is not active yet. Note that even if your API key is not active yet, you can still proceed quite far with the assignment, because of the…
+
+### Testing strategy
+
+In the `test` directory, in the `comp127.weather.widgets` package, run `SingleWidgetTest`. This class is designed to help you test new widgets as you develop them. Right now, it is set up to test `TemperatureWidget`, but you will eventually use it to test others too.
+
+Much like `WeatherProgram`, this class displays widgets on a canvas. However, there are two important differences:
+
+- **It shows just one widget at many different sizes.** This is to make sure the widget scales itself properly, so that it looks good whether it is large or small.
+- **It uses fake data generated for testing.** Why use fake data?
+    - The fake data is designed to exercise a wide range of possible conditions, including **edge cases** such as missing data and extreme values.
+    - The fake data does not use the network, so your tests run faster (and don’t unnecessarily pummel the OpenWeather servers).
+    - The fake data it uses is the same every time. This means that if you catch a bug, you can retest your widget with the same data to make sure you fixed it. A stable, repeatable test environment like this is called a **test fixture**. (You can see how the fake data is generated in `WeatherDataFixtures`. In this class it is arbitrarily generated, but fixture data is often hand-designed.)
+
+When `SingleWidgetTest` runs, you should see a blank screen. This is how the widget will look before it gets any data from OpenWeather, i.e. while it is loading.
+
+Click anywhere. You will now see how the widget looks when the server responds with everything blank that is allowed to be blank.
+
+Click again. You will see a variety of different weather conditions.
+
+Do you notice that `TemperatureWidget` doesn’t look quite right?
+
+
+## Part 1: Fix `TemperatureWidget`
+
+We want `TemperatureWidget` to look something like this:
+
+![Temperature widget working in various states](doc/images/temperature-widget-desired.png)
+
+…but right now, it looks like this:
+
+![Temperature widget showing bugs in various states](doc/images/temperature-widget-starting-point.png)
+
+There are several problems:
+
+- It does not handle null temperatures well.
+- It shows the temperature to a ridiculous number of decimal places.
+- The textual description of the weather condition is stuck almost entirely outside the box in the upper left.
+
+Your first task: **fix these problems** to make `TemperatureWidget` work properly.
+
+You will find a few hints in the code. And here is one more hint:
+
+You can use `FormattingHelpers.ONE_DECIMAL_PLACE.format(...)` to convert a double to a string with only one decimal place. However, this will not handle null correctly; before formatting the temperature, you will need to check for null. You will need to do this check a lot, so consider adding a new static method to `FormattingHelpers` that uses `ONE_DECIMAL_PLACE` but also checks for null first. (You could even make `ONE_DECIMAL_PLACE` private so you don’t accidentally use it from your widgets, and have to use your null-safe helper instead.)
+
+Use `SingleWidgetTest` to make sure the widget works with a wide variety of input data.
+
+
+## Part 2: Create your own widget
+
+Using the general structure of `TemperatureWidget` as a guide, invent your own weather widget. You might use the second widget in the screenshot at the very top of this document for inspiration. You might also be inspired looking through what is available to you in `WeatherData` and its related classes. Just make sure that your new widget does something new and different from the temperature widget. Be creative!
+
+I recommend making this first widget focus on `CurrentConditions` only, and not deal with future forecasts. That will come in the next step.
+
+To test your new widget, change `SingleWidgetTest` to run it instead of the temperature widget.
 
 Helpful Notes:
-* To add text to your widgets, take a look at the GraphicsText javadoc, which is located in 127-shared, under the doc/comp127graphics directory.
-* You can change the font size by creating a new font, "Font f = new Font("SanSerif", Font.PLAIN, 20)" and then calling setFont on the corresponding Graphics Text object.  You can get more information through the [Font javadoc](https://docs.oracle.com/javase/8/docs/api/java/awt/Font.html).
-* "\u2109" will draw a degrees F symbol
-* You can use a decimal formatter to limit the number of decimal places drawn in your text.  You can find an example in the ForecastWidget class.
+- To learn about what kinds of graphics you can create, take a look at the [comp127graphics javadoc](https://mac-comp127-f19.github.io/127-shared/comp127graphics/package-summary.html).
+- Look at the tools in `FormattingHelpers`, and add your own formatters if you need new ones. (Don’t modify the existing formats. You’ll need them for the next part of the assignment.)
+- The Java string "\u2109" is a degree symbol.
 
-### Task 2: Adding Widgets to WeatherProgram
 
-Once you have created your new widget classes, you will need to make modifications to the WeatherProgram in order to run things.  You won't need to make test cases for this assignment, but you will have to test that things work by running the WeatherProgram and making sure you get the behavior you expect from the widgets.  In order to do that, you'll need to make the WeatherProgram run your widgets.
+## Part 3: Complete `ForecastWidget`
 
-You will first need to modify the WeatherProgram to include instance variables for an array of WeatherWidgets and to keep track of the currently displayed index of the array.  Once you have the instance variables, you will need to initialize and populate the array with your widgets.  You'll find TODO notes in the class with further information about what and where to implement these items.  Run the program and make sure your first widget in the array displays as you expected.
+Make the `ForecastWidget` look like this:
 
-We want to see all of the widgets available in the WeatherProgram, though, so you now need to add mouse listeners to cycle through the available widgets.  The mouse listener should detect when the mouse is clicked, and then advance the variable that has the currently displayed index, so that the next widget is displayed instead.  Don't forget to cycle back to 0 when you reach the end of the array.
+![Forecast widget working](doc/images/temperature-widget-completed.png)
 
-### Task 3: Forecast Display Widget
+The boxes at the bottom represent a timeline of future forecasts. When the mouse moves over the boxes, it should change the forecast shown above.
 
-Now that you have your basic weather widget displays working, it's time to work on a more complex display--the ForecastWidget.  We've provided you with some starter code for this widget, but you'll have to fill in the rest.  Here's what it should do.
+The code contains some scaffolding and many hints.
 
-The ForecastWidget shows rows of ForecastBoxes, where each box represents the forecast data for a specific date and time from the Forecast array in the WeatherWidget.  By default, it displays the detailed information, including the date, time window, and weather conditions for the forecast associated with the first date/time index in that array.  However, when the mouse is moved over another box in the rows, the detailed information should be changed to reflect the forecast data for that particular date/time.
+As before, change `SingleWidgetTest` to test your widget. Test it thoroughly! There is a lot going on here, which means there are many possible bugs.
 
-First, you should fill in the draw() method, so that it draws the forecast boxes and the specified data for the first date/time in the array.  When you have that completed, you can test that it works by adding the ForecastWidget to your widget array in WeatherProgram, and click through until you get to that widget display.  Once you know this initial part is working, move on to updating the information when the mouse hovers over a different box.
 
-You will need to modify the updateSelection method in ForecastWidget to update the details displayed to the widget based on which box is located at the x,y position of the mouse.  The updateSelection method will be called from the WeatherProgram in the mouse motion listener method, which you will need to implement next.  Note that the mouse motion listener should be active only when the ForecastWidget is displayed, and not when your other weather widgets are displayed.
+## Part 4: Complete `WeatherProgram`
 
-### Turning In the Completed Assignment
+You’ve been using the test code so long, it may be easy to forget the goal is to build a real app!
 
-You must create a fork of the original repository on GitHub, and then clone that fork to your local machine in IntelliJ.  When you have finished the assignment (or at various points along the way, such as after each widget or task is complete), be sure to commit (local update to your repository) and push (GitHub update to your repository).  Don't forget to commit and push your final code before the assignment deadline (6pm on Wednesday, October 18th), or we won't be able to grade your work.
+Go back to `WeatherProgram`, and find the `createWidgets()` method. This method gets called twice: once to make small widgets to run down the right hand side of the screen, and once to make large widgets to show one at a time on the left.
+
+The layout logic for these widgets is all done, but you never see the enlarged widgets because `selectWidgetAtIndex()` is not implemented yet. Implement it according to the hints in the code.
+
+
+## Part 5: Invent an even fancier widget
+
+Now that you are a pro at working with this project’s approach to the UI, invent a second new widget of your own. Same rules as part 2, except now you are free to use future forecast data as well as current conditions.
+
+Don’t forget to switch back to `SingleWidgetTest` to test your new widget first. Then add it to `WeatherProgram` to see your new widget in action!
+
+
+## Wrapping up
+
+When you are all done, you should have a weather display that looks something like this:
+
+![Completed user interface with 4 widgets](doc/images/completed-ui.png)
+
+- There are 4 widgets down the right side: the original temperature widget, the forecast widget, and 2 you invented yourself. (Any order for all those is fine.)
+- You can click on a widget to see it enlarged.
+- When the forecast widget is enlarged, you can hover your mouse over the timeline to see forecasts for different times.
+
+Look good? Try using your weather app to decide what to wear tomorrow!
+
 
 ### Extra Credit
 
-* create additional weather widgets to show different information
-* create a weather display that draws a graph of the forecasted data
-
-### Attributions
-We have used the owmjapis and org.json packages (both of which are open source) to create our wrapper class and make the data accessible to you.  You do not need to know how these packages work, but if you would like more information about them, you can check out the following links:
-* [owmjapis](https://bitbucket.org/akapribot/owm-japis)
-* [json](https://github.com/stleary/JSON-java)
+Invent additional weather widgets. Have fun!
