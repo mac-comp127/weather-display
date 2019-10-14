@@ -28,7 +28,7 @@ public class ForecastWidget implements WeatherWidget {
         dateLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(dateLabel);
 
-        timeLabel = new GraphicsText("", 0, 0);
+        timeLabel = new GraphicsText();
         timeLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(timeLabel);
 
@@ -37,11 +37,11 @@ public class ForecastWidget implements WeatherWidget {
         icon.setMaxHeight(size / 4);
         group.add(icon);
 
-        tempLabel = new GraphicsText("" + "\u2109", 0, 0);
+        tempLabel = new GraphicsText();
         tempLabel.setFont(FontStyle.BOLD, size / 15);
         group.add(tempLabel);
 
-        minMaxTempLabel = new GraphicsText("", 0, 0);
+        minMaxTempLabel = new GraphicsText();
         minMaxTempLabel.setFont(FontStyle.PLAIN, size / 15);
         minMaxTempLabel.setFillColor(Color.GRAY);
         group.add(minMaxTempLabel);
