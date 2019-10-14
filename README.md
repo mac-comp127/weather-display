@@ -96,7 +96,7 @@ Do you notice that `TemperatureWidget` doesn’t look quite right?
 
 We want `TemperatureWidget` to look something like this:
 
-![Temperature widget working in various states](doc/images/temperature-widget-desired.png)
+![Temperature widget working in various states](doc/images/temperature-widget-completed.png)
 
 …but right now, it looks like this:
 
