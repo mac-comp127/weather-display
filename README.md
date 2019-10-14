@@ -23,19 +23,19 @@ The original version of this activity was by Bret Jackson, with heavy contributi
 
 ## Getting an API Key
 
-You will first need to get your own OpenWeather API key, by signing up for a free account at [https://openweathermap.org/appid](https://openweathermap.org/appid).
+You will first need to get your own OpenWeather API key, so you can use their web API. Do this by signing up for a free account at [https://openweathermap.org/appid](https://openweathermap.org/appid).
 
 > **What is a web API?** In general, an “application programming interface,” or “API” for short, is a way for code to talk to other code. You are already used to using _library APIs_ such as `List`. These APIs let code communicate with other code on the same computer. But code can also provide data to other code across the Internet. We call that a “remote API,” or if it specifically uses web technology such as HTTP, a “web API.”
 
-> **What is an API key?** OpenWeather provides this API for free, so that people can build apps and do research. The API key lets them know who is requesting data, so that if a particular account is abusing the system (e.g. by making too many requests), they can shut it down.
+> **What is an API key?** OpenWeather provides this API for free, so that people can build apps and do research. The API key lets them know who is requesting data. This lets them have some paid features, and lets them shut down a particular account if it is abusing the system (e.g. by making too many requests).
 
-Once you've completed the sign up page, it will take you to your account welcome page. Select the next tab over from "Setup", which is the “API keys” tab (see picture below, location boxed in orange).
+Once you've completed the sign up page, it will take you to your account welcome page. Select the next tab over from "Setup", which is the “API keys” tab (see picture below, circled in orange).
 
 ![The OpenWeather admin interface](doc/images/api-key.png)
 
 (Note: as of this writing, there is a bug in the OpenWeather site which causes the tabs not to be visible for certain browser window widths. If you can’t see the tabs, make your browser window wider.)
 
-You have a default API key already, so copy that (location boxed in blue).
+You have a default API key already, so copy that (circled in blue).
 
 Now open the `OpenWeatherProvider` class in IntelliJ (in the `comp127.weather.api` package). At the top, you will see a TODO asking you to fill in your API key. Remove the contents of the placeholder String (a bunch of question marks), and replace them with your own API key. Rembember to remove the TODO when you've completed the task!
 
@@ -53,7 +53,7 @@ In the `comp127.weather.api` package, look at these classes:
 
 Study the relationships between these classes. (How are they connected? What are the has-a and is-a relationships between them? What is the role of each class? It might be wise to diagram this.)
 
-These classes have some tricky code in them, including some that uses Java features we have not studied in class. But don’t worry! You only need to **use these classes, not modify them** or understand how they work. That means that you can just pay attention to the **public method signatures** and their accompanying Javadoc. For example, in `WeatherData`, the signature of the first public member is:
+These classes have some tricky code in them, including some Java features we have not studied in class. But don’t worry! You only need to **use these classes, not modify them** or understand how they work. That means that you can just pay attention to the **public method signatures** and their accompanying Javadoc. For example, in `WeatherData`, the signature of the first public member is:
 
 ```java
 public String getCityName()
@@ -67,9 +67,9 @@ Look inside the `comp127.weather.widgets` package. There is an interface called 
 
 There are also a few classes that will help you implement widgets. Take a look at them, and understand what they offer you.
 
-In the `comp127.weather` package, run `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It currently just shows the same widget four times, and does not yet show an enlarged version of the selected widget. However, it will fetch real weather data for St. Paul.
+In the `comp127.weather` package, take a look at `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It will fetch real weather data for St. Paul. However, it currently just shows the same widget four times, and does not yet show an enlarged version of the selected widget as it is supposed to.
 
-If you see nothing but question marks, that means either you have not put your API key in the correct place, or your key is not active yet. Note that even if your API key is not active yet, you can still proceed quite far with the assignment, because of the…
+If you see nothing but question marks, that means either you have not put your API key in the correct place, or your key is not active yet. Even if your API key is not active yet, however, you can still proceed with the assignment, because of the…
 
 ### Testing strategy
 
@@ -80,8 +80,8 @@ Much like `WeatherProgram`, this class displays widgets on a canvas. However, th
 - **It shows just one widget at many different sizes.** This is to make sure the widget scales itself properly, so that it looks good whether it is large or small.
 - **It uses fake data generated for testing.** Why use fake data?
     - The fake data is designed to exercise a wide range of possible conditions, including **edge cases** such as missing data and extreme values.
-    - The fake data does not use the network, so your tests run faster (and don’t unnecessarily pummel the OpenWeather servers).
-    - The fake data it uses is the same every time. This means that if you catch a bug, you can retest your widget with the same data to make sure you fixed it. A stable, repeatable test environment like this is called a **test fixture**. (You can see how the fake data is generated in `WeatherDataFixtures`. In this class it is arbitrarily generated, but fixture data is often hand-designed.)
+    - The fake data **does not use the network**, so your tests run faster (and don’t unnecessarily pummel the OpenWeather servers).
+    - The fake data it uses is **stable**, i.e. the same every time. This means that if you catch a bug, you can retest your widget with the same data to make sure you fixed it. A stable, repeatable test environment like this is called a **test fixture**. (You can see how the fake data is generated in `WeatherDataFixtures`. In this project it is arbitrarily generated, but fixture data is often hand-designed or captured from real data.)
 
 When `SingleWidgetTest` runs, you should see a blank screen. This is how the widget will look before it gets any data from OpenWeather, i.e. while it is loading.
 
@@ -104,7 +104,7 @@ We want `TemperatureWidget` to look something like this:
 
 There are several problems:
 
-- It does not handle null temperatures well.
+- It does not handle null temperatures well. (User interfaces shouldn’t show the word “null.”)
 - It shows the temperature to a ridiculous number of decimal places.
 - The textual description of the weather condition is stuck almost entirely outside the box in the upper left.
 
@@ -119,9 +119,9 @@ Use `SingleWidgetTest` to make sure the widget works with a wide variety of inpu
 
 ## Part 2: Create your own widget
 
-Using the general structure of `TemperatureWidget` as a guide, invent your own weather widget. You might use the second widget in the screenshot at the very top of this document for inspiration. You might also be inspired looking through what is available to you in `WeatherData` and its related classes. Just make sure that your new widget does something new and different from the temperature widget. Be creative!
+Using the general structure of `TemperatureWidget` as a guide, invent your own weather widget. You might use the second widget (the one that shows wind) in the screenshot at the very top of this document for inspiration. You might also be inspired looking through what is available to you in `WeatherData` and its related classes. Just make sure that your new widget does something new and different from the temperature widget. Be creative!
 
-I recommend making this first widget focus on `CurrentConditions` only, and not deal with future forecasts. That will come in the next step.
+I recommend making this first widget focus on `CurrentConditions` only, and not deal with future forecasts. Forecasts will come in the next steps.
 
 To test your new widget, change `SingleWidgetTest` to run it instead of the temperature widget.
 
@@ -162,11 +162,11 @@ Don’t forget to switch back to `SingleWidgetTest` to test your new widget firs
 
 ## Wrapping up
 
-When you are all done, you should have a weather display that looks something like this:
+When you are all done, you should have a weather display that looks something like this (but with your custom widgets):
 
 ![Completed user interface with 4 widgets](doc/images/completed-ui.png)
 
-- There are 4 widgets down the right side: the original temperature widget, the forecast widget, and 2 you invented yourself. (Any order for all those is fine.)
+- There are 4 widgets down the right side: the original temperature widget, the forecast widget, and 2 you invented yourself. (Any order for all those is fine. Use your good judgement.)
 - You can click on a widget to see it enlarged.
 - When the forecast widget is enlarged, you can hover your mouse over the timeline to see forecasts for different times.
 
