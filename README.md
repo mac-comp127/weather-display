@@ -135,7 +135,7 @@ Helpful Notes:
 
 Make the `ForecastWidget` look like this:
 
-![Forecast widget working](doc/images/temperature-widget-completed.png)
+![Forecast widget working](doc/images/forecast-widget-completed.png)
 
 The boxes at the bottom represent a timeline of future forecasts. When the mouse moves over the boxes, it should change the forecast shown above.
 
