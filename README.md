@@ -155,7 +155,7 @@ The layout logic for these widgets is all done, but you never see the enlarged w
 
 ## Part 5: Invent an even fancier widget
 
-Now that you are a pro at working with this project’s approach to the UI, invent a second new widget of your own. Same rules as part 2, except now you are free to use future forecast data as well as current conditions.
+Now that you are a pro at working with this project’s approach to the UI, invent a second new widget of your own. Build this widget using similar rules as in Part 2, except now you should use at least two new pieces of data, which you can pull from future forecast data as well as current conditions.
 
 Don’t forget to switch back to `SingleWidgetTest` to test your new widget first. Then add it to `WeatherProgram` to see your new widget in action!
 
