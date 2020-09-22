@@ -2,7 +2,7 @@ package comp127.weather.widgets;
 
 import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
-import comp127graphics.*;
+import edu.macalester.graphics.*;
 
 /**
  * A widget that displays the current temperature, and the current conditions as an icon and a string.

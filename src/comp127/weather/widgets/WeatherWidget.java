@@ -1,8 +1,8 @@
 package comp127.weather.widgets;
 
 import comp127.weather.api.WeatherData;
-import comp127graphics.GraphicsObject;
-import comp127graphics.Point;
+import edu.macalester.graphics.GraphicsObject;
+import edu.macalester.graphics.Point;
 
 /**
  * A square widget that graphically presents weather conditions.

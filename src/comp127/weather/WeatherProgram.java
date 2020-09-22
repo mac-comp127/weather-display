@@ -2,8 +2,8 @@ package comp127.weather;
 
 import comp127.weather.api.OpenWeatherProvider;
 import comp127.weather.widgets.*;
-import comp127graphics.CanvasWindow;
-import comp127graphics.Rectangle;
+import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.Rectangle;
 
 import java.awt.Color;
 import java.util.List;

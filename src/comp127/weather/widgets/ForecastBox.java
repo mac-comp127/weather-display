@@ -1,7 +1,7 @@
 package comp127.weather.widgets;
 
 import comp127.weather.api.ForecastConditions;
-import comp127graphics.Rectangle;
+import edu.macalester.graphics.Rectangle;
 
 import java.awt.Color;
 
