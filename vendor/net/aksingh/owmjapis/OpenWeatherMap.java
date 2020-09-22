@@ -303,14 +303,8 @@ public class OpenWeatherMap {
      * @since 2.5.0.3
      */
     public static enum Units {
-        METRIC("metric"),
-        IMPERIAL("imperial");
-
-        private final String unit;
-
-        Units(String unit) {
-            this.unit = unit;
-        }
+        METRIC,
+        IMPERIAL;
     }
 
     /**
@@ -343,6 +337,10 @@ public class OpenWeatherMap {
 
         Language(String lang) {
             this.lang = lang;
+        }
+
+        public String getLanguageCode() {
+            return lang;
         }
     }
 

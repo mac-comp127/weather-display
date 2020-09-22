@@ -91,7 +91,6 @@ public class WeatherData {
 
         // Uncertainty based on nearby variation
         for (ForecastConditions forecast : forecasts) {
-            long forecastTime = forecast.getPredictionTime().getTime();
             DoubleSummaryStatistics stats = forecasts.stream()
                 .filter(otherForecast -> hoursDifference(forecast, otherForecast) < 6)
                 .mapToDouble(Conditions::getTemperature)

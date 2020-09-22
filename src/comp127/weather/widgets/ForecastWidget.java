@@ -1,10 +1,8 @@
 package comp127.weather.widgets;
 
-import comp127.weather.api.ForecastConditions;
 import comp127.weather.api.WeatherData;
 import edu.macalester.graphics.*;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 

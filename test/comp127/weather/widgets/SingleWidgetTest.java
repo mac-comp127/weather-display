@@ -22,8 +22,6 @@ public class SingleWidgetTest {
 
     // –––––– Test code ––––––
 
-    private static final List<WeatherData> testData = List.of();
-
     private final GraphicsGroup
         widgetLayer = new GraphicsGroup(),
         borderLayer = new GraphicsGroup(),

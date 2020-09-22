@@ -3,7 +3,6 @@ package comp127.weather.widgets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Utilities to help widgets convert numbers and dates to strings.
