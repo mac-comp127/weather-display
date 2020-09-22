@@ -1,3 +1,7 @@
+# local settings
+res/weather-display.properties
+
+
 *.class
 
 # Mobile Tools for Java (J2ME)

@@ -18,7 +18,7 @@ We have used the owmjapis and org.json packages (both of which are open source) 
 - [owmjapis](https://bitbucket.org/akapribot/owm-japis)
 - [json](https://github.com/stleary/JSON-java)
 
-The original version of this activity was by Bret Jackson, with heavy contributions from Daniel Kluver.
+The original version of this activity was by Bret Jackson, with heavy contributions from Daniel Kluver and Paul Cantrell.
 
 
 ## Getting an API Key
@@ -37,7 +37,15 @@ Once you've completed the sign up page, it will take you to your account welcome
 
 You have a default API key already, so copy that (circled in blue).
 
-Now open the `OpenWeatherProvider` class in IntelliJ (in the `comp127.weather.api` package). At the top, you will see a TODO asking you to fill in your API key. Remove the contents of the placeholder String (a bunch of question marks), and replace them with your own API key. Rembember to remove the TODO when you've completed the task!
+Now, in the `res/` directory of your project, create a new file named `weather-display.properties`, and put this one line in it:
+
+    api.key=???????
+
+…where `???????` is the API key you copied.
+
+Run `WeatherProgram` to test your API key. If it works, you will see a weather display that is not very pretty, but has the real-life current weather conditions for Macalester:
+
+![Initial UI state](doc/images/initial-ui-state.png)
 
 
 ## Part 0: Understanding the existing code
