@@ -134,7 +134,7 @@ I recommend making this first widget focus on `CurrentConditions` only, and not 
 To test your new widget, change `SingleWidgetTest` to run it instead of the temperature widget.
 
 Helpful Notes:
-- To learn about what kinds of graphics you can create, take a look at the [comp127graphics javadoc](https://mac-comp127-f19.github.io/127-shared/comp127graphics/package-summary.html).
+- To learn about what kinds of graphics you can create, take a look at the [comp127graphics javadoc](https://mac-comp127.github.io/kilt-graphics/).
 - Look at the tools in `FormattingHelpers`, and add your own formatters if you need new ones. (Don’t modify the existing formats. You’ll need them for the next part of the assignment.)
 - The Java string "\u2109" is a degree symbol.
 
