@@ -23,8 +23,8 @@ public class ForecastWidget implements WeatherWidget {
 
         group = new GraphicsGroup();
 
-        // TODO: Create the various text and image elements you will need (but not the row of boxes
-        //       at the bottom; those you will create in update())
+        // TODO: Create the fixed text and image elements you will need (but not the row of boxes
+        //       at the bottom; those you will create in the `update` method)
 
         boxGroup = new GraphicsGroup();
         group.add(boxGroup);
@@ -38,25 +38,31 @@ public class ForecastWidget implements WeatherWidget {
     }
 
     public void update(WeatherData data) {
-        // TODO: Remove all the existing elements from boxGroup.
-        //       HINT: check the javadoc for GraphicsGroup to keep this simple!
+        // TODO: We are getting new data, so we need to stop showing the old data.
+        //       Remove all the existing elements from `boxGroup`.
+        //
+        //       HINT: check the javadoc for `GraphicsGroup` to keep this simple!
 
         boxes.clear();  // Remove all the old ForecastBoxes from our list
 
-        // TODO: Loop through all the ForecastConditions objects from data, and for each one:
-        //       - Wrap it in a new ForecastBox
-        //       - Position it to the right of the previous box, wrapping to a new line if you are
-        //         past the end of the current one.
-        //       - Add the new box to the graphics group
-        //       - Add the new box to the `boxes` list
+        // TODO: Loop through all the `ForecastConditions` objects from `data`, and for each one:
+        //   - Wrap it in a new `ForecastBox`
+        //   - Position it to the right of the previous box, wrapping to a new line if you are
+        //     past the end of the current one.
+        //   - Add the new box to the graphics group
+        //   - Add the new box to the `boxes` list
 
-        // TODO: Call selectForecast() with the first ForecastBox, which will update the various
+        // TODO: Call `selectForecast` with the first `ForecastBox`, which will update the various
         //       text and icon elements.
+
+        // If all this is daunting, or you get stuck, or it gets too complicated, then look at the
+        // file `doc/forecast-update-pseudocode.java`. It has another version of the hints for this
+        // method spelled out just a bit more.
     }
 
     private void selectForecast(ForecastBox box) {
-        // TODO: Call setActive() for all the forecast boxes, with true for the selected box and
-        //       false for all the others (so that the previously active one becomes inactive).
+        // TODO: Call `setActive` for all the forecast boxes, with `true` for the selected box and
+        //       `false` for all the others (so that the previously active box becomes inactive).
 
         // TODO: Get the forecast data from the box, and use it to update the text and icon.
 
@@ -67,8 +73,8 @@ public class ForecastWidget implements WeatherWidget {
         // TODO: Place all the elements on the canvas in the correct position
         //       HINT: Use multiples of size instead of absolute pixel measurements to adjust to
         //             different widget sizes.
-        //       HINT: Study the methods of GraphicsObject to find different ways of positioning and
-        //             measuring graphics objects.
+        //       HINT: Study the methods of `GraphicsObject` to find different ways of positioning
+        //             and measuring graphics objects.
     }
 
     /**

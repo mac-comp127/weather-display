@@ -1,54 +1,69 @@
-# Homework 3: Weather Display
+# Weather Display
 
 ## Overview
 
-In this assignment, you will create an app that shows weather information. The program will use real weather data from [OpenWeather](https://openweathermap.org). We have created code to handle getting the data from OpenWeather, and have given you a start on the UI. You will complete the UI.
+In this exercise, you will create an app that shows weather information. The program will use real weather data from [OpenWeather](https://openweathermap.org). We have created code to handle getting the data from OpenWeather, and have given you a start on the user interface (UI). You will complete the UI.
 
-When you are done, your results might look something like this:
+When you are done, your results might look something like this, with the bonus option to invent your own weather widgets:
 
 ![Completed user interface with 4 widgets](doc/images/completed-ui.png)
 
-…but what you create will be different, because you will invent two of your own weather widgets!
-
 As always, make sure to follow the [Comp 127 Java Style Guide](https://docs.google.com/document/d/1KB3T5can3aC5qygtdjKTUzl0P3c8BlN1QaWy4rIc2F0/edit?usp=sharing).
+
+### Learning Goals
+
+- Practice writing code that works with real, live data
+    - Formatting data as text
+    - Working with null values
+- Practice implementing a user interface
+    - Doing coordinate math
+    - Using groups of elements
+- Practice working with inheritance
+    - Overriding methods
+    - Using methods inherited from a superclass
 
 ### Attributions
 
-We have used the owmjapis and org.json packages (both of which are open source) to create our wrapper class and make the data accessible to you. You do not need to know how these packages work, but if you would like more information about them, you can check out the following links:
+We have used the owmjapis and org.json packages (both of which are open source) to make it easier for you to use OpenWeather data. You do not need to know how these packages work, but if you would like more information about them, you can check out the following links:
 - [owmjapis](https://bitbucket.org/akapribot/owm-japis)
 - [json](https://github.com/stleary/JSON-java)
 
 The original version of this activity was by Bret Jackson, with heavy contributions from Daniel Kluver and Paul Cantrell.
 
 
-## Getting an API Key
+## Part 0: Get an API Key
 
-You will first need to get your own OpenWeather API key, so you can use their web API. Do this by signing up for a free account at [https://openweathermap.org/appid](https://openweathermap.org/appid).
+**Do this one part early, as soon as this exercise is assigned.**
 
-> **What is a web API?** In general, an “application programming interface,” or “API” for short, is a way for code to talk to other code. You are already used to using _library APIs_ such as `List`. These APIs let code communicate with other code on the same computer. But code can also provide data to other code across the Internet. We call that a “remote API,” or if it specifically uses web technology such as HTTP, a “web API.”
+You will first need to get your own OpenWeather API key, so you can use their web API to get weather data. Do this by signing up for a free account at [https://openweathermap.org/appid](https://openweathermap.org/appid).
+
+> **What is a web API?** In general, an “application programming interface,” or “API” for short, is a set of rules and promises that one piece of code makes about what it will do, and how other pieces of code can communicate with it. You are already used to using _library APIs_, such as `List` and `CanvasWindow`, that let code communicate with other code in the _same_ process or application, and on the _same_ computer.
+>
+> However, code can also communicate with other code on other computers, and even across the Internet. We call that a “remote API,” or if it specifically uses web technology such as HTTP, a “web API.” (In less-technical business circles, when people say “API,” they usually mean “web API.”)
 
 > **What is an API key?** OpenWeather provides this API for free, so that people can build apps and do research. The API key lets them know who is requesting data. This lets them have some paid features, and lets them shut down a particular account if it is abusing the system (e.g. by making too many requests).
 
-Once you've completed the sign up page, it will take you to your account welcome page. Select the next tab over from "Setup", which is the “API keys” tab (see picture below, circled in orange).
+Once you've completed the sign-up process and **confirmed your email address**, there are two places you can find your API key:
 
-![The OpenWeather admin interface](doc/images/api-key.png)
+- You should receive an email from OpenWeather with your API key after confirming your email, or…
+- you can find it in [My API Keys](https://home.openweathermap.org/api_keys) on the OpenWeather site.
 
-(Note: as of this writing, there is a bug in the OpenWeather site which causes the tabs not to be visible for certain browser window widths. If you can’t see the tabs, make your browser window wider.)
+Your API key will be a random sequence of 32 numbers and letters.
 
-You have a default API key already, so copy that (circled in blue).
+Inside `res/`, create a new file named `weather-display.properties`. ⚠️ Make **sure** you have the correct location! ⚠️ In VS Code’s UI, it is easy to accidentally create the file inside of `res/condition-icons/`. Make sure you create the file just inside of `res/`.
 
-Now, in the `res/` directory of your project, create a new file named `weather-display.properties`, and put this one line in it:
+Put this one line in the newly created file:
 
     api.key=???????
 
-…where `???????` is the API key you copied.
+…where `???????` is your API key.
 
 Run `WeatherProgram` to test your API key. If it works, you will see a weather display that is not very pretty, but has the real-life current weather conditions for Macalester:
 
 ![Initial UI state](doc/images/initial-ui-state.png)
 
 
-## Part 0: Understanding the existing code
+## Part 1: Understand the existing code
 
 ### Data model
 
@@ -67,13 +82,13 @@ These classes have some tricky code in them, including some Java features we hav
 public String getCityName()
 ```
 
-These public methods are what you will use to get data for your weather UI. Note that these classes provide _just the data_; none of them say anything about _how the data will be displayed_. This kind of “no view, just data” classes are called a **data model**. You will need to be familiar with the data model to build your UI.
+These public methods are what you will use to get data for your weather UI. Note that these classes provide _just the data_; none of them say anything about _how the data will be displayed_. These “no view, just data” classes are called a **data model**. You will need to be familiar with the data model to build your UI.
 
 ### User interface
 
-Look inside the `comp127.weather.widgets` package. There is an interface called `WeatherWidget`, plus a start on two specific widgets that implement it. You will complete those two widgets, and add two of your own. Study `WeatherWidget` and understand the methods that each widget must implement.
+Look inside the `comp127.weather.widgets` package. There is an interface called `WeatherWidget`, plus a start on two specific widgets that implement it. You will complete those two widgets, and optionally add some of your own. Study `WeatherWidget` and understand the methods that each widget must implement.
 
-There are also a few classes that will help you implement widgets. Take a look at them, and understand what they offer you.
+There are also a few classes in that package that will help you implement widgets. Take a look at them, and understand what they offer you.
 
 In the `comp127.weather` package, take a look at `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It will fetch real weather data for St. Paul. However, it currently just shows the same widget four times, and does not yet show an enlarged version of the selected widget as it is supposed to.
 
@@ -100,7 +115,7 @@ Click again. You will see a variety of different weather conditions.
 Do you notice that `TemperatureWidget` doesn’t look quite right?
 
 
-## Part 1: Fix `TemperatureWidget`
+## Part 2: Fix `TemperatureWidget`
 
 We want `TemperatureWidget` to look something like this:
 
@@ -118,25 +133,14 @@ There are several problems:
 
 Your first task: **fix these problems** to make `TemperatureWidget` work properly.
 
-You will find a few hints in the code. And here is one more hint:
+Here are some hints:
 
-You can use `FormattingHelpers.ONE_DECIMAL_PLACE.format(...)` to convert a double to a string with only one decimal place. However, this will not handle null correctly; before formatting the temperature, you will need to check for null. You will need to do this check a lot, so consider adding a new static method to `FormattingHelpers` that uses `ONE_DECIMAL_PLACE` but also checks for null first. (You could even make `ONE_DECIMAL_PLACE` private so you don’t accidentally use it from your widgets, and have to use your null-safe helper instead.)
+- Look for the `TODO` comments in the code.
+- Note that many of the numbers in the data model have the type `Double` with a capital D, which (unlike `double`) allows the value `null` (meaning “no data available”).
+- There are some helpful tools in `FormattingHelpers`. You can use those formatter objects by calling their `format` methods, like this: `FormattingHelpers.ONE_DECIMAL_PLACE.format(someNumber)`. However, those formatters will not handle `null` values correctly. Before formatting the temperature, you will need to check for null using a conditional.
+- You will need to do null checks a lot, so consider adding a new static method to `FormattingHelpers` that first checks for null, then uses `ONE_DECIMAL_PLACE` if a value is present, and return `"-"` if the value is null. (You could even make `ONE_DECIMAL_PLACE` private so you don’t accidentally use it from your widgets, and have to use your null-safe helper instead.)
 
 Use `SingleWidgetTest` to make sure the widget works with a wide variety of input data.
-
-
-## Part 2: Create your own widget
-
-Using the general structure of `TemperatureWidget` as a guide, invent your own weather widget. You might use the second widget (the one that shows wind) in the screenshot at the very top of this document for inspiration. You might also be inspired looking through what is available to you in `WeatherData` and its related classes. Just make sure that your new widget does something new and different from the temperature widget. Be creative!
-
-I recommend making this first widget focus on `CurrentConditions` only, and not deal with future forecasts. Forecasts will come in the next steps.
-
-To test your new widget, change `SingleWidgetTest` to run it instead of the temperature widget.
-
-Helpful Notes:
-- To learn about what kinds of graphics you can create, take a look at the [comp127graphics javadoc](https://mac-comp127.github.io/kilt-graphics/).
-- Look at the tools in `FormattingHelpers`, and add your own formatters if you need new ones. (Don’t modify the existing formats. You’ll need them for the next part of the assignment.)
-- The Java string "\u2109" is a degree symbol.
 
 
 ## Part 3: Complete `ForecastWidget`
@@ -147,9 +151,9 @@ Make the `ForecastWidget` look like this:
 
 The boxes at the bottom represent a timeline of future forecasts. When the mouse moves over the boxes, it should change the forecast shown above.
 
-The code contains some scaffolding and many hints.
+The code contains some scaffolding and many hints. Think, plan, sketch on paper, and take it one step at a time.
 
-As before, change `SingleWidgetTest` to test your widget. Test it thoroughly! There is a lot going on here, which means there are many possible bugs.
+Change `SingleWidgetTest` to test `ForecastWidget`. Test it thoroughly! There is a lot going on here, which means there are many possible bugs.
 
 
 ## Part 4: Complete `WeatherProgram`
@@ -161,26 +165,14 @@ Go back to `WeatherProgram`, and find the `createWidgets()` method. This method 
 The layout logic for these widgets is all done, but you never see the enlarged widgets because `selectWidgetAtIndex()` is not implemented yet. Implement it according to the hints in the code.
 
 
-## Part 5: Invent an even fancier widget
+## Bonus: Create your own widget(s)
 
-Now that you are a pro at working with this project’s approach to the UI, invent a second new widget of your own. Build this widget using similar rules as in Part 2, except now you should use at least two new pieces of data, which you can pull from future forecast data as well as current conditions.
+If you want more practice working with graphics and user interfaces, or are just feeling especially creative:
 
-Don’t forget to switch back to `SingleWidgetTest` to test your new widget first. Then add it to `WeatherProgram` to see your new widget in action!
+Using the general structure of `TemperatureWidget` and `ForecastWidget` as a guide, invent your own weather widget. You might use the widgets in the screenshot at the very top of this document for inspiration. You might also be inspired looking through what is available to you in `WeatherData` and its related classes.
 
+To test your new widget, change `SingleWidgetTest` to run it instead of the temperature widget.
 
-## Wrapping up
+To learn about what kinds of graphics you can create, take a look at the [comp127graphics javadoc](https://mac-comp127.github.io/kilt-graphics/).
 
-When you are all done, you should have a weather display that looks something like this (but with your custom widgets):
-
-![Completed user interface with 4 widgets](doc/images/completed-ui.png)
-
-- There are 4 widgets down the right side: the original temperature widget, the forecast widget, and 2 you invented yourself. (Any order for all those is fine. Use your good judgement.)
-- You can click on a widget to see it enlarged.
-- When the forecast widget is enlarged, you can hover your mouse over the timeline to see forecasts for different times.
-
-Look good? Try using your weather app to decide what to wear tomorrow!
-
-
-### Extra Credit
-
-Invent additional weather widgets. Have fun!
+Add your new widget to `WeatherProgram` to see it in action!
