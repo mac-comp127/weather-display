@@ -33,7 +33,7 @@ public class OpenWeatherProvider {
             e.printStackTrace();
         }
         String result = props.getProperty("api.key");
-        if (result == null || result.isBlank()) {
+        if (result == null || result.isBlank() || result.startsWith("???")) {
             System.err.println();
             System.err.println("ERROR: No api.key in res" + PROPERTIES_FILE);
             System.err.println("       Please see README to configure the API key");
