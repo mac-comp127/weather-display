@@ -4,7 +4,7 @@ public void update(WeatherData data) {
     // in the upper left of the box group).
 
     // Declare variables `boxWidth`, `boxHeight`, and `boxSpacing`, to
-    // represenet the size of the forecast boxes and the space between
+    // represent the size of the forecast boxes and the space between
     // them, and make them all reasonable small multiples of `size`.
 
     // Declare a variable `rightMargin` that says how much space to leave
