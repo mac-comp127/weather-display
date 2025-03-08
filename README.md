@@ -56,9 +56,9 @@ Put this one line in the newly created file:
 
     api.key=???????
 
-…where `???????` is your API key. NOTE: If you get an error message that your api key is invalid, add a newline character at the end of your api key. 
+…where `???????` is your API key.  
 
-Run `WeatherProgram` to test your API key. If it works, you will see a weather display that is not very pretty, but has the real-life current weather conditions for Macalester:
+Run `WeatherProgram` to test your API key. NOTE: If you get an error message that your api key is invalid, add a newline character at the end of your api key. If it works, you will see a weather display that is not very pretty, but has the real-life current weather conditions for Macalester:
 
 ![Initial UI state](doc/images/initial-ui-state.png)
 
