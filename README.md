@@ -90,7 +90,7 @@ Look inside the `comp127.weather.widgets` package. There is an interface called 
 
 There are also a few classes in that package that will help you implement widgets. Take a look at them, and understand what they offer you.
 
-In the `comp127.weather` package, take a look at `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It will fetch real weather data for St. Paul. However, it currently just shows the same widget four times, and does not yet show an enlarged version of the selected widget as it is supposed to.
+In the `comp127.weather` package, take a look at `WeatherProgram`. This is the full UI that is going to display your widgets. You can run it now if you want! It will fetch real weather data for St. Paul. However, it currently just shows the same widget several times, and does not yet show an enlarged version of the selected widget as it is supposed to.
 
 If you see nothing but question marks, that means either you have not put your API key in the correct place, or your key is not active yet. Even if your API key is not active yet, however, you can still proceed with the assignment, because of the…
 
