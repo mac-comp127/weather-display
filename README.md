@@ -8,7 +8,7 @@ When you are done, your results might look something like this, with the bonus o
 
 ![Completed user interface with 4 widgets](doc/images/completed-ui.png)
 
-As always, make sure to follow the [Comp 127 Java Style Guide](https://docs.google.com/document/d/1KB3T5can3aC5qygtdjKTUzl0P3c8BlN1QaWy4rIc2F0/edit?usp=sharing).
+As always, make sure to follow the [Comp 127 Java Style Guide](https://f25.comp127.innig.net/resources/style-guide).
 
 ### Learning Goals
 
@@ -56,7 +56,7 @@ Put this one line in the newly created file:
 
     api.key=???????
 
-…where `???????` is your API key.  
+…where `???????` is your API key.
 
 Run `WeatherProgram` to test your API key. NOTE: If you get an error message that your api key is invalid, add a newline character at the end of your api key. If it works, you will see a weather display that is not very pretty, but has the real-life current weather conditions for Macalester:
 
