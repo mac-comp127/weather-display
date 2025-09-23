@@ -98,6 +98,8 @@ If you see nothing but question marks, that means either you have not put your A
 
 In the `test` directory, in the `comp127.weather.widgets` package, run `SingleWidgetTest`. This class is designed to help you test new widgets as you develop them. Right now, it is set up to test `TemperatureWidget`, but you will eventually use it to test others too.
 
+⚠️ **This isn't a `JUnit` testing class**! There won't be any icons on the left side that run unit testing cases. Just run this class as usual: from the Run and Debug pane, with F5, clicking the arrow in the upper right, or similar.
+
 Much like `WeatherProgram`, this class displays widgets on a canvas. However, there are two important differences:
 
 - **It shows just one widget at many different sizes.** This is to make sure the widget scales itself properly, so that it looks good whether it is large or small.
