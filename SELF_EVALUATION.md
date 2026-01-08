@@ -28,7 +28,7 @@ Use the list below to evaluate the correctness of your solution. Cross off the i
 
 ### Code Style
 
-Use the list below to evaluate the adherence of your code to the [COMP127 Style Guide](https://comp127.innig.net/resources/style-guide/). Cross off the items that your code satisfies.
+Use the list below to evaluate the adherence of your code to the [COMP127 Style Guide](https://comp127.macalester.digital/latest/resources/style-guide/). Cross off the items that your code satisfies.
 
 - [ ] all classes are in packages
 - [ ] package names start with a lowercase letter
